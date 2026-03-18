@@ -1163,7 +1163,7 @@
         localStorage.setItem("evara_token", data.token);
         localStorage.setItem("evara_user", JSON.stringify(data.user));
         closeLogin();
-        alert(`¡Bienvenida de vuelta, ${data.user.name}! 🧡`);
+        window.location.href = '/home';
       } catch (err) {
         errEl.textContent = "Error de conexión. Intenta de nuevo."; errEl.classList.add("visible");
       } finally {

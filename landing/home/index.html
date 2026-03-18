@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara — Mi Dashboard</title>
+  <meta name="description" content="Tu dashboard personal de fitness con IA" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --primary: #865043; --primary-container: #f4af9e; --primary-fixed: #ffdad2;
+      --primary-fixed-dim: #fcb6a5; --on-primary: #ffffff; --on-primary-container: #734034;
+      --on-primary-fixed: #351007; --secondary: #695b57; --secondary-container: #f2ded9;
+      --on-secondary: #ffffff; --on-secondary-container: #70615d;
+      --background: #fff8f6; --surface: #fff8f6; --surface-container: #f7ebe8;
+      --surface-container-low: #fdf1ee; --surface-container-lowest: #ffffff;
+      --surface-container-high: #f1e6e3; --on-surface: #201a19;
+      --on-surface-variant: #514440; --outline: #83746f; --outline-variant: #d5c3bd;
+      --inverse-surface: #352f2d; --inverse-on-surface: #faeeeb;
+      --success: #4CAF50; --warning: #FFB300;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Manrope', sans-serif; color: var(--on-surface); background: var(--surface-container-low); min-height: 100vh; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    /* ─── Layout ─────────────────────────────────────────────── */
+    .app-shell { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 260px; background: var(--surface-container-lowest); padding: 32px 20px;
+      display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 50;
+    }
+    .sidebar-logo { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 24px; color: var(--primary); letter-spacing: -1px; margin-bottom: 40px; padding: 0 12px; }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px;
+      font-weight: 600; font-size: 14px; color: var(--on-surface-variant); text-decoration: none;
+      transition: all 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left;
+    }
+    .sidebar-link:hover { background: var(--surface-container); color: var(--on-surface); }
+    .sidebar-link.active { background: var(--primary-fixed); color: var(--on-primary-fixed); font-weight: 700; }
+    .sidebar-link .material-symbols-outlined { font-size: 22px; }
+    .sidebar-user {
+      display: flex; align-items: center; gap: 12px; padding: 16px 12px; margin-top: auto;
+      border-top: 1px solid var(--surface-container-high);
+    }
+    .sidebar-avatar {
+      width: 40px; height: 40px; border-radius: 12px; background: var(--primary-fixed);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+      font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 16px; color: var(--primary);
+    }
+    .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .sidebar-user-info { flex: 1; min-width: 0; }
+    .sidebar-user-name { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-user-plan { font-size: 11px; color: var(--outline); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+
+    .main-content { flex: 1; margin-left: 260px; padding: 32px 40px; max-width: 1100px; }
+
+    /* ─── Top Bar ─────────────────────────────────────────────── */
+    .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
+    .greeting h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+    .greeting h1 span { color: var(--primary); }
+    .greeting p { font-size: 14px; color: var(--on-surface-variant); margin-top: 4px; }
+    .top-actions { display: flex; gap: 12px; }
+    .top-btn {
+      width: 44px; height: 44px; border-radius: 14px; border: none; background: var(--surface-container-lowest);
+      display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+      position: relative;
+    }
+    .top-btn:hover { background: var(--surface-container); }
+    .top-btn .badge { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+
+    /* ─── Cards Grid ──────────────────────────────────────────── */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+    @media (max-width: 900px) { .dashboard-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .dashboard-grid { grid-template-columns: 1fr; } .sidebar { display: none; } .main-content { margin-left: 0; padding: 20px; } }
+
+    .stat-card {
+      background: var(--surface-container-lowest); padding: 24px; border-radius: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(134,80,67,0.06); }
+    .stat-card .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .stat-card .card-icon {
+      width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    }
+    .stat-card .card-icon.primary { background: var(--primary-fixed); }
+    .stat-card .card-icon.primary .material-symbols-outlined { color: var(--primary); }
+    .stat-card .card-icon.success { background: #e8f5e9; }
+    .stat-card .card-icon.success .material-symbols-outlined { color: var(--success); }
+    .stat-card .card-icon.warning { background: #fff8e1; }
+    .stat-card .card-icon.warning .material-symbols-outlined { color: var(--warning); }
+    .stat-card .card-trend { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+    .stat-card .card-trend.up { background: #e8f5e9; color: var(--success); }
+    .stat-card .card-trend.neutral { background: var(--surface-container); color: var(--on-surface-variant); }
+    .stat-card .card-value { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 32px; letter-spacing: -1px; margin-bottom: 4px; }
+    .stat-card .card-label { font-size: 13px; color: var(--on-surface-variant); font-weight: 500; }
+
+    /* ─── Hero Workout Card ───────────────────────────────────── */
+    .hero-card {
+      grid-column: 1 / -1; background: var(--inverse-surface); color: var(--inverse-on-surface);
+      border-radius: 24px; padding: 36px; display: flex; align-items: center; gap: 40px;
+      position: relative; overflow: hidden;
+    }
+    .hero-card .hero-decor {
+      position: absolute; border-radius: 50%; background: rgba(134,80,67,0.15);
+    }
+    .hero-card .hero-decor-1 { width: 200px; height: 200px; top: -60px; right: -40px; }
+    .hero-card .hero-decor-2 { width: 120px; height: 120px; bottom: -30px; right: 120px; }
+    .hero-card .hero-info { flex: 1; z-index: 2; }
+    .hero-card .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1);
+      padding: 6px 14px; border-radius: 999px; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px;
+    }
+    .hero-card .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .hero-card h2 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+    .hero-card p { font-size: 14px; color: rgba(250,238,235,0.6); margin-bottom: 24px; max-width: 400px; }
+    .hero-card .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border: none;
+      border-radius: 14px; font-family: 'Plus Jakarta Sans'; font-weight: 700; font-size: 15px;
+      color: var(--on-primary-fixed); background: var(--primary-container); cursor: pointer;
+      transition: all 0.3s; box-shadow: 0 8px 24px rgba(244,175,158,0.2);
+    }
+    .hero-card .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(244,175,158,0.3); }
+
+    /* ─── Week Progress ───────────────────────────────────────── */
+    .section-title { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 32px; }
+    .day-cell {
+      background: var(--surface-container-lowest); border-radius: 14px; padding: 16px 8px;
+      text-align: center; transition: all 0.3s;
+    }
+    .day-cell .day-name { font-size: 11px; font-weight: 700; color: var(--outline); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .day-cell .day-num { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 18px; margin-bottom: 8px; }
+    .day-cell .day-dot { width: 8px; height: 8px; border-radius: 50%; margin: 0 auto; }
+    .day-cell.done .day-dot { background: var(--success); }
+    .day-cell.today { background: var(--primary-fixed); }
+    .day-cell.today .day-num { color: var(--primary); }
+    .day-cell.rest .day-dot { background: var(--outline-variant); }
+    .day-cell.future .day-dot { background: var(--surface-container-high); }
+
+    /* ─── Activity Feed ───────────────────────────────────────── */
+    .feed-list { display: flex; flex-direction: column; gap: 12px; }
+    .feed-item {
+      display: flex; align-items: center; gap: 16px; background: var(--surface-container-lowest);
+      padding: 18px 20px; border-radius: 16px; transition: transform 0.2s;
+    }
+    .feed-item:hover { transform: translateX(4px); }
+    .feed-item .feed-icon {
+      width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .feed-item .feed-icon.workout { background: var(--primary-fixed); }
+    .feed-item .feed-icon.workout .material-symbols-outlined { color: var(--primary); }
+    .feed-item .feed-icon.achievement { background: #fff8e1; }
+    .feed-item .feed-icon.achievement .material-symbols-outlined { color: var(--warning); }
+    .feed-item .feed-icon.tip { background: #e8f5e9; }
+    .feed-item .feed-icon.tip .material-symbols-outlined { color: var(--success); }
+    .feed-item .feed-info { flex: 1; }
+    .feed-item .feed-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .feed-item .feed-info p { font-size: 12px; color: var(--on-surface-variant); }
+    .feed-item .feed-time { font-size: 11px; color: var(--outline); white-space: nowrap; }
+
+    /* ─── AI Coach Bubble ─────────────────────────────────────── */
+    .ai-bubble {
+      background: var(--primary-fixed); border-radius: 20px 20px 20px 4px;
+      padding: 24px; margin-bottom: 32px; position: relative;
+    }
+    .ai-bubble::after {
+      content: ''; position: absolute; bottom: -8px; left: 20px;
+      width: 16px; height: 16px; background: var(--primary-fixed);
+      clip-path: polygon(0 0, 100% 0, 0 100%);
+    }
+    .ai-bubble .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .ai-bubble .ai-avatar {
+      width: 32px; height: 32px; border-radius: 10px; background: var(--primary);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ai-bubble .ai-avatar .material-symbols-outlined { font-size: 18px; color: #fff; }
+    .ai-bubble .ai-name { font-weight: 700; font-size: 13px; color: var(--on-primary-fixed); }
+    .ai-bubble .ai-tag { font-size: 10px; background: var(--primary); color: #fff; padding: 2px 8px; border-radius: 999px; font-weight: 700; }
+    .ai-bubble p { font-size: 14px; line-height: 1.7; color: var(--on-primary-fixed); }
+
+    /* ─── Mobile nav ──────────────────────────────────────────── */
+    .mobile-nav {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: var(--surface-container-lowest); padding: 8px 16px 24px;
+      box-shadow: 0 -4px 24px rgba(134,80,67,0.06);
+    }
+    .mobile-nav-inner { display: flex; justify-content: space-around; }
+    .mobile-nav-item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 600; color: var(--outline); text-decoration: none;
+      padding: 6px 12px; border-radius: 12px; transition: all 0.2s; border: none; background: none; cursor: pointer;
+    }
+    .mobile-nav-item.active { color: var(--primary); }
+    .mobile-nav-item .material-symbols-outlined { font-size: 24px; }
+    @media (max-width: 600px) { .mobile-nav { display: block; } .main-content { padding-bottom: 100px; } }
+
+    /* Animations */
+    .fade-in { opacity: 0; transform: translateY(16px); animation: fadeIn 0.5s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: none; } }
+    .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ═══ SIDEBAR ═══════════════════════════════════════════════ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Evara</div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" href="/home">
+          <span class="material-symbols-outlined filled">home</span>Inicio
+        </a>
+        <a class="sidebar-link" href="#">
+          <span class="material-symbols-outlined">fitness_center</span>Entrenamientos
+        </a>
+        <a class="sidebar-link" href="#">
+          <span class="material-symbols-outlined">calendar_month</span>Programas
+        </a>
+        <a class="sidebar-link" href="#">
+          <span class="material-symbols-outlined">insights</span>Mi Progreso
+        </a>
+        <a class="sidebar-link" href="#">
+          <span class="material-symbols-outlined">group</span>Comunidad
+        </a>
+        <a class="sidebar-link" href="#">
+          <span class="material-symbols-outlined">auto_awesome</span>Coach IA
+        </a>
+        <a class="sidebar-link" href="#">
+          <span class="material-symbols-outlined">emoji_events</span>Retos
+        </a>
+      </nav>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">E</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebarName">Curadora</div>
+          <div class="sidebar-user-plan" id="sidebarPlan">Free</div>
+        </div>
+        <button style="background:none;border:none;cursor:pointer;color:var(--outline);" onclick="logout()" title="Cerrar sesión">
+          <span class="material-symbols-outlined">logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══ MAIN CONTENT ═══════════════════════════════════════ -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <div class="top-bar fade-in">
+        <div class="greeting">
+          <h1 id="greetingText">¡Hola, <span>Curadora</span>! 🧡</h1>
+          <p id="greetingSubtext">Hoy es un gran día para entrenar</p>
+        </div>
+        <div class="top-actions">
+          <button class="top-btn">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <button class="top-btn">
+            <span class="material-symbols-outlined">notifications</span>
+            <div class="badge"></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Coach Bubble -->
+      <div class="ai-bubble fade-in delay-1">
+        <div class="ai-header">
+          <div class="ai-avatar"><span class="material-symbols-outlined filled">auto_awesome</span></div>
+          <span class="ai-name">Eva — Tu Coach IA</span>
+          <span class="ai-tag">IA</span>
+        </div>
+        <p id="aiMessage">¡Bienvenida a Evara! 🎉 Soy Eva, tu coach de fitness con IA. Estoy aquí para guiarte en cada entrenamiento y ayudarte a alcanzar tus objetivos. ¿Lista para empezar tu primera sesión?</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="dashboard-grid fade-in delay-2">
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-icon primary"><span class="material-symbols-outlined filled">local_fire_department</span></div>
+            <span class="card-trend up">+12%</span>
+          </div>
+          <div class="card-value">0</div>
+          <div class="card-label">Racha de días</div>
+        </div>
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-icon success"><span class="material-symbols-outlined filled">check_circle</span></div>
+            <span class="card-trend neutral">Nuevo</span>
+          </div>
+          <div class="card-value">0/30</div>
+          <div class="card-label">Reto 30 días</div>
+        </div>
+        <div class="stat-card">
+          <div class="card-header">
+            <div class="card-icon warning"><span class="material-symbols-outlined filled">emoji_events</span></div>
+            <span class="card-trend up">🏆</span>
+          </div>
+          <div class="card-value">1</div>
+          <div class="card-label">Logros desbloqueados</div>
+        </div>
+      </div>
+
+      <!-- Hero Workout -->
+      <div class="hero-card fade-in delay-3">
+        <div class="hero-decor hero-decor-1"></div>
+        <div class="hero-decor hero-decor-2"></div>
+        <div class="hero-info">
+          <div class="hero-badge"><div class="dot"></div>Tu próxima sesión</div>
+          <h2>🍑 Glúteos: Activación</h2>
+          <p>25 min · Nivel principiante · Sin equipamiento. Empezamos con ejercicios de activación para despertar tus glúteos.</p>
+          <button class="hero-cta">
+            Empezar Sesión
+            <span class="material-symbols-outlined">play_arrow</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Week Progress -->
+      <h3 class="section-title fade-in delay-3" style="margin-top:32px;">Esta Semana</h3>
+      <div class="week-grid fade-in delay-3" id="weekGrid">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Activity Feed -->
+      <h3 class="section-title fade-in delay-4">Actividad Reciente</h3>
+      <div class="feed-list fade-in delay-4">
+        <div class="feed-item">
+          <div class="feed-icon achievement"><span class="material-symbols-outlined filled">emoji_events</span></div>
+          <div class="feed-info">
+            <h4>🎉 ¡Primer logro desbloqueado!</h4>
+            <p>Completaste tu registro en Evara</p>
+          </div>
+          <span class="feed-time">Ahora</span>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon tip"><span class="material-symbols-outlined filled">lightbulb</span></div>
+          <div class="feed-info">
+            <h4>💡 Tip de Eva</h4>
+            <p>Hidratarte bien antes de entrenar mejora tu rendimiento un 25%</p>
+          </div>
+          <span class="feed-time">Hoy</span>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon workout"><span class="material-symbols-outlined filled">fitness_center</span></div>
+          <div class="feed-info">
+            <h4>Tu primer entrenamiento te espera</h4>
+            <p>Glúteos: Activación — 25 min</p>
+          </div>
+          <span class="feed-time">Pendiente</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <a class="mobile-nav-item active" href="/home">
+        <span class="material-symbols-outlined filled">home</span>Inicio
+      </a>
+      <a class="mobile-nav-item" href="#">
+        <span class="material-symbols-outlined">fitness_center</span>Entrena
+      </a>
+      <a class="mobile-nav-item" href="#">
+        <span class="material-symbols-outlined">insights</span>Progreso
+      </a>
+      <a class="mobile-nav-item" href="#">
+        <span class="material-symbols-outlined">group</span>Social
+      </a>
+      <a class="mobile-nav-item" href="#">
+        <span class="material-symbols-outlined">person</span>Perfil
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    // ─── Auth Check ─────────────────────────────────────────────
+    const token = localStorage.getItem('evara_token');
+    const userStr = localStorage.getItem('evara_user');
+    if (!token || !userStr) {
+      window.location.href = '/';
+    }
+
+    // ─── Load User Data ─────────────────────────────────────────
+    try {
+      const user = JSON.parse(userStr);
+      const firstName = (user.name || 'Curadora').split(' ')[0];
+
+      // Greeting
+      const hour = new Date().getHours();
+      let timeGreet = 'Hola';
+      if (hour < 12) timeGreet = 'Buenos días';
+      else if (hour < 18) timeGreet = 'Buenas tardes';
+      else timeGreet = 'Buenas noches';
+
+      document.getElementById('greetingText').innerHTML =
+        `¡${timeGreet}, <span>${firstName}</span>! 🧡`;
+
+      const dayMsgs = [
+        'Hoy es un gran día para entrenar',
+        'Tu cuerpo te lo agradecerá',
+        'Cada repetición cuenta',
+        'La constancia hace la diferencia',
+        'Tu mejor versión te espera',
+      ];
+      document.getElementById('greetingSubtext').textContent =
+        dayMsgs[Math.floor(Math.random() * dayMsgs.length)];
+
+      // Sidebar
+      document.getElementById('sidebarName').textContent = user.name || 'Curadora';
+      document.getElementById('sidebarPlan').textContent = (user.plan || 'free').toUpperCase();
+
+      // Avatar
+      const avatarEl = document.getElementById('sidebarAvatar');
+      if (user.avatar_url) {
+        avatarEl.innerHTML = `<img src="${user.avatar_url}" alt="Avatar" />`;
+      } else {
+        avatarEl.textContent = (user.name || 'E')[0].toUpperCase();
+      }
+
+      // AI Message based on goal
+      const goalMsgs = {
+        grow_glutes: '🍑 ¡Excelente que quieras crecer tus glúteos! He preparado un plan de activación y volumen específico para ti. Empecemos con ejercicios de activación glútea.',
+        tone_body: '💪 ¡Me encanta tu objetivo de tonificar! Vamos a combinar fuerza con definición. Tu primer programa está enfocado en full-body con énfasis en core.',
+        full_sculpt: '🔥 ¡Transformación completa! Eso me dice que eres ambiciosa, y eso me gusta. Tu plan incluye fuerza, cardio y flexibilidad.',
+      };
+      if (user.fitness_goal && goalMsgs[user.fitness_goal]) {
+        document.getElementById('aiMessage').textContent = goalMsgs[user.fitness_goal];
+      }
+    } catch (e) { console.error('User data error:', e); }
+
+    // ─── Week Grid ──────────────────────────────────────────────
+    (function renderWeek() {
+      const days = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB', 'DOM'];
+      const now = new Date();
+      const dayOfWeek = (now.getDay() + 6) % 7; // Monday = 0
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - dayOfWeek);
+
+      const grid = document.getElementById('weekGrid');
+      days.forEach((name, i) => {
+        const date = new Date(monday);
+        date.setDate(monday.getDate() + i);
+        const isToday = i === dayOfWeek;
+        const isPast = i < dayOfWeek;
+        const cls = isToday ? 'today' : isPast ? 'rest' : 'future';
+        grid.innerHTML += `
+          <div class="day-cell ${cls}">
+            <div class="day-name">${name}</div>
+            <div class="day-num">${date.getDate()}</div>
+            <div class="day-dot"></div>
+          </div>`;
+      });
+    })();
+
+    // ─── Logout ─────────────────────────────────────────────────
+    function logout() {
+      localStorage.removeItem('evara_token');
+      localStorage.removeItem('evara_user');
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>

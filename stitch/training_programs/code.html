@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evara - Programs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#865043",
+              "inverse-on-surface": "#faeeeb",
+              "on-tertiary-container": "#564c48",
+              "surface-dim": "#e3d8d5",
+              "primary-container": "#f4af9e",
+              "on-surface-variant": "#514440",
+              "error-container": "#ffdad6",
+              "on-surface": "#201a19",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#93000a",
+              "surface-variant": "#ebe0dd",
+              "on-tertiary-fixed-variant": "#4e4541",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#f2ded9",
+              "primary-fixed": "#ffdad2",
+              "on-error": "#ffffff",
+              "on-background": "#201a19",
+              "secondary": "#695b57",
+              "inverse-surface": "#352f2d",
+              "on-primary-container": "#734034",
+              "surface-container-high": "#f1e6e3",
+              "tertiary-fixed": "#eedfda",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "outline-variant": "#d5c3bd",
+              "secondary-container": "#f2ded9",
+              "surface-container-highest": "#ebe0dd",
+              "on-tertiary-fixed": "#211a17",
+              "inverse-primary": "#fcb6a5",
+              "primary": "#865043",
+              "tertiary": "#675c58",
+              "tertiary-container": "#cbbdb7",
+              "on-primary-fixed-variant": "#6a392d",
+              "on-secondary-fixed-variant": "#514440",
+              "secondary-fixed-dim": "#d5c3be",
+              "outline": "#83746f",
+              "primary-fixed-dim": "#fcb6a5",
+              "on-primary-fixed": "#351007",
+              "tertiary-fixed-dim": "#d2c4be",
+              "background": "#fff8f6",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#70615d",
+              "surface": "#fff8f6",
+              "surface-bright": "#fff8f6",
+              "on-secondary-fixed": "#231916",
+              "surface-container": "#f7ebe8",
+              "surface-container-low": "#fdf1ee"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 20px 40px rgba(134, 80, 67, 0.08);
+        }
+        .glass-header {
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fff8f6]/80 dark:bg-[#201a19]/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border-2 border-primary-container">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Portrait of a smiling woman in gym gear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATggxBQdZONyCD3o7dUFzG6y3bXJSakDEy458XfiAINAcXlva99mBc3D1IH8ukpqfcispuS5JhaAnYEK2aho7Y5h44u4jwiwJr7c2aUDmw3Xr6HFiaJtOxsHkBAmn5kEC3yYi5k-min-tR8DiasGd1ymSXYpT5LqkeTJQWoRqsZEAIdm-ZqhjKgElFmjffjfDFOfyAAVMf8Ir69gFZH6O2EvDZSKa16buxccaII80iz4ZaoA3AKOrG1-zoW6Y-CAyyMTPt-V20I9s"/>
+</div>
+</div>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-2xl text-[#865043] dark:text-[#f4af9e] text-2xl font-extrabold tracking-tighter">Evara</h1>
+<div class="flex items-center">
+<button class="text-[#865043] dark:text-[#f4af9e] hover:opacity-80 transition-opacity active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-10">
+<h2 class="font-headline text-4xl lg:text-5xl font-extrabold tracking-tight text-on-surface mb-2">Your Path</h2>
+<p class="text-on-surface-variant font-medium text-lg leading-relaxed">Curated programs designed for your specific goals.</p>
+</section>
+<!-- Featured/In Progress Card: 30 Day Booty Challenge -->
+<section class="mb-12">
+<div class="group relative overflow-hidden bg-surface-container-lowest rounded-lg editorial-shadow">
+<div class="relative h-[420px] w-full">
+<img alt="30 Day Booty Challenge Cover" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Fit woman doing lunges in minimalist gym" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIm4f_xGCO5Uh57jFKk_uEI_afivneI79G1d7ev4KWrSn_FyMmiD8q57ide5AxoyZxQYtrXIYp244QFZEwcIFbctXbLT8jLdX1jLvR4u8rrU3HKOIqxalXlj0XLdlARAS3mdUBgr4IZWrplY5B_N9UXd4TEbA8ybNbQRZ_kpylb8vCTljjv1b2f8pOdWkkwYMqjwdIr3AlCPIx-BNBvCzLX4dh-uAwtPfSvVqgm0COyVZtQwumIOStG2qoEeK-xRS8Rvz6XZ9yso8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute top-6 left-6">
+<span class="bg-primary-container/90 text-on-primary-container px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-widest backdrop-blur-md">Active Journey</span>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-8">
+<h3 class="font-headline text-3xl font-extrabold text-white mb-4 leading-tight">30 Day Booty Challenge</h3>
+<div class="space-y-4">
+<div class="flex justify-between items-end text-white/90 mb-1">
+<span class="font-bold text-sm">Overall Progress</span>
+<span class="font-extrabold text-xl">75%</span>
+</div>
+<div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-white w-[75%] rounded-full shadow-[0_0_15px_rgba(244,175,158,0.5)]"></div>
+</div>
+<div class="flex gap-4 pt-4">
+<button class="flex-1 py-4 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl active:scale-95 transition-transform shadow-lg">Continue Session</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Secondary Program: Glute Growth Essentials -->
+<section class="mb-10">
+<div class="grid grid-cols-1 gap-8">
+<div class="bg-surface-container-low rounded-lg p-2 overflow-hidden border border-white/40">
+<div class="relative aspect-[4/3] rounded-lg overflow-hidden mb-6">
+<img alt="Glute Growth Essentials" class="w-full h-full object-cover" data-alt="Close up of weight plates and trainers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiSi8pBtbj53yHQ0D3M8IgRnfjxYiwQUbgK0E-oJdQAgKlpxSS9EMULSQLs_aO7jMMzRXD2KVNlE0UuET2ppv43-sq23Rj4F9RedmVvM8gC2xgysouMFttWcO7w37m7FRgdlt__-K1jSXkatcCpmlTv8yGQI4MbAGZCE4PyjA-jBt5IzpTIF1TqQya-uP2hkNHrfF7iKGJrL-2zslvOA1FDYGgt_Dv11_96Cm8OGBX8437A7idlKXBYZhyWoOmQfck3Om1NgAeHbI"/>
+<div class="absolute inset-0 bg-black/10"></div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-primary font-bold text-xs px-3 py-1 rounded-full">Pro Level</div>
+</div>
+<div class="px-6 pb-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="timer">timer</span>
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">8 Weeks • 45 min/day</span>
+</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-3">Glute Growth Essentials</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed">The scientific approach to muscle hypertrophy, focused exclusively on the lower body chain.</p>
+<button class="w-full py-4 bg-surface-container-highest text-on-surface font-bold rounded-xl hover:bg-surface-variant transition-colors active:scale-[0.98]">View Curriculum</button>
+</div>
+</div>
+<!-- At Home Sculpt Card - Asymmetric Layout -->
+<div class="flex flex-col md:flex-row bg-surface-container-lowest rounded-lg overflow-hidden editorial-shadow min-h-[300px]">
+<div class="md:w-1/2 relative">
+<img alt="At Home Sculpt" class="w-full h-full object-cover" data-alt="Woman stretching in a sunlit living room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM0n-EDQ94i2nzhSe1jWCDGsMDnEB4oFoJ1D_glyaf3DYBnXYuPuDW08RNpc6g565tkbV5yaOd8a9EiTga-iAsH-nKTZx3z7pRq_fN2a8t0Z86oqBtwzK0pFnCBrGQyB-TO21vIEn_9ckDUB173X_5m160Fo_pxNyVusaQ-4zx5t2VqmOsM-SgzxHvMv1zX7IN6kPQUl-rO1lNkyBlvREETCDXeEwcEdztfjf4hnwzZga41cmS0O4JHDs7aX3fWodvZbFkprGUw7A"/>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container-lowest/20"></div>
+</div>
+<div class="md:w-1/2 p-8 flex flex-col justify-center">
+<div class="inline-block bg-primary-fixed text-on-primary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 w-fit">No Equipment</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface mb-2">At Home Sculpt</h3>
+<p class="text-on-surface-variant text-sm mb-6">Shape and tone using just your bodyweight. Ideal for travel or busy mornings.</p>
+<div class="flex items-center gap-4">
+<button class="text-primary font-extrabold text-sm flex items-center gap-2 group">
+                                Start Training
+                                <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Coach Insight Component -->
+<section class="mt-12 mb-8">
+<div class="bg-surface-container-low rounded-tl-sm rounded-tr-xl rounded-br-xl rounded-bl-xl p-6 relative">
+<div class="flex gap-4 items-start">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="psychology">psychology</span>
+</div>
+<div>
+<span class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-primary mb-1 block">Evara Coach</span>
+<p class="text-on-surface leading-relaxed italic font-medium">"You've crushed your last 3 leg sessions. I've added a few intensity finishers to the '30 Day Booty Challenge' for your workout tomorrow. Ready?"</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-end px-4 pb-6 bg-[#fff8f6]/80 dark:bg-[#201a19]/80 backdrop-blur-xl rounded-t-[2rem] shadow-[0px_-20px_40px_rgba(134,80,67,0.08)] z-50">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-[#d5c3bd] dark:text-[#53433f] p-3 hover:text-[#865043] transition-colors active:scale-90 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</a>
+<!-- Programs (Active) -->
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#865043] to-[#f4af9e] text-white rounded-full p-3 shadow-lg scale-110 -translate-y-2 active:scale-90 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Programs</span>
+</a>
+<!-- Progress -->
+<a class="flex flex-col items-center justify-center text-[#d5c3bd] dark:text-[#53433f] p-3 hover:text-[#865043] transition-colors active:scale-90 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="Insert_chart">insert_chart</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Progress</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#d5c3bd] dark:text-[#53433f] p-3 hover:text-[#865043] transition-colors active:scale-90 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

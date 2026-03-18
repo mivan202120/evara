@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evara - Progress Tracking</title>
+<!-- Material Symbols Link -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Plus Jakarta Sans & Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#865043",
+              "inverse-on-surface": "#faeeeb",
+              "on-tertiary-container": "#564c48",
+              "surface-dim": "#e3d8d5",
+              "primary-container": "#f4af9e",
+              "on-surface-variant": "#514440",
+              "error-container": "#ffdad6",
+              "on-surface": "#201a19",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#93000a",
+              "surface-variant": "#ebe0dd",
+              "on-tertiary-fixed-variant": "#4e4541",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed": "#f2ded9",
+              "primary-fixed": "#ffdad2",
+              "on-error": "#ffffff",
+              "on-background": "#201a19",
+              "secondary": "#695b57",
+              "inverse-surface": "#352f2d",
+              "on-primary-container": "#734034",
+              "surface-container-high": "#f1e6e3",
+              "tertiary-fixed": "#eedfda",
+              "on-secondary": "#ffffff",
+              "error": "#ba1a1a",
+              "outline-variant": "#d5c3bd",
+              "secondary-container": "#f2ded9",
+              "surface-container-highest": "#ebe0dd",
+              "on-tertiary-fixed": "#211a17",
+              "inverse-primary": "#fcb6a5",
+              "primary": "#865043",
+              "tertiary": "#675c58",
+              "tertiary-container": "#cbbdb7",
+              "on-primary-fixed-variant": "#6a392d",
+              "on-secondary-fixed-variant": "#514440",
+              "secondary-fixed-dim": "#d5c3be",
+              "outline": "#83746f",
+              "primary-fixed-dim": "#fcb6a5",
+              "on-primary-fixed": "#351007",
+              "tertiary-fixed-dim": "#d2c4be",
+              "background": "#fff8f6",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#70615d",
+              "surface": "#fff8f6",
+              "surface-bright": "#fff8f6",
+              "on-secondary-fixed": "#231916",
+              "surface-container": "#f7ebe8",
+              "surface-container-low": "#fdf1ee"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 20px 40px rgba(134, 80, 67, 0.08);
+        }
+        .asymmetric-chat {
+            border-radius: 0.5rem 2rem 2rem 2rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fff8f6]/80 backdrop-blur-xl shadow-sm flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFjcUv_sU7dSaTRrbBan8whqBBjRBTgR__5voHt8VSEj52L_Dq7bS000hityikGxUHfAaoWzWfZj2n8XXNQ6VkmtQUPmzugzUd709nrosAzEIvd_hTsKhh1ZHcIHSNfu86jGbFkK5QF8-XyzFOczot0TRwjcrMALqFqG-JGNdzC2F3mta_nFUVrK9xhyF7IMJxMWKntqzgJcwqcfq-kUWDg0BUcxt9ZDMHzbXmoiekW8Vp-g2nK4l-hWJ-2gs4N4rGG81lhHyIzNg"/>
+</div>
+<h1 class="font-headline font-bold tracking-tight text-2xl text-[#865043]">Evara</h1>
+</div>
+<button class="text-[#865043] hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto space-y-10">
+<!-- Hero: Transformation Editorial -->
+<section class="space-y-6">
+<div class="space-y-2">
+<span class="font-label text-xs uppercase tracking-[0.2em] text-primary/60 font-bold">Your Evolution</span>
+<h2 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface leading-tight">Celebrating the <br/><span class="text-primary italic">new you.</span></h2>
+</div>
+<!-- Before/After Comparison Area -->
+<div class="relative grid grid-cols-2 gap-4">
+<div class="relative group">
+<div class="aspect-[3/4] rounded-lg overflow-hidden bg-surface-container shadow-sm border border-outline-variant/10">
+<img alt="Before photo" class="w-full h-full object-cover" data-alt="Person starting their fitness journey in gym clothes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9b6OVhN-C0r6ttPj4H8PcZWYtYCApR0f_A_P7TMIZymJY2wJP0ByAP44O33AH_NrWDEhjZ2LazTvgM5-MhYjAF1nphUQHYy0P8xZt95C_Fp96wXa0KPT7aQP3L4vbfJGCyMVjCwD8KEJlNfMMbTGAeQv5Utr4OG-BPYABdRZZgojPKLs-TUlWUv5451RV4CUlY8m0_i8tViggOqGgotkhRlvCbrpO-Al4_l_vRRCKDCFYFzAWlVRjRy-FH_sPELS8OQUeRDvpi_o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<span class="absolute bottom-4 left-4 font-label text-[10px] font-bold uppercase tracking-widest text-white/90 bg-black/20 backdrop-blur-md px-3 py-1 rounded-full">Week 01</span>
+</div>
+</div>
+<div class="relative group mt-8">
+<div class="aspect-[3/4] rounded-lg overflow-hidden bg-surface-container-highest editorial-shadow border border-outline-variant/20">
+<img alt="Current photo" class="w-full h-full object-cover" data-alt="Person showing fitness progress in athletic wear" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR0eYAvQbnXYjFXtQzyqAYm7O4v0HFOloCH2skshYC4Co0rDyoHc-olrQyfRbGCP-BnoqGCPyG4p5GvdTKE1yawrcCn93vrJ7U17ydpJO2DxKeQQym389Lz4AevvVmTemG51KRsnQ5O8e2E4Ct-0QqYXkwrsIktIlvw9IIeTyHwr-0D7owW8aUIn8Hqh4AuFyM9RNmI5qPh1Q5-HvGou249mPJM3DKCw0GR07GmmRQQu7MAa6nTehnQe0XIIL4YStYQ-I0KYFBn_k"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+<span class="absolute bottom-4 left-4 font-label text-[10px] font-bold uppercase tracking-widest text-white bg-primary px-3 py-1 rounded-full shadow-lg">Today</span>
+</div>
+<!-- Overlapping Label -->
+<div class="absolute -top-4 -right-2 bg-primary-container text-on-primary-container p-3 rounded-full shadow-lg rotate-12">
+<span class="material-symbols-outlined block" data-icon="auto_awesome">auto_awesome</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Strength Flow Chart Section -->
+<section class="bg-surface-container-low p-8 rounded-lg space-y-6">
+<div class="flex justify-between items-end">
+<div class="space-y-1">
+<h3 class="font-headline text-xl font-bold">Strength Consistency</h3>
+<p class="text-on-surface-variant text-sm">Volume increased by 12% this month</p>
+</div>
+<div class="text-right">
+<span class="text-2xl font-headline font-bold text-primary">High</span>
+<p class="text-[10px] font-bold uppercase tracking-widest text-primary/60">Energy Flow</p>
+</div>
+</div>
+<!-- Soft Line Chart (SVG Implementation) -->
+<div class="h-32 w-full relative">
+<svg class="w-full h-full preserve-3d" viewbox="0 0 400 100">
+<defs>
+<lineargradient id="chartGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#865043" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#865043" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Flowing Line -->
+<path d="M0,80 Q50,90 100,50 T200,60 T300,30 T400,10" fill="none" stroke="#865043" stroke-linecap="round" stroke-width="3"></path>
+<!-- Gradient Area -->
+<path d="M0,80 Q50,90 100,50 T200,60 T300,30 T400,10 V100 H0 Z" fill="url(#chartGradient)"></path>
+<!-- Progress Dots -->
+<circle cx="100" cy="50" fill="#865043" r="4"></circle>
+<circle cx="300" cy="30" fill="#865043" r="4"></circle>
+<circle class="shadow-sm" cx="400" cy="10" fill="#f4af9e" r="6"></circle>
+</svg>
+</div>
+<div class="flex justify-between font-label text-[10px] font-bold text-outline uppercase tracking-tighter">
+<span>Mon</span>
+<span>Wed</span>
+<span>Fri</span>
+<span>Sun</span>
+</div>
+</section>
+<!-- Personal Bests Bento Grid -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline text-xl font-bold">Personal Bests</h3>
+<button class="text-primary font-bold text-sm tracking-tight border-b-2 border-primary/20 pb-1">View Records</button>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Achievement 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg editorial-shadow border border-surface-container flex flex-col items-center text-center space-y-3">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Deadlift</p>
+<h4 class="font-headline text-2xl font-bold text-on-surface">85<span class="text-sm font-body font-normal text-on-surface-variant ml-1">kg</span></h4>
+</div>
+<span class="bg-primary/5 text-primary text-[10px] font-bold px-2 py-1 rounded-full">+5kg jump</span>
+</div>
+<!-- Achievement 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg editorial-shadow border border-surface-container flex flex-col items-center text-center space-y-3">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest text-outline">Plank Duration</p>
+<h4 class="font-headline text-2xl font-bold text-on-surface">04:20</h4>
+</div>
+<span class="bg-secondary/5 text-secondary text-[10px] font-bold px-2 py-1 rounded-full">New record!</span>
+</div>
+<!-- Achievement 3 (Wide) -->
+<div class="col-span-2 bg-gradient-to-br from-primary to-primary-container p-6 rounded-lg shadow-lg flex items-center justify-between overflow-hidden relative">
+<div class="relative z-10 text-white space-y-1">
+<h4 class="font-headline text-lg font-bold">12 Session Streak</h4>
+<p class="text-white/80 text-sm">You're in the top 5% of Evara curators.</p>
+</div>
+<div class="relative z-10 w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-3xl" data-icon="workspace_premium" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<!-- Decorative Circle -->
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full"></div>
+</div>
+</div>
+</section>
+<!-- AI Coach Insight -->
+<section class="mt-8">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="smart_toy">smart_toy</span>
+</div>
+<div class="bg-surface-container-low p-5 asymmetric-chat text-on-surface-variant text-sm leading-relaxed">
+<p>“The visual muscle definition in your shoulders since week 1 is remarkable. Your consistency with high-volume sessions is paying off. Let's aim for a slow-release recovery walk tomorrow.”</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-end px-4 pb-6 bg-[#fff8f6]/80 backdrop-blur-xl z-50 rounded-t-xl shadow-[0px_-20px_40px_rgba(134,80,67,0.08)]">
+<div class="flex flex-col items-center justify-center text-[#d5c3bd] p-3 hover:text-[#865043] transition-colors active:scale-90 duration-200 ease-out">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#d5c3bd] p-3 hover:text-[#865043] transition-colors active:scale-90 duration-200 ease-out">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Programs</span>
+</div>
+<!-- Active Progress Tab -->
+<div class="flex flex-col items-center justify-center bg-gradient-to-br from-[#865043] to-[#f4af9e] text-white rounded-full p-3 shadow-lg scale-110 -translate-y-2 active:scale-90 duration-200 ease-out">
+<span class="material-symbols-outlined" data-icon="Insert_chart" style="font-variation-settings: 'FILL' 1;">insert_chart</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Progress</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#d5c3bd] p-3 hover:text-[#865043] transition-colors active:scale-90 duration-200 ease-out">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Profile</span>
+</div>
+</nav>
+</body></html>

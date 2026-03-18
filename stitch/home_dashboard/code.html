@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evara - Home Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-tint": "#865043",
+                        "inverse-on-surface": "#faeeeb",
+                        "on-tertiary-container": "#564c48",
+                        "surface-dim": "#e3d8d5",
+                        "primary-container": "#f4af9e",
+                        "on-surface-variant": "#514440",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#201a19",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#ebe0dd",
+                        "on-tertiary-fixed-variant": "#4e4541",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#f2ded9",
+                        "primary-fixed": "#ffdad2",
+                        "on-error": "#ffffff",
+                        "on-background": "#201a19",
+                        "secondary": "#695b57",
+                        "inverse-surface": "#352f2d",
+                        "on-primary-container": "#734034",
+                        "surface-container-high": "#f1e6e3",
+                        "tertiary-fixed": "#eedfda",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#d5c3bd",
+                        "secondary-container": "#f2ded9",
+                        "surface-container-highest": "#ebe0dd",
+                        "on-tertiary-fixed": "#211a17",
+                        "inverse-primary": "#fcb6a5",
+                        "primary": "#865043",
+                        "tertiary": "#675c58",
+                        "tertiary-container": "#cbbdb7",
+                        "on-primary-fixed-variant": "#6a392d",
+                        "on-secondary-fixed-variant": "#514440",
+                        "secondary-fixed-dim": "#d5c3be",
+                        "outline": "#83746f",
+                        "primary-fixed-dim": "#fcb6a5",
+                        "on-primary-fixed": "#351007",
+                        "tertiary-fixed-dim": "#d2c4be",
+                        "background": "#fff8f6",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#70615d",
+                        "surface": "#fff8f6",
+                        "surface-bright": "#fff8f6",
+                        "on-secondary-fixed": "#231916",
+                        "surface-container": "#f7ebe8",
+                        "surface-container-low": "#fdf1ee"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#fff8f6]/80 backdrop-blur-xl shadow-sm">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
+<img alt="Maya Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp_e6ZwhuR0gNuNc0FeQj9bOOZ7Zd_YIjhZOegM4IEuDpVZ2Cn5yF0YtWSRG7oYMiKcKQKVFSpcvg9LCZ_dzm_-7csRPSPVySDmHbj0McDlhh5PqvxgLygUHY9ilNN1V6tik7zyD-paTBTtycd9zenkJoaJPEfmZoQlCAY7GuVM0pO8EpCyNgT20lUc5WPYtuwTE9KanvQvCl39kubLPFXpMB2-MfCFYttgh4Q8WKKDzqPIXp2_H55pXgpRN0gdJUmtKKS5tWkmsc"/>
+</div>
+</div>
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold tracking-tighter text-2xl text-[#865043]">Evara</h1>
+<button class="text-[#865043] hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="mt-24 px-6 space-y-10 max-w-2xl mx-auto">
+<!-- AI Coach Message Section -->
+<section class="flex gap-4 items-start">
+<div class="flex-shrink-0 mt-2">
+<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+<div class="flex-1">
+<div class="bg-surface-container-low p-5 shadow-sm rounded-tl-sm rounded-tr-xl rounded-br-xl rounded-bl-xl border-l-4 border-primary/20">
+<p class="text-on-surface leading-relaxed font-medium">
+                        Good morning, Maya! Ready to crush your lower body session today? You're on a <span class="text-primary font-bold">5-day streak!</span>
+</p>
+</div>
+</div>
+</section>
+<!-- Progress Orbs & Streak Preview (Bento Style) -->
+<section class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[0px_20px_40px_rgba(134,80,67,0.04)] flex flex-col items-center justify-center space-y-3">
+<span class="text-label text-on-surface-variant font-bold uppercase tracking-widest text-[10px]">Weekly Goal</span>
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-width="8"></circle>
+<circle class="drop-shadow-sm" cx="48" cy="48" fill="transparent" r="40" stroke="url(#gradient-primary)" stroke-dasharray="251.2" stroke-dashoffset="75" stroke-linecap="round" stroke-width="8"></circle>
+<defs>
+<lineargradient id="gradient-primary" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#865043"></stop>
+<stop offset="100%" stop-color="#f4af9e"></stop>
+</lineargradient>
+</defs>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-primary">70%</span>
+</div>
+</div>
+<p class="text-[11px] text-on-surface-variant font-medium">4 of 6 sessions</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[0px_20px_40px_rgba(134,80,67,0.04)] flex flex-col justify-between">
+<div>
+<span class="text-label text-on-surface-variant font-bold uppercase tracking-widest text-[10px]">Streak</span>
+<div class="flex mt-3 gap-1">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="material-symbols-outlined text-primary text-xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+</div>
+<div class="pt-4">
+<h3 class="text-2xl font-bold text-primary tracking-tight">5 Days</h3>
+<p class="text-[11px] text-on-surface-variant font-medium mt-1">Consistency is key!</p>
+</div>
+</div>
+</section>
+<!-- Main Featured Workout Card -->
+<section>
+<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden shadow-xl group">
+<img alt="Workout focus" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Woman doing squats with dumbbells in a bright sunny studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCqR2Qh7xFCrcdU2LsxiaXZGauxU4J4YbN5fYx8Rzlk3yKP2P3qNRaWcamd__2RjQJekWoFx_X2RmaAUClD_f3SRJDmNiamkaXFr4tbL3ycyxkgop90dWAJU_KbDGfMV6-SewNvX-PqAAQGXH4JEk_UEYu2OhDt4PUQLHIdgqVkh-gncdRxm3Iob8xaC8DzaWkXpO8NpNfSngxUvZFq4doOSz3cv0UJf45cdu1MzCQNcZc-eflGhACJ_aAwyz-oH1y4JmWOJNpxk8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-8 flex flex-col justify-end">
+<div class="flex items-center gap-2 mb-2">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Active Program</span>
+<span class="text-white/80 text-xs font-medium backdrop-blur-sm bg-white/10 px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span> 45 mins
+                        </span>
+</div>
+<h2 class="text-white text-3xl font-bold font-headline tracking-tight mb-2">Day 12 – Booty Program</h2>
+<p class="text-white/80 text-sm font-body mb-8 max-w-xs">Lower body focus using resistance bands and progressive overload.</p>
+<button class="w-full h-14 bg-gradient-to-br from-primary to-primary-container text-white rounded-xl font-headline font-bold text-lg flex items-center justify-center gap-3 shadow-[0px_20px_40px_rgba(134,80,67,0.3)] hover:opacity-90 transition-all active:scale-95">
+                        Start Workout
+                        <span class="material-symbols-outlined" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Secondary Insights (Asymmetric Editorial Style) -->
+<section class="space-y-6">
+<h3 class="text-xl font-bold font-headline text-on-surface px-1">Community Activity</h3>
+<div class="flex overflow-x-auto gap-6 pb-6 scrollbar-hide no-scrollbar">
+<!-- User card 1 -->
+<div class="flex-shrink-0 w-64 bg-surface-container p-6 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl" data-icon="fitness_center">fitness_center</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-primary/10 overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" data-alt="Portrait of a woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqJQIcmaxzJSIXwjT30yF-9Dxovi5tlmLeyrhEjgbibThmGJwJ-E2R-lFceDxzir-uX0dV6pJ3sPgmH1mqRtwgN-sJaUYkcqwCWv8i5iWUHQR0aZzNL9RGu2Vpxl6LKCh_LzNrGUuhc7sh2VJrOF37hQRhoKIB-QaRYoHd8A9wIkB0M6DxqSRjPwu_tTG0AvHxz4UnAutY5H_3AGbM4jTC7xMaX9p2YLUmcSMnEKWddGRwHMSKyE7uLexv7LM-8h-IUioc2JDufe0"/>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">Sarah J.</span>
+</div>
+<p class="text-sm font-medium text-on-surface mb-2">Finished "Glute Sculpt Express"</p>
+<p class="text-[11px] text-primary font-bold">"Feelin' the burn! 🔥"</p>
+</div>
+</div>
+<!-- User card 2 -->
+<div class="flex-shrink-0 w-64 bg-primary-fixed p-6 rounded-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl" data-icon="favorite">favorite</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center border border-primary/10 overflow-hidden">
+<img alt="User" class="w-full h-full object-cover" data-alt="Portrait of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB26jC4RjRbbGFYUiVEkraRJMIHx4fbL_6d9d1AU2pfm1Os9y6vYAlbzyKUEKhSKaKpHGYsRXowmt8e7PpRrE2y4SUrF0h4cC_D_O6plORg2RiwEw7cmt1sNySnOxVgGoZfAXBt6NN4kI4aG7wtTUFNQ3z4GsSqw0_Bpkr8jtZB581sHO19SPxM6fCctcvhj5KGhOIg8hu3NQXDS4Wn8bLyDqsT-6qDuGGhSxOhzJdHZywTBW2h1HiVTwM-6ZGC_bpGHCiIEr19L0w"/>
+</div>
+<span class="text-xs font-bold text-on-surface-variant">Leo M.</span>
+</div>
+<p class="text-sm font-medium text-on-surface mb-2">Joined "30 Day Core Challenge"</p>
+<p class="text-[11px] text-primary font-bold">"Day 1 let's go!"</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-end px-4 pb-6 z-50">
+<div class="w-full max-w-md flex justify-around items-center bg-[#fff8f6]/80 backdrop-blur-xl py-3 rounded-full shadow-[0px_-20px_40px_rgba(134,80,67,0.08)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-gradient-to-br from-[#865043] to-[#f4af9e] text-white rounded-full p-3 shadow-lg scale-110 -translate-y-2 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+</a>
+<!-- Programs -->
+<a class="flex flex-col items-center justify-center text-[#d5c3bd] hover:text-[#865043] transition-colors p-3" href="#">
+<span class="material-symbols-outlined" data-icon="fitness_center">fitness_center</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Programs</span>
+</a>
+<!-- Progress -->
+<a class="flex flex-col items-center justify-center text-[#d5c3bd] hover:text-[#865043] transition-colors p-3" href="#">
+<span class="material-symbols-outlined" data-icon="Insert_chart">insert_chart</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Progress</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#d5c3bd] hover:text-[#865043] transition-colors p-3" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-bold uppercase tracking-widest mt-1">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

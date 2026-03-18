@@ -1,0 +1,214 @@
+Perfecto. Aquí tienes la **definición completa de producto de Evara**, en formato claro, ejecutivo y listo para compartir o ejecutar.
+
+---
+
+# 🧠 EVARA — Definición de Plataforma
+
+## 📌 Visión
+
+Evara es la plataforma líder para mujeres que quieren transformar su glúteo y sentirse increíbles con su cuerpo mediante inteligencia artificial, entrenamiento estructurado y una experiencia estética y motivadora.
+
+---
+
+## 🎯 Propuesta de Valor
+
+Evara combina tres elementos que hoy no están bien integrados en el mercado:
+
+* Progresión real y medible (tipo Gravl)
+* Experiencia femenina y estética (tipo WeGLOW)
+* Inteligencia artificial como coach personalizado
+
+Resultado:
+
+> Una app que no solo motiva, sino que optimiza y demuestra resultados visibles.
+
+---
+
+## 👩 Usuario Objetivo
+
+Mujeres de 18 a 40 años que:
+
+* Quieren mejorar su cuerpo (especialmente glúteo)
+* Buscan resultados visibles, no solo “rutinas bonitas”
+* Valoran estética, simplicidad y guía clara
+* Entrenan en gym, casa o ambos
+* Nivel: principiante a intermedio (con escalabilidad a avanzado)
+
+---
+
+## 🍑 Promesa Central
+
+> Resultados visibles y medibles en el glúteo en semanas, no meses, con una experiencia guiada, simple y motivadora.
+
+---
+
+## 🧩 Core del Producto
+
+### 1. AI Coach (núcleo de Evara)
+
+Evara no solo muestra rutinas, sino que actúa como entrenadora inteligente.
+
+El sistema:
+
+* Ajusta entrenamientos automáticamente
+* Recomienda pesos y progresión
+* Detecta fatiga y adapta volumen
+* Motiva y guía en lenguaje natural
+
+La usuaria siente que tiene un coach personal dentro de la app.
+
+---
+
+### 2. Sistema de Entrenamiento de Glúteo
+
+Evara está especializada en glúteo, no es una app genérica.
+
+Incluye:
+
+* Programas estructurados (gym y casa)
+* Optimización de volumen y frecuencia
+* Enfoque en distintas zonas del glúteo
+* Progresión automática sin necesidad de conocimiento técnico
+
+---
+
+### 3. Programas Guiados (contenido premium)
+
+Experiencia tipo entrenamiento guiado:
+
+* Programas como “30 días de glúteo”
+* Videos con entrenadora principal (cara de marca)
+* Rutinas claras, fáciles de seguir
+* Enfoque visual y estético
+
+---
+
+### 4. Tracking Visual de Progreso
+
+Evara prioriza lo que realmente importa para la usuaria: ver cambios.
+
+Incluye:
+
+* Fotos de progreso
+* Medición corporal (glúteo)
+* Visualización simple del avance
+
+Los números existen, pero no dominan la experiencia.
+
+---
+
+### 5. Experiencia de Entrenamiento Simplificada
+
+Durante el workout:
+
+* Interfaz limpia y guiada
+* Ejercicio + video + instrucciones
+* Sugerencia automática de peso
+* Temporizador de descanso
+
+Sin complejidad técnica, pero con lógica avanzada detrás.
+
+---
+
+### 6. Sistema de Retención
+
+Evara mantiene a la usuaria activa mediante:
+
+* Retos (ej. 30 días glúteo)
+* Streaks de entrenamiento
+* Feedback constante del AI coach
+
+La motivación se combina con progreso real.
+
+---
+
+### 7. Enfoque Women-First
+
+Diseñado específicamente para mujeres:
+
+* Adaptación según energía y contexto
+* Experiencia estética y emocional
+* Lenguaje cercano y motivador
+
+---
+
+## 🧠 Diferenciación Clave
+
+Evara no compite como “otra app fitness”.
+
+Compite como:
+
+> La única plataforma que optimiza el crecimiento del glúteo usando inteligencia artificial con una experiencia diseñada para mujeres.
+
+---
+
+## 💸 Modelo de Negocio
+
+Freemium + Premium
+
+### Free:
+
+* Acceso limitado a programas
+* Tracking básico
+* Experiencia inicial del producto
+
+### Premium:
+
+* AI coach completo
+* Programas avanzados
+* Personalización total
+* Retos exclusivos
+
+---
+
+## 🌎 Estrategia de Mercado
+
+### Fase 1:
+
+México
+
+* Lenguaje y cultura local
+* Precio accesible
+* Enfoque en volumen de usuarios
+
+### Fase 2:
+
+LATAM
+
+* Expansión regional
+* Influencers locales
+
+### Fase 3:
+
+Global
+
+* Posicionamiento como app líder en glúteo
+
+---
+
+## ⚠️ Principios Clave del Producto
+
+1. El progreso es obligatorio, no opcional
+2. La experiencia debe ser simple, aunque el sistema sea complejo
+3. Visual > técnico
+4. El AI coach es el corazón del producto
+5. El enfoque en glúteo es la ventaja, no una limitación
+
+---
+
+## 🚀 Definición Final
+
+Evara es una plataforma de entrenamiento inteligente para mujeres enfocada en glúteo que combina inteligencia artificial, progresión real y una experiencia estética para lograr resultados visibles de forma simple y motivadora.
+
+---
+
+Si quieres, el siguiente paso natural es:
+
+👉 convertir esto en:
+
+* roadmap MVP claro
+* features detalladas por sprint
+* flujo completo de onboarding
+* o directamente empezar a construir la app
+
+Solo dime cómo quieres avanzar.

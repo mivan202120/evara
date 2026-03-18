@@ -299,6 +299,160 @@
     footer .links-col a:hover { color: var(--primary-container); }
     footer .bottom { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 48px; padding-top: 24px; text-align: center; font-size: 13px; color: rgba(250,238,235,0.4); }
 
+    /* ─── Registration Wizard ────────────────────────────────── */
+    .wizard-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(32,26,25,0.6); backdrop-filter: blur(12px);
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .wizard-overlay.active { display: flex; }
+    .wizard {
+      background: var(--surface-container-lowest); border-radius: 32px;
+      width: 100%; max-width: 560px; position: relative; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(134,80,67,0.2); animation: modalIn 0.4s ease;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .wizard-header {
+      padding: 28px 32px 0; display: flex; align-items: center; justify-content: space-between;
+    }
+    .wizard-progress { display: flex; gap: 6px; padding: 0 32px; margin-top: 20px; }
+    .wizard-progress-dot {
+      flex: 1; height: 4px; border-radius: 999px; background: var(--surface-container-high);
+      transition: background 0.4s;
+    }
+    .wizard-progress-dot.active { background: var(--primary); }
+    .wizard-progress-dot.done { background: var(--primary-container); }
+    .wizard-body { padding: 32px; }
+    .wizard-step { display: none; animation: stepIn 0.35s ease; }
+    .wizard-step.active { display: block; }
+    @keyframes stepIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+    .wizard-title { font-size: 26px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; text-align: center; }
+    .wizard-subtitle { font-size: 14px; color: var(--on-surface-variant); margin-bottom: 28px; text-align: center; }
+
+    /* Goal Cards */
+    .goal-grid { display: flex; flex-direction: column; gap: 12px; }
+    .goal-card {
+      display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 16px;
+      border: 2px solid var(--outline-variant); background: var(--surface-container-low);
+      cursor: pointer; transition: all 0.3s; position: relative;
+    }
+    .goal-card:hover { border-color: var(--primary-container); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(134,80,67,0.08); }
+    .goal-card.selected { border-color: var(--primary); background: var(--primary-fixed); }
+    .goal-card .goal-icon {
+      width: 52px; height: 52px; border-radius: 14px; background: var(--primary-fixed);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .goal-card.selected .goal-icon { background: var(--primary); }
+    .goal-card.selected .goal-icon .material-symbols-outlined { color: #fff !important; }
+    .goal-card .goal-text h4 { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .goal-card .goal-text p { font-size: 13px; color: var(--on-surface-variant); }
+    .goal-card .goal-check {
+      position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+      width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--outline-variant);
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+    }
+    .goal-card.selected .goal-check { background: var(--primary); border-color: var(--primary); }
+
+    /* Plan Cards */
+    .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 500px) { .plan-grid { grid-template-columns: 1fr; } }
+    .plan-card {
+      padding: 24px 20px; border-radius: 20px; border: 2px solid var(--outline-variant);
+      cursor: pointer; transition: all 0.3s; position: relative; text-align: center;
+    }
+    .plan-card:hover { border-color: var(--primary-container); transform: translateY(-2px); }
+    .plan-card.selected { border-color: var(--primary); background: var(--primary-fixed); }
+    .plan-card.recommended { border-color: var(--primary); }
+    .plan-card .plan-badge {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      background: var(--primary); color: #fff; font-size: 10px; font-weight: 800;
+      padding: 4px 14px; border-radius: 999px; text-transform: uppercase; letter-spacing: 1.5px;
+    }
+    .plan-card .plan-price { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 32px; color: var(--primary); margin: 12px 0 4px; }
+    .plan-card .plan-price small { font-size: 14px; font-weight: 600; color: var(--on-surface-variant); }
+    .plan-card .plan-name { font-weight: 700; font-size: 18px; margin-bottom: 16px; }
+    .plan-card ul { list-style: none; text-align: left; }
+    .plan-card ul li { font-size: 13px; color: var(--on-surface-variant); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
+    .plan-card ul li .material-symbols-outlined { font-size: 16px; color: var(--primary); }
+    .plan-card ul li.disabled { color: var(--outline); }
+    .plan-card ul li.disabled .material-symbols-outlined { color: var(--outline-variant); }
+
+    /* Payment Methods */
+    .payment-methods { display: flex; flex-direction: column; gap: 12px; }
+    .payment-btn {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; padding: 16px; border-radius: 14px; font-family: 'Manrope';
+      font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s;
+    }
+    .payment-btn.apple {
+      background: #000; color: #fff; border: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .payment-btn.apple:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .payment-btn.paypal {
+      background: #0070BA; color: #fff; border: none;
+      box-shadow: 0 4px 16px rgba(0,112,186,0.2);
+    }
+    .payment-btn.paypal:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,112,186,0.3); }
+    .payment-btn.card-btn {
+      background: transparent; color: var(--on-surface); border: 2px solid var(--outline-variant);
+    }
+    .payment-btn.card-btn:hover { border-color: var(--primary); background: var(--surface-container-low); }
+    .card-form { display: none; margin-top: 16px; padding: 20px; border-radius: 16px; background: var(--surface-container-low); }
+    .card-form.active { display: block; animation: stepIn 0.3s ease; }
+    .card-row { display: flex; gap: 12px; }
+    .card-row .form-group { flex: 1; }
+
+    /* Success Screen */
+    .success-content { text-align: center; padding: 20px 0; }
+    .success-icon {
+      width: 100px; height: 100px; border-radius: 50%; background: var(--primary-fixed);
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+      animation: successPop 0.5s ease;
+    }
+    @keyframes successPop { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+    .success-icon .material-symbols-outlined { font-size: 48px; color: var(--primary); }
+    .download-btns { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+    .download-btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px;
+      border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 14px;
+      transition: all 0.3s;
+    }
+    .download-btn.ios { background: #000; color: #fff; }
+    .download-btn.ios:hover { background: #222; }
+    .download-btn.android { background: var(--primary); color: #fff; }
+    .download-btn.android:hover { opacity: 0.9; }
+
+    .btn-next {
+      width: 100%; padding: 16px; border: none; border-radius: 14px;
+      font-family: 'Plus Jakarta Sans'; font-weight: 700; font-size: 16px;
+      color: var(--on-primary); background: var(--primary); cursor: pointer;
+      transition: all 0.3s; box-shadow: 0 8px 24px rgba(134,80,67,0.2);
+      margin-top: 24px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-next:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(134,80,67,0.3); }
+    .btn-next:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-back {
+      width: 100%; padding: 12px; border: none; border-radius: 14px;
+      font-family: 'Manrope'; font-weight: 600; font-size: 14px;
+      color: var(--on-surface-variant); background: transparent; cursor: pointer;
+      margin-top: 8px; transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--primary); }
+    .form-error { color: #ba1a1a; font-size: 13px; font-weight: 600; margin-top: 8px; text-align: center; display: none; }
+    .form-error.visible { display: block; }
+    .form-success-msg { color: #4CAF50; font-size: 13px; font-weight: 600; margin-top: 8px; text-align: center; }
+
+    /* Confetti */
+    .confetti-piece {
+      position: fixed; width: 10px; height: 10px; top: -20px; z-index: 3000;
+      animation: confettiFall 3s ease-in forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
     /* ─── Animations ─────────────────────────────────────────── */
     .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
@@ -662,48 +816,204 @@
       <button class="modal-close" onclick="closeLogin()">
         <span class="material-symbols-outlined" style="font-size:18px;color:var(--on-surface-variant);">close</span>
       </button>
-
       <div style="text-align:center;margin-bottom:8px;">
         <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary);letter-spacing:-1px;">Evara</span>
       </div>
       <h2 style="text-align:center;">Bienvenida de vuelta</h2>
       <p class="subtitle" style="text-align:center;">Ingresa a tu cuenta para continuar tu transformación.</p>
-
-      <form onsubmit="event.preventDefault();">
+      <div id="loginError" class="form-error"></div>
+      <form id="loginForm">
         <div class="form-group">
-          <label for="email">Correo Electrónico</label>
-          <input type="email" id="email" placeholder="maya@ejemplo.com" />
+          <label for="loginEmail">Correo Electrónico</label>
+          <input type="email" id="loginEmail" placeholder="maya@ejemplo.com" required />
         </div>
         <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" placeholder="••••••••" />
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
         </div>
-        <div class="form-forgot">
-          <a href="#">¿Olvidaste tu contraseña?</a>
-        </div>
-        <button type="submit" class="btn-form">Iniciar Sesión</button>
+        <div class="form-forgot"><a href="#">¿Olvidaste tu contraseña?</a></div>
+        <button type="submit" class="btn-form" id="loginBtn">Iniciar Sesión</button>
       </form>
+      <div class="form-divider"><hr /><span>o continúa con</span><hr /></div>
+      <button class="btn-social"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continuar con Google</button>
+      <button class="btn-social"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.52-3.23 0-1.44.62-2.2.44-3.06-.4C3.7 16.18 4.35 9.4 8.9 9.15c1.2.06 2.04.7 2.75.74.99-.2 1.94-.78 3-.83 1.28-.06 2.33.48 3 1.53-2.82 1.67-2.15 5.35.4 6.4-.5 1.3-1.15 2.58-2 3.29zM12.03 9.1c-.12-2.29 1.74-4.25 4.03-4.35.32 2.56-2.3 4.5-4.03 4.35z"/></svg>Continuar con Apple</button>
+      <p class="form-register">¿No tienes cuenta? <a href="#" onclick="closeLogin(); openWizard();">Regístrate gratis</a></p>
+    </div>
+  </div>
 
-      <div class="form-divider">
-        <hr /><span>o continúa con</span><hr />
+  <!-- ═══ REGISTRATION WIZARD ════════════════════════════════════ -->
+  <div class="wizard-overlay" id="wizardOverlay">
+    <div class="wizard">
+      <div class="wizard-header">
+        <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;color:var(--primary);letter-spacing:-0.5px;">Evara</span>
+        <button class="modal-close" onclick="closeWizard()">
+          <span class="material-symbols-outlined" style="font-size:18px;color:var(--on-surface-variant);">close</span>
+        </button>
       </div>
+      <div class="wizard-progress" id="wizProgress">
+        <div class="wizard-progress-dot active"></div>
+        <div class="wizard-progress-dot"></div>
+        <div class="wizard-progress-dot"></div>
+        <div class="wizard-progress-dot"></div>
+        <div class="wizard-progress-dot"></div>
+      </div>
+      <div class="wizard-body">
 
-      <button class="btn-social">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        Continuar con Google
-      </button>
-      <button class="btn-social">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.52-3.23 0-1.44.62-2.2.44-3.06-.4C3.7 16.18 4.35 9.4 8.9 9.15c1.2.06 2.04.7 2.75.74.99-.2 1.94-.78 3-.83 1.28-.06 2.33.48 3 1.53-2.82 1.67-2.15 5.35.4 6.4-.5 1.3-1.15 2.58-2 3.29zM12.03 9.1c-.12-2.29 1.74-4.25 4.03-4.35.32 2.56-2.3 4.5-4.03 4.35z"/></svg>
-        Continuar con Apple
-      </button>
+        <!-- STEP 1: Goal Selection -->
+        <div class="wizard-step active" id="wizStep1">
+          <h3 class="wizard-title">¿Cuál es tu objetivo?</h3>
+          <p class="wizard-subtitle">Elegimos la mejor ruta para ti</p>
+          <div class="goal-grid">
+            <div class="goal-card" data-goal="grow_glutes" onclick="selectGoal(this)">
+              <div class="goal-icon"><span class="material-symbols-outlined filled" style="font-size:28px;color:var(--primary);">trending_up</span></div>
+              <div class="goal-text"><h4>🍑 Crecer Glúteos</h4><p>Maximizar volumen y forma</p></div>
+              <div class="goal-check"><span class="material-symbols-outlined" style="font-size:14px;color:#fff;">check</span></div>
+            </div>
+            <div class="goal-card" data-goal="tone_body" onclick="selectGoal(this)">
+              <div class="goal-icon"><span class="material-symbols-outlined filled" style="font-size:28px;color:var(--primary);">self_improvement</span></div>
+              <div class="goal-text"><h4>💪 Tonificar Cuerpo</h4><p>Definir y esculpir todo el cuerpo</p></div>
+              <div class="goal-check"><span class="material-symbols-outlined" style="font-size:14px;color:#fff;">check</span></div>
+            </div>
+            <div class="goal-card" data-goal="full_sculpt" onclick="selectGoal(this)">
+              <div class="goal-icon"><span class="material-symbols-outlined filled" style="font-size:28px;color:var(--primary);">fitness_center</span></div>
+              <div class="goal-text"><h4>🔥 Full Body Sculpt</h4><p>Transformación completa</p></div>
+              <div class="goal-check"><span class="material-symbols-outlined" style="font-size:14px;color:#fff;">check</span></div>
+            </div>
+          </div>
+          <button class="btn-next" id="btnStep1" disabled onclick="goToStep(2)">Continuar<span class="material-symbols-outlined">arrow_forward</span></button>
+        </div>
 
-      <p class="form-register">
-        ¿No tienes cuenta? <a href="#" onclick="closeLogin()">Regístrate gratis</a>
-      </p>
+        <!-- STEP 2: Personal Info -->
+        <div class="wizard-step" id="wizStep2">
+          <h3 class="wizard-title">Crea tu cuenta</h3>
+          <p class="wizard-subtitle">Empieza tu transformación hoy</p>
+          <div id="regError" class="form-error"></div>
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" id="regName" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" id="regEmail" placeholder="maya@ejemplo.com" required />
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="regPassword" placeholder="Mínimo 6 caracteres" required />
+          </div>
+          <button class="btn-next" onclick="submitRegistration()">Crear Cuenta<span class="material-symbols-outlined">arrow_forward</span></button>
+          <div class="form-divider"><hr /><span>o regístrate con</span><hr /></div>
+          <button class="btn-social" style="margin-bottom:8px;"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Google</button>
+          <button class="btn-social"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.52-3.23 0-1.44.62-2.2.44-3.06-.4C3.7 16.18 4.35 9.4 8.9 9.15c1.2.06 2.04.7 2.75.74.99-.2 1.94-.78 3-.83 1.28-.06 2.33.48 3 1.53-2.82 1.67-2.15 5.35.4 6.4-.5 1.3-1.15 2.58-2 3.29zM12.03 9.1c-.12-2.29 1.74-4.25 4.03-4.35.32 2.56-2.3 4.5-4.03 4.35z"/></svg>Apple</button>
+          <button class="btn-back" onclick="goToStep(1)">← Volver</button>
+        </div>
+
+        <!-- STEP 3: Plan Selection -->
+        <div class="wizard-step" id="wizStep3">
+          <h3 class="wizard-title">Elige tu plan</h3>
+          <p class="wizard-subtitle">Empieza gratis o desbloquea todo</p>
+          <div class="plan-grid">
+            <div class="plan-card" data-plan="free" onclick="selectPlan(this)">
+              <div class="plan-name">Free</div>
+              <div class="plan-price">$0<small>/mes</small></div>
+              <ul>
+                <li><span class="material-symbols-outlined filled">check_circle</span>3 entrenamientos/semana</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Coach IA básico</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Comunidad</li>
+                <li class="disabled"><span class="material-symbols-outlined">cancel</span>Programas avanzados</li>
+                <li class="disabled"><span class="material-symbols-outlined">cancel</span>Progreso visual IA</li>
+                <li class="disabled"><span class="material-symbols-outlined">cancel</span>Retos exclusivos</li>
+              </ul>
+            </div>
+            <div class="plan-card recommended" data-plan="premium" onclick="selectPlan(this)">
+              <div class="plan-badge">Más Popular</div>
+              <div class="plan-name">Premium</div>
+              <div class="plan-price">$149<small>/mes</small></div>
+              <ul>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Entrenamientos ilimitados</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Coach IA avanzado</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Comunidad VIP</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Todos los programas</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Progreso visual con IA</li>
+                <li><span class="material-symbols-outlined filled">check_circle</span>Retos y recompensas</li>
+              </ul>
+            </div>
+          </div>
+          <button class="btn-next" id="btnStep3" disabled onclick="goToStep(wizState.plan==='premium'?4:5)">Continuar<span class="material-symbols-outlined">arrow_forward</span></button>
+          <button class="btn-back" onclick="goToStep(2)">← Volver</button>
+        </div>
+
+        <!-- STEP 4: Payment Method -->
+        <div class="wizard-step" id="wizStep4">
+          <h3 class="wizard-title">Método de Pago</h3>
+          <p class="wizard-subtitle">Premium — $149/mes · Cancela cuando quieras</p>
+          <div class="payment-methods">
+            <button class="payment-btn apple" onclick="selectPayment('apple_pay')">
+              <svg width="20" height="24" viewBox="0 0 24 24"><path fill="#fff" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.52-3.23 0-1.44.62-2.2.44-3.06-.4C3.7 16.18 4.35 9.4 8.9 9.15c1.2.06 2.04.7 2.75.74.99-.2 1.94-.78 3-.83 1.28-.06 2.33.48 3 1.53-2.82 1.67-2.15 5.35.4 6.4-.5 1.3-1.15 2.58-2 3.29zM12.03 9.1c-.12-2.29 1.74-4.25 4.03-4.35.32 2.56-2.3 4.5-4.03 4.35z"/></svg>
+              Apple Pay
+            </button>
+            <button class="payment-btn paypal" onclick="selectPayment('paypal')">
+              <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#fff" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c1.955 2.607.803 6.415-3.68 7.796l-.018.005h-2.17c-.524 0-.968.382-1.05.9l-1.12 7.106H7.076l-.066.42a.641.641 0 0 0 .633.74h3.545c.46 0 .85-.334.922-.788l.04-.207.73-4.627.047-.256a.93.93 0 0 1 .922-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.752-4.474z"/></svg>
+              PayPal
+            </button>
+            <button class="payment-btn card-btn" onclick="toggleCardForm()">
+              <span class="material-symbols-outlined">credit_card</span>
+              Tarjeta de Crédito / Débito
+            </button>
+          </div>
+          <div class="card-form" id="cardForm">
+            <div class="form-group">
+              <label>Número de Tarjeta</label>
+              <input type="text" id="cardNumber" placeholder="4242 4242 4242 4242" maxlength="19" oninput="formatCard(this)" />
+            </div>
+            <div class="card-row">
+              <div class="form-group">
+                <label>Vencimiento</label>
+                <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" oninput="formatExpiry(this)" />
+              </div>
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" id="cardCvv" placeholder="123" maxlength="4" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Nombre en la Tarjeta</label>
+              <input type="text" id="cardName" placeholder="Como aparece en la tarjeta" />
+            </div>
+            <button class="btn-next" onclick="selectPayment('card')">Confirmar Pago<span class="material-symbols-outlined">lock</span></button>
+          </div>
+          <button class="btn-back" onclick="goToStep(3)">← Volver</button>
+        </div>
+
+        <!-- STEP 5: Success -->
+        <div class="wizard-step" id="wizStep5">
+          <div class="success-content">
+            <div class="success-icon">
+              <span class="material-symbols-outlined filled">celebration</span>
+            </div>
+            <h3 class="wizard-title">¡Bienvenida a Evara! 🎉</h3>
+            <p class="wizard-subtitle" id="successMsg">Tu cuenta está lista. Descarga la app y empieza tu transformación hoy.</p>
+            <div class="download-btns">
+              <a href="#" class="download-btn ios">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#fff" d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.52-3.23 0-1.44.62-2.2.44-3.06-.4C3.7 16.18 4.35 9.4 8.9 9.15c1.2.06 2.04.7 2.75.74.99-.2 1.94-.78 3-.83 1.28-.06 2.33.48 3 1.53-2.82 1.67-2.15 5.35.4 6.4-.5 1.3-1.15 2.58-2 3.29zM12.03 9.1c-.12-2.29 1.74-4.25 4.03-4.35.32 2.56-2.3 4.5-4.03 4.35z"/></svg>
+                App Store
+              </a>
+              <a href="#" class="download-btn android">
+                <span class="material-symbols-outlined">android</span>
+                Google Play
+              </a>
+            </div>
+            <button class="btn-back" style="margin-top:24px;" onclick="closeWizard()">Cerrar</button>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
   <script>
+    // ─── API Base URL ────────────────────────────────────────
+    const API = window.location.hostname === 'localhost' ? '' : '';
+
     // ─── Nav scroll effect ───────────────────────────────────
     window.addEventListener("scroll", () => {
       document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
@@ -722,18 +1032,186 @@
       if (e.target === e.currentTarget) closeLogin();
     });
 
-    // ─── Scroll to register ─────────────────────────────────
-    function scrollToRegister() {
-      document.getElementById("register").scrollIntoView({ behavior: "smooth" });
+    // Login Form Submit
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("loginBtn");
+      const errEl = document.getElementById("loginError");
+      errEl.classList.remove("visible"); errEl.textContent = "";
+      btn.textContent = "Ingresando...";
+      btn.disabled = true;
+      try {
+        const res = await fetch(API + "/api/login", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) { errEl.textContent = data.error; errEl.classList.add("visible"); return; }
+        localStorage.setItem("evara_token", data.token);
+        localStorage.setItem("evara_user", JSON.stringify(data.user));
+        closeLogin();
+        alert(`¡Bienvenida de vuelta, ${data.user.name}! 🧡`);
+      } catch (err) {
+        errEl.textContent = "Error de conexión. Intenta de nuevo."; errEl.classList.add("visible");
+      } finally {
+        btn.textContent = "Iniciar Sesión"; btn.disabled = false;
+      }
+    });
+
+    // ─── Registration Wizard ─────────────────────────────────
+    const wizState = { step: 1, goal: null, plan: null, payment: null };
+
+    function openWizard() {
+      wizState.step = 1; wizState.goal = null; wizState.plan = null; wizState.payment = null;
+      updateWizardUI();
+      document.getElementById("wizardOverlay").classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+    function closeWizard() {
+      document.getElementById("wizardOverlay").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+    document.getElementById("wizardOverlay").addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) closeWizard();
+    });
+
+    function scrollToRegister() { openWizard(); }
+
+    function goToStep(n) {
+      wizState.step = n;
+      updateWizardUI();
+    }
+
+    function updateWizardUI() {
+      // Update progress dots
+      document.querySelectorAll(".wizard-progress-dot").forEach((dot, i) => {
+        dot.classList.remove("active", "done");
+        if (i + 1 === wizState.step) dot.classList.add("active");
+        else if (i + 1 < wizState.step) dot.classList.add("done");
+      });
+      // Show active step
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById("wizStep" + i);
+        if (el) { el.classList.toggle("active", i === wizState.step); }
+      }
+    }
+
+    // Goal Selection
+    function selectGoal(card) {
+      document.querySelectorAll(".goal-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      wizState.goal = card.dataset.goal;
+      document.getElementById("btnStep1").disabled = false;
+    }
+
+    // Plan Selection
+    function selectPlan(card) {
+      document.querySelectorAll(".plan-card").forEach(c => c.classList.remove("selected"));
+      card.classList.add("selected");
+      wizState.plan = card.dataset.plan;
+      document.getElementById("btnStep3").disabled = false;
+    }
+
+    // Registration Submit
+    async function submitRegistration() {
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const errEl = document.getElementById("regError");
+      errEl.classList.remove("visible"); errEl.textContent = "";
+
+      if (!name || !email || !password) {
+        errEl.textContent = "Completa todos los campos."; errEl.classList.add("visible"); return;
+      }
+      if (password.length < 6) {
+        errEl.textContent = "La contraseña debe tener al menos 6 caracteres."; errEl.classList.add("visible"); return;
+      }
+
+      const btn = event.target;
+      btn.innerHTML = 'Creando cuenta...<span class="material-symbols-outlined">hourglass_top</span>';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(API + "/api/register", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password, fitness_goal: wizState.goal }),
+        });
+        const data = await res.json();
+        if (!res.ok) { errEl.textContent = data.error; errEl.classList.add("visible"); return; }
+        localStorage.setItem("evara_token", data.token);
+        localStorage.setItem("evara_user", JSON.stringify(data.user));
+        goToStep(3);
+      } catch (err) {
+        errEl.textContent = "Error de conexión. Intenta de nuevo."; errEl.classList.add("visible");
+      } finally {
+        btn.innerHTML = 'Crear Cuenta<span class="material-symbols-outlined">arrow_forward</span>';
+        btn.disabled = false;
+      }
+    }
+
+    // Payment
+    function toggleCardForm() {
+      document.getElementById("cardForm").classList.toggle("active");
+    }
+    function formatCard(input) {
+      let v = input.value.replace(/\D/g, "").substring(0, 16);
+      input.value = v.replace(/(\d{4})(?=\d)/g, "$1 ");
+    }
+    function formatExpiry(input) {
+      let v = input.value.replace(/\D/g, "").substring(0, 4);
+      if (v.length >= 3) v = v.substring(0, 2) + "/" + v.substring(2);
+      input.value = v;
+    }
+    function selectPayment(method) {
+      wizState.payment = method;
+      // Update user plan in the stored data
+      const user = JSON.parse(localStorage.getItem("evara_user") || "{}");
+      user.plan = "premium";
+      user.payment_method = method;
+      localStorage.setItem("evara_user", JSON.stringify(user));
+      const methodNames = { apple_pay: "Apple Pay", paypal: "PayPal", card: "Tarjeta" };
+      document.getElementById("successMsg").innerHTML =
+        `Plan Premium activado con ${methodNames[method]}.<br>Descarga la app y empieza tu transformación.`;
+      goToStep(5);
+      fireConfetti();
+    }
+
+    // Confetti
+    function fireConfetti() {
+      const colors = ["#865043", "#f4af9e", "#ffdad2", "#fcb6a5", "#734034", "#4CAF50", "#FFB300"];
+      for (let i = 0; i < 60; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+        piece.style.width = (Math.random() * 8 + 5) + "px";
+        piece.style.height = (Math.random() * 8 + 5) + "px";
+        piece.style.animationDelay = Math.random() * 1.5 + "s";
+        piece.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }
+    }
+
+    // Free plan → skip payment
+    const origGoToStep = goToStep;
+    // Handle step 5 for free plan
+    function handleFreeSuccess() {
+      document.getElementById("successMsg").innerHTML =
+        "Plan Free activado.<br>Descarga la app y empieza tu transformación.";
+      goToStep(5);
+      fireConfetti();
     }
 
     // ─── Intersection Observer for animations ───────────────
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
+          if (entry.isIntersecting) entry.target.classList.add("visible");
         });
       },
       { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }

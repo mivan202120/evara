@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara — Mi Cuenta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--primary-fixed-dim:#fcb6a5;--on-primary:#fff;--on-primary-container:#734034;--on-primary-fixed:#351007;--secondary:#695b57;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300;--error:#F44336}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--surface-container-lowest);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary);letter-spacing:-1px;margin-bottom:40px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;font-weight:600;font-size:14px;color:var(--on-surface-variant);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:var(--surface-container);color:var(--on-surface)}.sidebar-link.active{background:var(--primary-fixed);color:var(--on-primary-fixed);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:22px}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:16px 12px;margin-top:auto;border-top:1px solid var(--surface-container-high)}
+    .sidebar-avatar{width:40px;height:40px;border-radius:12px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Plus Jakarta Sans';font-weight:800;font-size:16px;color:var(--primary)}
+    .sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+    .sidebar-user-name{font-weight:700;font-size:14px}.sidebar-user-plan{font-size:11px;color:var(--outline);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+    .main-content{flex:1;margin-left:260px;padding:32px 40px;max-width:900px}
+    @media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0;padding:20px}}
+    .page-header{margin-bottom:28px}.page-header h1{font-size:28px;font-weight:800;letter-spacing:-1px}.page-header p{font-size:14px;color:var(--on-surface-variant);margin-top:4px}
+
+    /* Profile Card */
+    .profile-card{background:var(--surface-container-lowest);border-radius:22px;padding:28px;display:flex;align-items:center;gap:24px;margin-bottom:28px;position:relative}
+    .profile-avatar-wrap{position:relative}
+    .profile-avatar{width:80px;height:80px;border-radius:20px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:32px;color:var(--primary);overflow:hidden}
+    .profile-avatar img{width:100%;height:100%;object-fit:cover}
+    .profile-avatar-edit{position:absolute;bottom:-4px;right:-4px;width:28px;height:28px;border-radius:8px;background:var(--primary);color:#fff;border:2px solid var(--surface-container-lowest);display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .profile-avatar-edit .material-symbols-outlined{font-size:14px}
+    .profile-info{flex:1}.profile-info h2{font-size:20px;font-weight:800;margin-bottom:2px}
+    .profile-info .pi-email{font-size:13px;color:var(--outline);margin-bottom:8px}
+    .profile-info .pi-joined{font-size:11px;color:var(--outline);display:flex;align-items:center;gap:4px}
+    .profile-info .pi-joined .material-symbols-outlined{font-size:14px}
+    .profile-edit-btn{padding:10px 20px;border-radius:12px;border:2px solid var(--outline-variant);background:none;font-weight:700;font-size:13px;cursor:pointer;font-family:'Plus Jakarta Sans';color:var(--on-surface-variant);transition:all .2s}
+    .profile-edit-btn:hover{border-color:var(--primary);color:var(--primary)}
+
+    /* Section */
+    .section{background:var(--surface-container-lowest);border-radius:20px;padding:24px;margin-bottom:20px}
+    .section-header{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--surface-container-high)}
+    .section-header .sh-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .sh-icon.membership{background:linear-gradient(135deg,#FFB300,#FF6F00)}.sh-icon.membership .material-symbols-outlined{color:#fff}
+    .sh-icon.profile{background:var(--primary-fixed)}.sh-icon.profile .material-symbols-outlined{color:var(--primary)}
+    .sh-icon.notif{background:#e3f2fd}.sh-icon.notif .material-symbols-outlined{color:#1976D2}
+    .sh-icon.connect{background:#e8f5e9}.sh-icon.connect .material-symbols-outlined{color:var(--success)}
+    .sh-icon.security{background:#fce4ec}.sh-icon.security .material-symbols-outlined{color:var(--error)}
+    .sh-icon.support{background:var(--surface-container)}.sh-icon.support .material-symbols-outlined{color:var(--on-surface-variant)}
+    .section-header h3{font-size:16px;font-weight:800;letter-spacing:-.3px}
+
+    /* Membership */
+    .plan-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+    @media(max-width:600px){.plan-cards{grid-template-columns:1fr}}
+    .plan-card{border:2px solid var(--surface-container-high);border-radius:16px;padding:20px;text-align:center;transition:all .3s;cursor:pointer;position:relative}
+    .plan-card:hover{border-color:var(--primary-container);transform:translateY(-2px)}
+    .plan-card.active-plan{border-color:var(--primary);background:var(--primary-fixed)}
+    .plan-card .pc-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);padding:3px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+    .pc-badge.current{background:var(--primary);color:#fff}.pc-badge.popular{background:linear-gradient(135deg,#FFB300,#FF6F00);color:#fff}
+    .plan-card .pc-name{font-family:'Plus Jakarta Sans';font-weight:800;font-size:18px;margin-bottom:4px;margin-top:8px}
+    .plan-card .pc-price{font-size:28px;font-weight:800;font-family:'Plus Jakarta Sans';color:var(--primary);margin-bottom:2px}
+    .plan-card .pc-price span{font-size:13px;font-weight:600;color:var(--outline)}
+    .plan-card .pc-period{font-size:11px;color:var(--outline);margin-bottom:12px}
+    .plan-card .pc-features{text-align:left;display:flex;flex-direction:column;gap:6px}
+    .plan-card .pc-feat{font-size:12px;display:flex;align-items:center;gap:6px;color:var(--on-surface-variant)}.pc-feat .material-symbols-outlined{font-size:16px;color:var(--success)}
+    .plan-card .pc-btn{width:100%;padding:12px;border-radius:10px;border:none;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;margin-top:14px}
+    .plan-card.active-plan .pc-btn{background:var(--surface-container);color:var(--on-surface-variant)}
+    .plan-card:not(.active-plan) .pc-btn{background:var(--primary);color:var(--on-primary)}
+    .plan-card:not(.active-plan) .pc-btn:hover{box-shadow:0 6px 16px rgba(134,80,67,.2)}
+    .billing-info{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface-container-low);border-radius:12px;font-size:13px;color:var(--on-surface-variant)}
+    .billing-info .material-symbols-outlined{font-size:18px;color:var(--outline)}
+
+    /* Form Rows */
+    .form-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--surface-container-high)}
+    .form-row:last-child{border:none}
+    .fr-left{display:flex;flex-direction:column;gap:2px}.fr-left .fr-label{font-size:14px;font-weight:600}.fr-left .fr-desc{font-size:12px;color:var(--outline)}
+    .fr-right{display:flex;align-items:center;gap:8px}
+    .fr-value{font-size:13px;color:var(--on-surface-variant);font-weight:500}
+    .fr-btn{padding:8px 16px;border-radius:10px;border:2px solid var(--outline-variant);background:none;font-size:12px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans';color:var(--on-surface-variant);transition:all .2s}
+    .fr-btn:hover{border-color:var(--primary);color:var(--primary)}
+    /* Toggle */
+    .toggle{width:44px;height:24px;border-radius:999px;background:var(--outline-variant);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+    .toggle.on{background:var(--primary)}.toggle .toggle-dot{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 4px rgba(0,0,0,.1)}.toggle.on .toggle-dot{left:22px}
+    /* Connected Accounts */
+    .connect-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--surface-container-high)}
+    .connect-item:last-child{border:none}
+    .ci-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .ci-icon.google{background:#fff;border:1px solid #ddd}.ci-icon.instagram{background:linear-gradient(135deg,#833AB4,#FD1D1D,#F77737)}
+    .ci-icon svg{width:20px;height:20px}
+    .ci-info{flex:1}.ci-info .ci-name{font-size:14px;font-weight:700}.ci-info .ci-status{font-size:11px;color:var(--outline)}
+    .ci-btn{padding:8px 16px;border-radius:10px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans';transition:all .2s}
+    .ci-btn.connected{background:var(--surface-container);color:var(--on-surface-variant)}.ci-btn.connected:hover{background:#fce4ec;color:var(--error)}
+    .ci-btn.connect{background:var(--primary-fixed);color:var(--on-primary-fixed)}.ci-btn.connect:hover{background:var(--primary);color:var(--on-primary)}
+    /* Danger Zone */
+    .danger-zone{margin-top:32px;padding:20px;border:2px solid #FFCDD2;border-radius:16px;background:#FFF5F5}
+    .danger-zone h4{font-size:14px;font-weight:800;color:var(--error);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+    .danger-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+    .danger-row .dr-text{font-size:13px;color:var(--on-surface-variant)}.danger-row .dr-btn{padding:8px 16px;border-radius:10px;border:2px solid var(--error);background:none;color:var(--error);font-weight:700;font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans';transition:all .2s}
+    .danger-row .dr-btn:hover{background:var(--error);color:#fff}
+    /* Mobile */
+    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--surface-container-lowest);padding:8px 16px 24px;box-shadow:0 -4px 24px rgba(134,80,67,.06)}
+    .mobile-nav-inner{display:flex;justify-content:space-around}
+    .mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--outline);text-decoration:none;padding:6px 12px;border-radius:12px;transition:all .2s}
+    .mobile-nav-item.active{color:var(--primary)}.mobile-nav-item .material-symbols-outlined{font-size:24px}
+    @media(max-width:768px){.mobile-nav{display:block}.main-content{padding-bottom:100px}}
+    .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards}@keyframes fadeIn{to{opacity:1;transform:none}}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}
+    /* Edit Modal */
+    .modal-overlay{position:fixed;inset:0;z-index:2000;background:rgba(32,26,25,.85);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.active{display:flex}
+    .modal-box{width:100%;max-width:440px;background:var(--surface-container-lowest);border-radius:24px;padding:32px;animation:modalIn .4s ease}
+    @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+    .modal-box h3{font-size:20px;font-weight:800;margin-bottom:20px}
+    .modal-field{margin-bottom:16px}.modal-field label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:block;color:var(--on-surface-variant)}
+    .modal-field input,.modal-field select{width:100%;padding:12px 16px;border:2px solid var(--outline-variant);border-radius:12px;font-size:14px;font-family:'Plus Jakarta Sans';font-weight:600;background:var(--surface-container-low);outline:none;transition:border .2s}
+    .modal-field input:focus,.modal-field select:focus{border-color:var(--primary)}
+    .modal-actions{display:flex;gap:10px;margin-top:20px}
+    .modal-actions button{flex:1;padding:14px;border-radius:12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;border:none}
+    .btn-cancel{background:var(--surface-container);color:var(--on-surface-variant)}.btn-save{background:var(--primary);color:var(--on-primary)}.btn-save:hover{box-shadow:0 6px 16px rgba(134,80,67,.2)}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/home" class="sidebar-logo">Evara</a>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+      <a class="sidebar-link" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link" href="/programas"><span class="material-symbols-outlined">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="/progreso"><span class="material-symbols-outlined">insights</span>Mi Progreso</a>
+      <a class="sidebar-link" href="/comunidad"><span class="material-symbols-outlined">group</span>Comunidad</a>
+      <a class="sidebar-link" href="/coach"><span class="material-symbols-outlined">auto_awesome</span>Coach IA</a>
+      <a class="sidebar-link" href="/retos"><span class="material-symbols-outlined">emoji_events</span>Retos</a>
+    </nav>
+    <div class="sidebar-user" style="cursor:pointer;">
+      <div class="sidebar-avatar" id="sidebarAvatar">E</div>
+      <div><div class="sidebar-user-name" id="sidebarName">Curadora</div><div class="sidebar-user-plan" id="sidebarPlan">Free</div></div>
+      <span class="material-symbols-outlined" style="color:var(--outline);font-size:18px;">settings</span>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header fade-in"><h1>Mi Cuenta ⚙️</h1><p>Administra tu perfil, membresía y preferencias</p></div>
+
+    <!-- Profile Card -->
+    <div class="profile-card fade-in delay-1">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatar">E</div>
+        <div class="profile-avatar-edit" onclick="document.getElementById('avatarInput').click()"><span class="material-symbols-outlined">edit</span></div>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="changeAvatar(event)" />
+      </div>
+      <div class="profile-info">
+        <h2 id="profileName">Curadora</h2>
+        <div class="pi-email" id="profileEmail">usuario@evara.com</div>
+        <div class="pi-joined"><span class="material-symbols-outlined">calendar_today</span>Miembro desde <span id="profileJoined">Marzo 2026</span></div>
+      </div>
+      <button class="profile-edit-btn" onclick="openEditModal()">Editar Perfil</button>
+    </div>
+
+    <!-- Membership -->
+    <div class="section fade-in delay-1">
+      <div class="section-header"><div class="sh-icon membership"><span class="material-symbols-outlined filled">workspace_premium</span></div><h3>Membresía</h3></div>
+      <div class="plan-cards">
+        <div class="plan-card" id="planFree">
+          <div class="pc-name">Free</div>
+          <div class="pc-price">$0<span>/mes</span></div>
+          <div class="pc-period">Siempre gratis</div>
+          <div class="pc-features">
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>3 entrenamientos/semana</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Coach IA básico</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Comunidad</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>1 programa gratis</div>
+          </div>
+          <button class="pc-btn" id="btnFree">Plan Actual</button>
+        </div>
+        <div class="plan-card" id="planPremium">
+          <div class="pc-badge popular">Más Popular</div>
+          <div class="pc-name">Premium</div>
+          <div class="pc-price">$199<span>/mes</span></div>
+          <div class="pc-period">Facturación mensual</div>
+          <div class="pc-features">
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Entrenamientos ilimitados</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Todos los programas</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Coach IA avanzado</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Plan nutricional</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Sin anuncios</div>
+            <div class="pc-feat"><span class="material-symbols-outlined filled">check_circle</span>Contenido exclusivo</div>
+          </div>
+          <button class="pc-btn" id="btnPremium" onclick="upgradePlan()">Subir a Premium</button>
+        </div>
+      </div>
+      <div class="billing-info"><span class="material-symbols-outlined">info</span>Tu próximo ciclo de facturación: <strong style="margin-left:4px;" id="nextBilling">N/A — Plan gratuito</strong></div>
+    </div>
+
+    <!-- Personal Info -->
+    <div class="section fade-in delay-2">
+      <div class="section-header"><div class="sh-icon profile"><span class="material-symbols-outlined filled">person</span></div><h3>Información Personal</h3></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Nombre completo</span><span class="fr-desc" id="infoName">Curadora</span></div><button class="fr-btn" onclick="openEditModal()">Editar</button></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Email</span><span class="fr-desc" id="infoEmail">usuario@evara.com</span></div><button class="fr-btn" onclick="openEditModal()">Editar</button></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Objetivo fitness</span><span class="fr-desc" id="infoGoal">Crecer glúteos</span></div><button class="fr-btn" onclick="openEditModal()">Cambiar</button></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Nivel de experiencia</span><span class="fr-desc" id="infoLevel">Principiante</span></div><button class="fr-btn" onclick="openEditModal()">Cambiar</button></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Edad</span><span class="fr-desc" id="infoAge">—</span></div><button class="fr-btn" onclick="openEditModal()">Editar</button></div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="section fade-in delay-2">
+      <div class="section-header"><div class="sh-icon notif"><span class="material-symbols-outlined filled">notifications</span></div><h3>Notificaciones</h3></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Recordatorio de entrenamiento</span><span class="fr-desc">Notificación diaria a tu hora preferida</span></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Tips de Eva (Coach IA)</span><span class="fr-desc">Recibe tips y motivación personalizada</span></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Actividad de la comunidad</span><span class="fr-desc">Likes, comentarios y nuevos seguidores</span></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Nuevos retos</span><span class="fr-desc">Cuando se lanza un nuevo reto o programa</span></div><div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Email marketing</span><span class="fr-desc">Ofertas, novedades y contenido exclusivo</span></div><div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-dot"></div></div></div>
+    </div>
+
+    <!-- Connected Accounts -->
+    <div class="section fade-in delay-3">
+      <div class="section-header"><div class="sh-icon connect"><span class="material-symbols-outlined filled">link</span></div><h3>Cuentas Conectadas</h3></div>
+      <div class="connect-item">
+        <div class="ci-icon google"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg></div>
+        <div class="ci-info"><div class="ci-name">Google</div><div class="ci-status" id="googleStatus">No conectada</div></div>
+        <button class="ci-btn connect" id="googleBtn" onclick="toggleConnect('google')">Conectar</button>
+      </div>
+      <div class="connect-item">
+        <div class="ci-icon instagram"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></div>
+        <div class="ci-info"><div class="ci-name">Instagram</div><div class="ci-status" id="igStatus">No conectada</div></div>
+        <button class="ci-btn connect" id="igBtn" onclick="toggleConnect('instagram')">Conectar</button>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="section fade-in delay-3">
+      <div class="section-header"><div class="sh-icon security"><span class="material-symbols-outlined filled">shield</span></div><h3>Seguridad</h3></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Cambiar contraseña</span><span class="fr-desc">Última actualización: nunca</span></div><button class="fr-btn" onclick="alert('Funcionalidad próximamente disponible')">Cambiar</button></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Sesiones activas</span><span class="fr-desc">1 sesión activa en este dispositivo</span></div><button class="fr-btn" onclick="alert('Otras sesiones cerradas')">Cerrar otras</button></div>
+    </div>
+
+    <!-- Support -->
+    <div class="section fade-in delay-4">
+      <div class="section-header"><div class="sh-icon support"><span class="material-symbols-outlined filled">help</span></div><h3>Soporte y Legal</h3></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Centro de ayuda</span><span class="fr-desc">Preguntas frecuentes y tutoriales</span></div><div class="fr-right"><span class="material-symbols-outlined" style="color:var(--outline);">chevron_right</span></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Contactar soporte</span><span class="fr-desc">soporte@evara.com</span></div><div class="fr-right"><span class="material-symbols-outlined" style="color:var(--outline);">chevron_right</span></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Términos y condiciones</span></div><div class="fr-right"><span class="material-symbols-outlined" style="color:var(--outline);">chevron_right</span></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Política de privacidad</span></div><div class="fr-right"><span class="material-symbols-outlined" style="color:var(--outline);">chevron_right</span></div></div>
+      <div class="form-row"><div class="fr-left"><span class="fr-label">Versión de la app</span><span class="fr-desc">Evara Web v1.0.0</span></div></div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone fade-in delay-4">
+      <h4><span class="material-symbols-outlined">warning</span>Zona de peligro</h4>
+      <div class="danger-row"><span class="dr-text">Cerrar sesión en todos los dispositivos</span><button class="dr-btn" onclick="logout()">Cerrar sesión</button></div>
+      <div class="danger-row"><span class="dr-text">Eliminar mi cuenta y todos mis datos permanentemente</span><button class="dr-btn" onclick="confirmDelete()">Eliminar cuenta</button></div>
+    </div>
+  </main>
+</div>
+
+<nav class="mobile-nav"><div class="mobile-nav-inner">
+  <a class="mobile-nav-item" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+  <a class="mobile-nav-item" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrena</a>
+  <a class="mobile-nav-item" href="/progreso"><span class="material-symbols-outlined">insights</span>Progreso</a>
+  <a class="mobile-nav-item" href="/comunidad"><span class="material-symbols-outlined">group</span>Social</a>
+  <a class="mobile-nav-item active" href="/cuenta"><span class="material-symbols-outlined filled">person</span>Perfil</a>
+</div></nav>
+
+<!-- Edit Profile Modal -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <h3>Editar Perfil</h3>
+    <div class="modal-field"><label>Nombre completo</label><input type="text" id="editName" /></div>
+    <div class="modal-field"><label>Email</label><input type="email" id="editEmail" /></div>
+    <div class="modal-field"><label>Objetivo fitness</label>
+      <select id="editGoal"><option value="grow_glutes">Crecer glúteos</option><option value="tone_body">Tonificar cuerpo</option><option value="full_sculpt">Transformación completa</option></select>
+    </div>
+    <div class="modal-field"><label>Nivel</label>
+      <select id="editLevel"><option value="beginner">Principiante</option><option value="intermediate">Intermedio</option><option value="advanced">Avanzado</option></select>
+    </div>
+    <div class="modal-field"><label>Edad</label><input type="number" id="editAge" placeholder="ej. 28" /></div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeEditModal()">Cancelar</button><button class="btn-save" onclick="saveProfile()">Guardar</button></div>
+  </div>
+</div>
+
+<script>
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+let user={name:'Curadora',email:'',plan:'free',fitness_goal:'grow_glutes',avatar_url:null,level:'beginner',age:null};
+try{user={...user,...JSON.parse(userStr)};}catch(e){}
+
+const GOAL_LABELS={grow_glutes:'Crecer glúteos',tone_body:'Tonificar cuerpo',full_sculpt:'Transformación completa'};
+const LEVEL_LABELS={beginner:'Principiante',intermediate:'Intermedio',advanced:'Avanzado'};
+
+function renderProfile(){
+  document.getElementById('sidebarName').textContent=user.name||'Curadora';
+  document.getElementById('sidebarPlan').textContent=(user.plan||'free').toUpperCase();
+  const sideAvatar=document.getElementById('sidebarAvatar');
+  const profAvatar=document.getElementById('profileAvatar');
+  if(user.avatar_url){sideAvatar.innerHTML=`<img src="${user.avatar_url}" alt="" />`;profAvatar.innerHTML=`<img src="${user.avatar_url}" alt="" />`;}
+  else{const ini=(user.name||'E')[0].toUpperCase();sideAvatar.textContent=ini;profAvatar.textContent=ini;}
+  document.getElementById('profileName').textContent=user.name||'Curadora';
+  document.getElementById('profileEmail').textContent=user.email||'—';
+  document.getElementById('infoName').textContent=user.name||'—';
+  document.getElementById('infoEmail').textContent=user.email||'—';
+  document.getElementById('infoGoal').textContent=GOAL_LABELS[user.fitness_goal]||'—';
+  document.getElementById('infoLevel').textContent=LEVEL_LABELS[user.level]||'Principiante';
+  document.getElementById('infoAge').textContent=user.age||'—';
+  // Plan
+  const isFree=(user.plan||'free')==='free';
+  document.getElementById('planFree').className='plan-card'+(isFree?' active-plan':'');
+  document.getElementById('planPremium').className='plan-card'+(!isFree?' active-plan':'');
+  document.getElementById('btnFree').textContent=isFree?'Plan Actual':'Cambiar a Free';
+  document.getElementById('btnPremium').textContent=!isFree?'Plan Actual':'Subir a Premium';
+  if(!isFree){document.getElementById('planFree').querySelector('.pc-badge')?.remove();
+    const b=document.getElementById('planPremium').querySelector('.pc-badge');if(b)b.className='pc-badge current';if(b)b.textContent='Activo';}
+  document.getElementById('nextBilling').textContent=isFree?'N/A — Plan gratuito':'18 de abril 2026 — $199 MXN';
+  // Connected
+  if(user.email&&user.email.includes('@gmail')){document.getElementById('googleStatus').textContent='Conectada — '+user.email;document.getElementById('googleBtn').className='ci-btn connected';document.getElementById('googleBtn').textContent='Desconectar';}
+  if(user.email&&user.email.includes('@instagram')){document.getElementById('igStatus').textContent='Conectada — '+user.name;document.getElementById('igBtn').className='ci-btn connected';document.getElementById('igBtn').textContent='Desconectar';}
+}
+
+function changeAvatar(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=function(ev){user.avatar_url=ev.target.result;saveUser();renderProfile();};r.readAsDataURL(f);
+}
+
+function openEditModal(){
+  document.getElementById('editName').value=user.name||'';
+  document.getElementById('editEmail').value=user.email||'';
+  document.getElementById('editGoal').value=user.fitness_goal||'grow_glutes';
+  document.getElementById('editLevel').value=user.level||'beginner';
+  document.getElementById('editAge').value=user.age||'';
+  document.getElementById('editModal').classList.add('active');
+}
+function closeEditModal(){document.getElementById('editModal').classList.remove('active');}
+document.getElementById('editModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
+
+function saveProfile(){
+  user.name=document.getElementById('editName').value.trim()||user.name;
+  user.email=document.getElementById('editEmail').value.trim()||user.email;
+  user.fitness_goal=document.getElementById('editGoal').value;
+  user.level=document.getElementById('editLevel').value;
+  const age=parseInt(document.getElementById('editAge').value);if(age)user.age=age;
+  saveUser();renderProfile();closeEditModal();
+}
+
+function saveUser(){localStorage.setItem('evara_user',JSON.stringify(user));}
+
+function upgradePlan(){
+  if((user.plan||'free')!=='free'){user.plan='free';}else{user.plan='premium';}
+  saveUser();renderProfile();
+}
+
+function toggleConnect(provider){
+  if(provider==='google')alert('Redirigiendo a Google Sign-In...');
+  else alert('Redirigiendo a Instagram OAuth...');
+}
+
+function logout(){localStorage.removeItem('evara_token');localStorage.removeItem('evara_user');window.location.href='/';}
+function confirmDelete(){if(confirm('¿Estás segura? Esta acción eliminará tu cuenta y todos tus datos permanentemente. No hay vuelta atrás.')){logout();}}
+
+renderProfile();
+</script>
+</body>
+</html>

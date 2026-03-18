@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara — Retos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--primary-fixed-dim:#fcb6a5;--on-primary:#fff;--on-primary-container:#734034;--on-primary-fixed:#351007;--secondary:#695b57;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--surface-container-lowest);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary);letter-spacing:-1px;margin-bottom:40px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;font-weight:600;font-size:14px;color:var(--on-surface-variant);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:var(--surface-container);color:var(--on-surface)}.sidebar-link.active{background:var(--primary-fixed);color:var(--on-primary-fixed);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:22px}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:16px 12px;margin-top:auto;border-top:1px solid var(--surface-container-high)}
+    .sidebar-avatar{width:40px;height:40px;border-radius:12px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Plus Jakarta Sans';font-weight:800;font-size:16px;color:var(--primary)}
+    .sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+    .sidebar-user-name{font-weight:700;font-size:14px}.sidebar-user-plan{font-size:11px;color:var(--outline);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+    .main-content{flex:1;margin-left:260px;padding:32px 40px;max-width:1100px}
+    @media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0;padding:20px}}
+    .page-header{margin-bottom:28px}.page-header h1{font-size:28px;font-weight:800;letter-spacing:-1px}.page-header p{font-size:14px;color:var(--on-surface-variant);margin-top:4px}
+
+    /* User Level */
+    .level-bar{background:var(--surface-container-lowest);border-radius:20px;padding:20px 24px;display:flex;align-items:center;gap:20px;margin-bottom:28px}
+    .level-badge{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary-container));display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+    .level-info{flex:1}.level-info .li-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+    .level-info .li-name{font-weight:800;font-size:16px}.level-info .li-xp{font-size:12px;font-weight:700;color:var(--primary)}
+    .level-info .li-bar{height:8px;background:var(--surface-container);border-radius:999px;overflow:hidden}.li-bar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-container));border-radius:999px;transition:width .6s}
+    .level-info .li-sub{font-size:11px;color:var(--outline);margin-top:4px}
+    .level-stats{display:flex;gap:24px}
+    .level-stat{text-align:center}.level-stat .ls-num{font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px}.level-stat .ls-label{font-size:10px;color:var(--outline);text-transform:uppercase;letter-spacing:.5px}
+
+    /* Daily Missions */
+    .section-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .section-row h3{font-size:18px;font-weight:800;letter-spacing:-.5px}
+    .section-row .badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--primary-fixed);color:var(--on-primary-fixed)}
+    .missions{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+    .mission{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--surface-container-lowest);border-radius:16px;transition:all .3s;cursor:pointer}
+    .mission:hover{transform:translateX(4px);box-shadow:0 4px 16px rgba(134,80,67,.04)}
+    .mission.done{opacity:.6}.mission.done .m-check{background:var(--success);border-color:var(--success)}.mission.done .m-check .material-symbols-outlined{opacity:1}
+    .m-check{width:28px;height:28px;border-radius:8px;border:2px solid var(--outline-variant);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+    .m-check .material-symbols-outlined{font-size:16px;color:#fff;opacity:0;transition:opacity .2s}
+    .m-info{flex:1}.m-info h4{font-size:14px;font-weight:700;margin-bottom:2px}.m-info p{font-size:12px;color:var(--outline)}
+    .m-reward{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:800;color:var(--warning);background:#FFF8E1;padding:4px 10px;border-radius:999px;flex-shrink:0}
+
+    /* Challenge Cards */
+    .challenges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:32px}
+    .ch-card{border-radius:22px;overflow:hidden;background:var(--surface-container-lowest);transition:all .3s;cursor:pointer}
+    .ch-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(134,80,67,.1)}
+    .ch-hero{height:160px;position:relative;overflow:hidden}.ch-hero img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.ch-card:hover .ch-hero img{transform:scale(1.05)}
+    .ch-hero .ch-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(32,26,25,.8) 0%,transparent 50%);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+    .ch-hero .ch-tag{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+    .ch-tag.active{background:var(--success);color:#fff}.ch-tag.upcoming{background:var(--warning);color:#fff}.ch-tag.ended{background:var(--outline);color:#fff}
+    .ch-hero h4{font-size:18px;font-weight:800;color:#fff}.ch-hero .ch-dates{font-size:11px;color:rgba(255,255,255,.6)}
+    .ch-body{padding:18px}
+    .ch-body .ch-desc{font-size:13px;color:var(--on-surface-variant);line-height:1.5;margin-bottom:14px}
+    .ch-body .ch-meta{display:flex;gap:14px;font-size:12px;color:var(--outline);margin-bottom:14px}
+    .ch-body .ch-meta .material-symbols-outlined{font-size:14px;margin-right:2px}
+    .ch-progress-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .ch-progress-bar{flex:1;height:6px;background:var(--surface-container);border-radius:999px;overflow:hidden}.ch-prog-fill{height:100%;background:var(--primary);border-radius:999px;transition:width .5s}
+    .ch-progress-pct{font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:var(--primary)}
+    .ch-avatars{display:flex;margin-bottom:14px}.ch-avatars img{width:28px;height:28px;border-radius:8px;border:2px solid var(--surface-container-lowest);margin-left:-6px;object-fit:cover}.ch-avatars img:first-child{margin-left:0}
+    .ch-avatars .ch-more{width:28px;height:28px;border-radius:8px;background:var(--surface-container);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--outline);margin-left:-6px}
+    .ch-join{width:100%;padding:12px;border-radius:12px;border:none;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;transition:all .2s}
+    .ch-join.primary{background:var(--primary);color:var(--on-primary)}.ch-join.primary:hover{box-shadow:0 6px 20px rgba(134,80,67,.2);transform:translateY(-1px)}
+    .ch-join.joined{background:var(--surface-container);color:var(--on-surface-variant)}.ch-join.joined:hover{background:var(--surface-container-high)}
+    .ch-join.upcoming-btn{background:var(--primary-fixed);color:var(--on-primary-fixed)}
+
+    /* Leaderboard */
+    .lb-container{background:var(--surface-container-lowest);border-radius:20px;padding:24px;margin-bottom:32px}
+    .lb-podium{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:24px;padding-top:20px}
+    .lb-podium-item{text-align:center;display:flex;flex-direction:column;align-items:center}
+    .lb-podium-item.first .lb-p-avatar{width:64px;height:64px;border:3px solid #FFD700;box-shadow:0 4px 16px rgba(255,215,0,.3)}
+    .lb-podium-item.second .lb-p-avatar{width:52px;height:52px;border:3px solid #C0C0C0}
+    .lb-podium-item.third .lb-p-avatar{width:52px;height:52px;border:3px solid #CD7F32}
+    .lb-p-crown{font-size:20px;margin-bottom:4px}
+    .lb-p-avatar{border-radius:14px;overflow:hidden;margin-bottom:8px}.lb-p-avatar img{width:100%;height:100%;object-fit:cover}
+    .lb-p-name{font-size:12px;font-weight:700;margin-bottom:2px}.lb-p-pts{font-size:11px;color:var(--primary);font-weight:800}
+    .lb-list{display:flex;flex-direction:column;gap:6px}
+    .lb-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;background:var(--surface-container-low);transition:all .2s}
+    .lb-row:hover{background:var(--surface-container)}.lb-row.me{background:var(--primary-fixed)}
+    .lb-rank{width:24px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:var(--outline);text-align:center}
+    .lb-row-avatar{width:32px;height:32px;border-radius:8px;overflow:hidden;flex-shrink:0}.lb-row-avatar img{width:100%;height:100%;object-fit:cover}
+    .lb-row-info{flex:1}.lb-row-info .lb-row-name{font-size:13px;font-weight:700}.lb-row-info .lb-row-streak{font-size:10px;color:var(--outline)}
+    .lb-row-pts{font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:var(--primary)}
+
+    /* Rewards Grid */
+    .rewards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:32px}
+    .reward{background:var(--surface-container-lowest);border-radius:16px;padding:18px 12px;text-align:center;transition:all .3s;cursor:pointer}
+    .reward:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(134,80,67,.06)}
+    .reward.locked{opacity:.35;filter:grayscale(.8)}
+    .reward .rw-emoji{font-size:36px;display:block;margin-bottom:8px}
+    .reward .rw-name{font-size:12px;font-weight:700;margin-bottom:2px}.reward .rw-desc{font-size:10px;color:var(--outline);line-height:1.4}
+    .reward .rw-xp{font-size:10px;font-weight:800;color:var(--warning);margin-top:6px}
+
+    /* Mobile */
+    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--surface-container-lowest);padding:8px 16px 24px;box-shadow:0 -4px 24px rgba(134,80,67,.06)}
+    .mobile-nav-inner{display:flex;justify-content:space-around}
+    .mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--outline);text-decoration:none;padding:6px 12px;border-radius:12px;transition:all .2s}
+    .mobile-nav-item.active{color:var(--primary)}.mobile-nav-item .material-symbols-outlined{font-size:24px}
+    @media(max-width:768px){.mobile-nav{display:block}.main-content{padding-bottom:100px}}
+    .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards}@keyframes fadeIn{to{opacity:1;transform:none}}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/home" class="sidebar-logo">Evara</a>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+      <a class="sidebar-link" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link" href="/programas"><span class="material-symbols-outlined">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="/progreso"><span class="material-symbols-outlined">insights</span>Mi Progreso</a>
+      <a class="sidebar-link" href="/comunidad"><span class="material-symbols-outlined">group</span>Comunidad</a>
+      <a class="sidebar-link" href="/coach"><span class="material-symbols-outlined">auto_awesome</span>Coach IA</a>
+      <a class="sidebar-link active" href="/retos"><span class="material-symbols-outlined filled">emoji_events</span>Retos</a>
+    </nav>
+    <div class="sidebar-user"><div class="sidebar-avatar" id="sidebarAvatar">E</div><div><div class="sidebar-user-name" id="sidebarName">Curadora</div><div class="sidebar-user-plan" id="sidebarPlan">Free</div></div></div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header fade-in"><h1>Retos 🏆</h1><p>Compite, supérate y gana recompensas — cada logro suma XP</p></div>
+
+    <!-- Level Bar -->
+    <div class="level-bar fade-in delay-1">
+      <div class="level-badge">🔥</div>
+      <div class="level-info">
+        <div class="li-top"><span class="li-name" id="levelName">Nivel 3 — Guerrera</span><span class="li-xp" id="levelXP">720/1000 XP</span></div>
+        <div class="li-bar"><div class="li-bar-fill" id="levelFill" style="width:72%"></div></div>
+        <div class="li-sub">280 XP para subir a Nivel 4 — Gladiadora</div>
+      </div>
+      <div class="level-stats">
+        <div class="level-stat"><div class="ls-num" id="totalXP">720</div><div class="ls-label">XP Total</div></div>
+        <div class="level-stat"><div class="ls-num" id="totalBadges">5</div><div class="ls-label">Medallas</div></div>
+      </div>
+    </div>
+
+    <!-- Daily Missions -->
+    <div class="section-row fade-in delay-1"><h3>Misiones Diarias</h3><span class="badge">Renueva en 8h</span></div>
+    <div class="missions fade-in delay-2" id="missions"></div>
+
+    <!-- Active Challenges -->
+    <div class="section-row fade-in delay-2"><h3>Retos Activos</h3></div>
+    <div class="challenges-grid fade-in delay-2" id="challengesGrid"></div>
+
+    <!-- Leaderboard -->
+    <div class="section-row fade-in delay-3"><h3>Tabla de Líderes 👑</h3></div>
+    <div class="lb-container fade-in delay-3" id="leaderboard"></div>
+
+    <!-- Rewards & Badges -->
+    <div class="section-row fade-in delay-4"><h3>Recompensas & Medallas</h3></div>
+    <div class="rewards-grid fade-in delay-4" id="rewardsGrid"></div>
+  </main>
+</div>
+
+<nav class="mobile-nav"><div class="mobile-nav-inner">
+  <a class="mobile-nav-item" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+  <a class="mobile-nav-item" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrena</a>
+  <a class="mobile-nav-item" href="/progreso"><span class="material-symbols-outlined">insights</span>Progreso</a>
+  <a class="mobile-nav-item" href="/comunidad"><span class="material-symbols-outlined">group</span>Social</a>
+  <a class="mobile-nav-item active" href="/retos"><span class="material-symbols-outlined filled">emoji_events</span>Retos</a>
+</div></nav>
+
+<script>
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+let currentUser={name:'Curadora',avatar_url:null};
+try{currentUser=JSON.parse(userStr);document.getElementById('sidebarName').textContent=currentUser.name||'Curadora';document.getElementById('sidebarPlan').textContent=(currentUser.plan||'free').toUpperCase();
+const a=document.getElementById('sidebarAvatar');if(currentUser.avatar_url)a.innerHTML=`<img src="${currentUser.avatar_url}" alt="" />`;else a.textContent=(currentUser.name||'E')[0].toUpperCase();}catch(e){}
+
+const AVATARS=['https://images.unsplash.com/photo-1594381898411-846e7d193883?w=80&h=80&fit=crop&crop=face','https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face','https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&crop=face','https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=80&h=80&fit=crop&crop=face','https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=80&h=80&fit=crop&crop=face','https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=face'];
+
+// Daily Missions
+const MISSIONS=[
+  {id:1,title:'Completa 1 entrenamiento',desc:'Cualquier sesión cuenta',xp:50,done:true},
+  {id:2,title:'Racha de agua: bebe 2L',desc:'Hidratación = rendimiento',xp:20,done:false},
+  {id:3,title:'Publica en la comunidad',desc:'Comparte tu progreso o motiva a alguien',xp:30,done:false},
+  {id:4,title:'Haz 100 sentadillas hoy',desc:'Pueden ser en sesiones separadas',xp:40,done:false},
+  {id:5,title:'Habla con Eva (Coach IA)',desc:'Pide una recomendación o tip',xp:15,done:true},
+];
+function renderMissions(){
+  const el=document.getElementById('missions');el.innerHTML='';
+  MISSIONS.forEach(m=>{
+    el.innerHTML+=`<div class="mission ${m.done?'done':''}" onclick="toggleMission(${m.id})"><div class="m-check"><span class="material-symbols-outlined filled">check</span></div><div class="m-info"><h4>${m.title}</h4><p>${m.desc}</p></div><div class="m-reward">⭐ ${m.xp} XP</div></div>`;
+  });
+}
+
+function toggleMission(id){
+  const m=MISSIONS.find(x=>x.id===id);if(m){m.done=!m.done;renderMissions();}
+}
+
+// Challenges
+const CHALLENGES=[
+  {id:1,title:'🍑 Reto 30 Días Booty',img:'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=300&fit=crop',tag:'active',dates:'1 Mar — 30 Mar 2026',desc:'El reto más popular de Evara. 30 días de ejercicios de glúteo con progresión diaria. ¡Transforma tu booty en un mes!',participants:1247,duration:'30 días',level:'Principiante',progress:40,joined:true,xp:500},
+  {id:2,title:'💪 Semana Warrior',img:'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=300&fit=crop',tag:'active',dates:'15 Mar — 22 Mar 2026',desc:'7 días sin faltar. Entrena todos los días de esta semana y demuestra que eres una guerrera. ¡Sin excusas!',participants:834,duration:'7 días',level:'Intermedio',progress:57,joined:true,xp:200},
+  {id:3,title:'🔥 1000 Hip Thrusts',img:'https://images.unsplash.com/photo-1550345332-09e3ac987658?w=600&h=300&fit=crop',tag:'active',dates:'10 Mar — 31 Mar 2026',desc:'Acumula 1000 hip thrusts durante el mes. Pueden ser en cualquier sesión. Cada rep cuenta.',participants:567,duration:'3 semanas',level:'Todos',progress:23,joined:false,xp:300},
+  {id:4,title:'🧘 Flexibility Challenge',img:'https://images.unsplash.com/photo-1518459031867-a89b944bffe4?w=600&h=300&fit=crop',tag:'upcoming',dates:'1 Abr — 14 Abr 2026',desc:'14 días de stretching y yoga para mejorar tu flexibilidad. Perfecto para complementar tu entrenamiento de fuerza.',participants:0,duration:'14 días',level:'Principiante',progress:0,joined:false,xp:150},
+  {id:5,title:'⚡ Speed Burn',img:'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=300&fit=crop',tag:'upcoming',dates:'7 Abr — 21 Abr 2026',desc:'HIIT intenso. 15 sesiones de alta intensidad en 2 semanas. Quema grasa y define músculo al máximo.',participants:0,duration:'14 días',level:'Avanzado',progress:0,joined:false,xp:350},
+  {id:6,title:'👑 Reto Reina Evara',img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=300&fit=crop',tag:'ended',dates:'1 Feb — 28 Feb 2026',desc:'El reto legendario de febrero. Solo las más dedicadas lo completaron. ¿Estuviste ahí?',participants:2103,duration:'28 días',level:'Todos',progress:100,joined:false,xp:1000},
+];
+
+function renderChallenges(){
+  const el=document.getElementById('challengesGrid');el.innerHTML='';
+  CHALLENGES.forEach(c=>{
+    const avHtml=AVATARS.slice(0,4).map(a=>`<img src="${a}" alt="" />`).join('')+`<div class="ch-more">+${c.participants}</div>`;
+    const progHtml=c.progress>0?`<div class="ch-progress-row"><div class="ch-progress-bar"><div class="ch-prog-fill" style="width:${c.progress}%"></div></div><span class="ch-progress-pct">${c.progress}%</span></div>`:'';
+    let btnHtml='';
+    if(c.tag==='active'&&c.joined)btnHtml=`<button class="ch-join joined" onclick="event.stopPropagation();unjoin(${c.id})">✓ Participando</button>`;
+    else if(c.tag==='active')btnHtml=`<button class="ch-join primary" onclick="event.stopPropagation();joinChallenge(${c.id})">Unirme al Reto · ${c.xp} XP</button>`;
+    else if(c.tag==='upcoming')btnHtml=`<button class="ch-join upcoming-btn">Próximamente</button>`;
+    else btnHtml=`<button class="ch-join joined">Finalizado</button>`;
+
+    el.innerHTML+=`<div class="ch-card"><div class="ch-hero"><img src="${c.img}" alt="" /><div class="ch-tag ${c.tag}">${c.tag==='active'?'Activo':c.tag==='upcoming'?'Próximo':'Finalizado'}</div><div class="ch-overlay"><h4>${c.title}</h4><div class="ch-dates">${c.dates}</div></div></div><div class="ch-body"><div class="ch-desc">${c.desc}</div><div class="ch-meta"><span><span class="material-symbols-outlined">group</span>${c.participants>0?c.participants+' participantes':'Aún sin participantes'}</span><span><span class="material-symbols-outlined">timer</span>${c.duration}</span><span><span class="material-symbols-outlined">signal_cellular_alt</span>${c.level}</span></div>${progHtml}<div class="ch-avatars">${c.participants>0?avHtml:''}</div>${btnHtml}</div></div>`;
+  });
+}
+
+function joinChallenge(id){const c=CHALLENGES.find(x=>x.id===id);if(c){c.joined=true;c.participants++;renderChallenges();}}
+function unjoin(id){const c=CHALLENGES.find(x=>x.id===id);if(c){c.joined=false;c.participants--;renderChallenges();}}
+
+// Leaderboard
+const LB_DATA=[
+  {name:'Sofía Ramírez',avatar:AVATARS[1],streak:28,pts:4280,me:false},
+  {name:'Laura Méndez',avatar:AVATARS[4],streak:21,pts:3650,me:false},
+  {name:'Daniela Ortiz',avatar:AVATARS[2],streak:18,pts:3120,me:false},
+  {name:currentUser.name||'Tú',avatar:currentUser.avatar_url||null,streak:3,pts:720,me:true},
+  {name:'María García',avatar:AVATARS[3],streak:15,pts:2890,me:false},
+  {name:'Karla Reyes',avatar:AVATARS[5],streak:12,pts:2340,me:false},
+  {name:'Camila Torres',avatar:AVATARS[0],streak:10,pts:1980,me:false},
+  {name:'Isabella Cruz',avatar:AVATARS[3],streak:8,pts:1520,me:false},
+].sort((a,b)=>b.pts-a.pts);
+
+function renderLeaderboard(){
+  const el=document.getElementById('leaderboard');el.innerHTML='';
+  const top3=LB_DATA.slice(0,3);
+  const order=[1,0,2];
+  let podiumHtml='<div class="lb-podium">';
+  order.forEach(i=>{
+    const p=top3[i];const cls=i===0?'first':i===1?'second':'third';
+    const crown=i===0?'👑':i===1?'🥈':'🥉';
+    const avHtml=p.avatar?`<img src="${p.avatar}" alt="" />`:`<div style="width:100%;height:100%;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:18px;color:var(--primary)">${(p.name||'E')[0]}</div>`;
+    podiumHtml+=`<div class="lb-podium-item ${cls}"><div class="lb-p-crown">${crown}</div><div class="lb-p-avatar">${avHtml}</div><div class="lb-p-name">${p.name.split(' ')[0]}</div><div class="lb-p-pts">${p.pts} XP</div></div>`;
+  });
+  podiumHtml+='</div>';
+
+  let listHtml='<div class="lb-list">';
+  LB_DATA.slice(3).forEach((p,i)=>{
+    const avHtml=p.avatar?`<img src="${p.avatar}" alt="" />`:`<div style="width:100%;height:100%;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:12px;color:var(--primary)">${(p.name||'E')[0]}</div>`;
+    listHtml+=`<div class="lb-row ${p.me?'me':''}"><div class="lb-rank">${i+4}</div><div class="lb-row-avatar">${avHtml}</div><div class="lb-row-info"><div class="lb-row-name">${p.name}${p.me?' (Tú)':''}</div><div class="lb-row-streak">🔥 ${p.streak} días</div></div><div class="lb-row-pts">${p.pts} XP</div></div>`;
+  });
+  listHtml+='</div>';
+  el.innerHTML=podiumHtml+listHtml;
+}
+
+// Rewards
+const REWARDS=[
+  {emoji:'🎯',name:'Primera Meta',desc:'Configuraste tu objetivo',xp:10,unlocked:true},
+  {emoji:'🏋️',name:'Primera Sesión',desc:'Primer entrenamiento',xp:25,unlocked:true},
+  {emoji:'🔥',name:'Racha de 3',desc:'3 días sin faltar',xp:50,unlocked:true},
+  {emoji:'📸',name:'Fotógrafa',desc:'Primera foto de progreso',xp:20,unlocked:true},
+  {emoji:'💬',name:'Social',desc:'Publicaste en comunidad',xp:15,unlocked:true},
+  {emoji:'⭐',name:'Racha de 7',desc:'7 días seguidos',xp:100,unlocked:false},
+  {emoji:'💎',name:'Racha de 14',desc:'2 semanas sin parar',xp:200,unlocked:false},
+  {emoji:'🏆',name:'Mes Dorado',desc:'30 días seguidos',xp:500,unlocked:false},
+  {emoji:'🍑',name:'+2cm Booty',desc:'Glúteo creció 2cm',xp:150,unlocked:false},
+  {emoji:'💪',name:'50 Sesiones',desc:'50 entrenamientos',xp:250,unlocked:false},
+  {emoji:'⚡',name:'Power Hour',desc:'60+ min en una sesión',xp:75,unlocked:false},
+  {emoji:'👑',name:'Reina Evara',desc:'Completar Reto 30 Días',xp:500,unlocked:false},
+  {emoji:'🦸',name:'Warrior',desc:'Completar Semana Warrior',xp:200,unlocked:false},
+  {emoji:'🎖️',name:'1K Club',desc:'1000 hip thrusts',xp:300,unlocked:false},
+  {emoji:'🌟',name:'Nivel 5',desc:'Alcanzar nivel 5',xp:100,unlocked:false},
+  {emoji:'🏅',name:'Top 10',desc:'Entrar al top 10 semanal',xp:150,unlocked:false},
+];
+
+function renderRewards(){
+  const el=document.getElementById('rewardsGrid');el.innerHTML='';
+  REWARDS.forEach(r=>{
+    el.innerHTML+=`<div class="reward ${r.unlocked?'':'locked'}"><span class="rw-emoji">${r.emoji}</span><div class="rw-name">${r.name}</div><div class="rw-desc">${r.desc}</div><div class="rw-xp">⭐ ${r.xp} XP</div></div>`;
+  });
+}
+
+renderMissions();renderChallenges();renderLeaderboard();renderRewards();
+</script>
+</body>
+</html>

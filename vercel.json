@@ -6,6 +6,7 @@
     { "source": "/entrenamientos", "destination": "/entrenamientos/index.html" },
     { "source": "/programas", "destination": "/programas/index.html" },
     { "source": "/progreso", "destination": "/progreso/index.html" },
+    { "source": "/comunidad", "destination": "/comunidad/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara — Comunidad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--primary-fixed-dim:#fcb6a5;--on-primary:#fff;--on-primary-container:#734034;--on-primary-fixed:#351007;--secondary:#695b57;--secondary-container:#f2ded9;--background:#fff8f6;--surface:#fff8f6;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--surface-container-lowest);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary);letter-spacing:-1px;margin-bottom:40px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;font-weight:600;font-size:14px;color:var(--on-surface-variant);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:var(--surface-container);color:var(--on-surface)}.sidebar-link.active{background:var(--primary-fixed);color:var(--on-primary-fixed);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:22px}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:16px 12px;margin-top:auto;border-top:1px solid var(--surface-container-high)}
+    .sidebar-avatar{width:40px;height:40px;border-radius:12px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Plus Jakarta Sans';font-weight:800;font-size:16px;color:var(--primary)}
+    .sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+    .sidebar-user-name{font-weight:700;font-size:14px}.sidebar-user-plan{font-size:11px;color:var(--outline);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+    .main-area{flex:1;margin-left:260px;display:flex;gap:24px;padding:32px 40px;max-width:1200px}
+    .feed-col{flex:1;max-width:640px}.side-col{width:300px;flex-shrink:0}
+    @media(max-width:1000px){.side-col{display:none}}
+    @media(max-width:768px){.sidebar{display:none}.main-area{margin-left:0;padding:20px;flex-direction:column}}
+    .page-header{margin-bottom:24px}.page-header h1{font-size:28px;font-weight:800;letter-spacing:-1px}.page-header p{font-size:14px;color:var(--on-surface-variant);margin-top:4px}
+    /* Compose */
+    .compose-box{background:var(--surface-container-lowest);border-radius:20px;padding:20px;margin-bottom:24px}
+    .compose-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+    .compose-avatar{width:40px;height:40px;border-radius:12px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;color:var(--primary);overflow:hidden;flex-shrink:0}
+    .compose-avatar img{width:100%;height:100%;object-fit:cover}
+    .compose-input{flex:1;padding:12px 16px;border:2px solid var(--surface-container-high);border-radius:14px;font-family:'Manrope',sans-serif;font-size:14px;resize:none;outline:none;background:var(--surface-container-low);transition:border .2s;min-height:44px}
+    .compose-input:focus{border-color:var(--primary)}
+    .compose-actions{display:flex;align-items:center;justify-content:space-between}
+    .compose-btns{display:flex;gap:4px}
+    .compose-btn{width:36px;height:36px;border-radius:10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;color:var(--on-surface-variant)}
+    .compose-btn:hover{background:var(--surface-container)}
+    .compose-btn .material-symbols-outlined{font-size:20px}
+    .compose-submit{padding:10px 24px;border-radius:12px;border:none;background:var(--primary);color:var(--on-primary);font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;transition:all .2s}
+    .compose-submit:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,80,67,.2)}
+    .compose-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+    /* Tabs */
+    .feed-tabs{display:flex;gap:6px;margin-bottom:20px}
+    .feed-tab{padding:8px 18px;border-radius:999px;font-weight:700;font-size:12px;border:none;background:var(--surface-container-lowest);color:var(--on-surface-variant);cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans'}
+    .feed-tab.active{background:var(--primary);color:var(--on-primary)}
+    .feed-tab:hover:not(.active){background:var(--surface-container)}
+    /* Post Card */
+    .post-card{background:var(--surface-container-lowest);border-radius:20px;margin-bottom:16px;overflow:hidden;transition:box-shadow .3s}
+    .post-card:hover{box-shadow:0 8px 24px rgba(134,80,67,.04)}
+    .post-header{display:flex;align-items:center;gap:12px;padding:18px 20px 12px}
+    .post-avatar{width:40px;height:40px;border-radius:12px;overflow:hidden;flex-shrink:0}
+    .post-avatar img{width:100%;height:100%;object-fit:cover}
+    .post-user-info{flex:1}.post-user-info .post-name{font-weight:700;font-size:14px}.post-user-info .post-meta{font-size:11px;color:var(--outline);display:flex;align-items:center;gap:6px}
+    .post-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+    .post-badge.coach{background:var(--primary);color:var(--on-primary)}.post-badge.premium{background:linear-gradient(135deg,#FFB300,#FF6F00);color:#fff}.post-badge.new{background:var(--success);color:#fff}
+    .post-more{width:32px;height:32px;border-radius:8px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--outline);transition:background .2s}
+    .post-more:hover{background:var(--surface-container)}
+    .post-body{padding:0 20px 14px}
+    .post-text{font-size:14px;line-height:1.7;margin-bottom:12px}
+    .post-text .hashtag{color:var(--primary);font-weight:700;cursor:pointer}
+    .post-image{border-radius:14px;overflow:hidden;margin-bottom:12px;max-height:400px}
+    .post-image img{width:100%;height:100%;object-fit:cover;display:block}
+    .post-stats{display:flex;gap:16px;font-size:12px;color:var(--outline);padding-bottom:4px}
+    .post-actions{display:flex;border-top:1px solid var(--surface-container-high);padding:4px 12px}
+    .post-action{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border:none;background:none;font-size:13px;font-weight:600;color:var(--on-surface-variant);cursor:pointer;border-radius:10px;transition:all .2s;font-family:'Manrope',sans-serif}
+    .post-action:hover{background:var(--surface-container)}.post-action.liked{color:var(--primary)}.post-action .material-symbols-outlined{font-size:20px}
+    /* Comments */
+    .comments-section{padding:0 20px 16px;display:none}
+    .comments-section.open{display:block}
+    .comment-item{display:flex;gap:10px;margin-bottom:12px}
+    .comment-avatar{width:28px;height:28px;border-radius:8px;overflow:hidden;flex-shrink:0}
+    .comment-avatar img{width:100%;height:100%;object-fit:cover}
+    .comment-bubble{background:var(--surface-container-low);border-radius:12px 12px 12px 4px;padding:10px 14px;flex:1}
+    .comment-bubble .cb-name{font-size:12px;font-weight:700;margin-bottom:2px}.comment-bubble .cb-text{font-size:13px;line-height:1.5}
+    .comment-bubble .cb-time{font-size:10px;color:var(--outline);margin-top:4px}
+    .comment-input-row{display:flex;gap:8px;margin-top:8px}
+    .comment-input-row input{flex:1;padding:10px 14px;border:2px solid var(--surface-container-high);border-radius:12px;font-size:13px;font-family:'Manrope',sans-serif;outline:none;background:var(--surface-container-low);transition:border .2s}
+    .comment-input-row input:focus{border-color:var(--primary)}
+    .comment-input-row button{padding:10px 16px;border-radius:10px;border:none;background:var(--primary-fixed);color:var(--on-primary-fixed);font-weight:700;font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans'}
+    /* Side Widgets */
+    .side-widget{background:var(--surface-container-lowest);border-radius:18px;padding:20px;margin-bottom:16px}
+    .side-widget h4{font-size:14px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    /* Trending */
+    .trend-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--surface-container-high);cursor:pointer;transition:all .2s}
+    .trend-item:last-child{border:none}.trend-item:hover{padding-left:4px}
+    .trend-item .trend-tag{font-weight:700;font-size:13px;color:var(--primary)}.trend-item .trend-count{font-size:11px;color:var(--outline)}
+    /* Leaderboard */
+    .lb-item{display:flex;align-items:center;gap:10px;padding:8px 0}
+    .lb-rank{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:11px;flex-shrink:0}
+    .lb-rank.gold{background:#FFF8E1;color:#F57F17}.lb-rank.silver{background:#ECEFF1;color:#546E7A}.lb-rank.bronze{background:#FBE9E7;color:#BF360C}.lb-rank.normal{background:var(--surface-container);color:var(--outline)}
+    .lb-avatar{width:28px;height:28px;border-radius:8px;overflow:hidden;flex-shrink:0}.lb-avatar img{width:100%;height:100%;object-fit:cover}
+    .lb-info{flex:1}.lb-info .lb-name{font-size:12px;font-weight:700}.lb-info .lb-streak{font-size:10px;color:var(--outline)}
+    .lb-pts{font-family:'Plus Jakarta Sans';font-weight:800;font-size:12px;color:var(--primary)}
+    /* Challenge Widget */
+    .challenge-card{background:var(--inverse-surface);color:var(--inverse-on-surface);border-radius:18px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden}
+    .challenge-card .ch-decor{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(134,80,67,.2);top:-20px;right:-20px}
+    .challenge-card h4{font-size:14px;font-weight:800;margin-bottom:8px;position:relative;z-index:2}
+    .challenge-card p{font-size:12px;color:rgba(250,238,235,.5);margin-bottom:12px;position:relative;z-index:2}
+    .challenge-card .ch-progress{display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+    .ch-bar{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}.ch-fill{height:100%;background:var(--primary-container);border-radius:999px}
+    .ch-pct{font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px}
+    .ch-participants{font-size:11px;color:rgba(250,238,235,.4);margin-top:8px;position:relative;z-index:2}
+    /* Suggested Users */
+    .suggest-item{display:flex;align-items:center;gap:10px;padding:8px 0}
+    .suggest-avatar{width:36px;height:36px;border-radius:10px;overflow:hidden;flex-shrink:0}.suggest-avatar img{width:100%;height:100%;object-fit:cover}
+    .suggest-info{flex:1}.suggest-info .suggest-name{font-size:12px;font-weight:700}.suggest-info .suggest-bio{font-size:10px;color:var(--outline)}
+    .suggest-follow{padding:6px 14px;border-radius:8px;border:2px solid var(--outline-variant);background:none;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans';color:var(--on-surface-variant)}
+    .suggest-follow:hover{border-color:var(--primary);color:var(--primary)}.suggest-follow.following{background:var(--primary-fixed);border-color:var(--primary-fixed);color:var(--on-primary-fixed)}
+    /* Mobile nav */
+    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--surface-container-lowest);padding:8px 16px 24px;box-shadow:0 -4px 24px rgba(134,80,67,.06)}
+    .mobile-nav-inner{display:flex;justify-content:space-around}
+    .mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--outline);text-decoration:none;padding:6px 12px;border-radius:12px;transition:all .2s}
+    .mobile-nav-item.active{color:var(--primary)}.mobile-nav-item .material-symbols-outlined{font-size:24px}
+    @media(max-width:768px){.mobile-nav{display:block}.feed-col{padding-bottom:100px}}
+    .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards}@keyframes fadeIn{to{opacity:1;transform:none}}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/home" class="sidebar-logo">Evara</a>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+      <a class="sidebar-link" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link" href="/programas"><span class="material-symbols-outlined">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="/progreso"><span class="material-symbols-outlined">insights</span>Mi Progreso</a>
+      <a class="sidebar-link active" href="/comunidad"><span class="material-symbols-outlined filled">group</span>Comunidad</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">auto_awesome</span>Coach IA</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">emoji_events</span>Retos</a>
+    </nav>
+    <div class="sidebar-user"><div class="sidebar-avatar" id="sidebarAvatar">E</div><div><div class="sidebar-user-name" id="sidebarName">Curadora</div><div class="sidebar-user-plan" id="sidebarPlan">Free</div></div></div>
+  </aside>
+
+  <div class="main-area">
+    <!-- FEED COLUMN -->
+    <div class="feed-col">
+      <div class="page-header fade-in"><h1>Comunidad 💬</h1><p>Comparte tu progreso, motiva y conecta con la tribu Evara</p></div>
+
+      <!-- Compose -->
+      <div class="compose-box fade-in delay-1">
+        <div class="compose-top">
+          <div class="compose-avatar" id="composeAvatar">E</div>
+          <textarea class="compose-input" id="composeText" placeholder="¿Qué lograste hoy? Comparte con la comunidad..." rows="2" oninput="toggleSubmit()"></textarea>
+        </div>
+        <div class="compose-actions">
+          <div class="compose-btns">
+            <button class="compose-btn" onclick="document.getElementById('postPhotoInput').click()" title="Agregar foto"><span class="material-symbols-outlined">add_photo_alternate</span></button>
+            <input type="file" id="postPhotoInput" accept="image/*" style="display:none" onchange="attachPhoto(event)" />
+            <button class="compose-btn" title="GIF"><span class="material-symbols-outlined">gif_box</span></button>
+            <button class="compose-btn" title="Emoji"><span class="material-symbols-outlined">sentiment_satisfied</span></button>
+          </div>
+          <button class="compose-submit" id="composeSubmit" disabled onclick="publishPost()">Publicar</button>
+        </div>
+        <div id="composePreview" style="display:none;margin-top:12px;border-radius:12px;overflow:hidden;max-height:200px;position:relative;">
+          <img id="previewImg" style="width:100%;object-fit:cover;display:block;max-height:200px;" />
+          <button onclick="removePreview()" style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:8px;border:none;background:rgba(0,0,0,.5);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined" style="font-size:16px;">close</span></button>
+        </div>
+      </div>
+
+      <!-- Feed Tabs -->
+      <div class="feed-tabs fade-in delay-1">
+        <button class="feed-tab active" onclick="setFeedTab('all',this)">Para Ti</button>
+        <button class="feed-tab" onclick="setFeedTab('following',this)">Siguiendo</button>
+        <button class="feed-tab" onclick="setFeedTab('trending',this)">Tendencia</button>
+        <button class="feed-tab" onclick="setFeedTab('transformations',this)">Transformaciones</button>
+      </div>
+
+      <!-- Feed -->
+      <div id="feedContainer" class="fade-in delay-2"></div>
+    </div>
+
+    <!-- SIDE COLUMN -->
+    <div class="side-col">
+      <!-- Active Challenge -->
+      <div class="challenge-card fade-in delay-1">
+        <div class="ch-decor"></div>
+        <h4>🍑 Reto: 30 Días Booty</h4>
+        <p>1,247 participantes activas</p>
+        <div class="ch-progress"><div class="ch-bar"><div class="ch-fill" style="width:40%"></div></div><span class="ch-pct">Día 12</span></div>
+        <div class="ch-participants">Únete al reto más popular de Evara</div>
+      </div>
+
+      <!-- Trending -->
+      <div class="side-widget fade-in delay-2">
+        <h4><span class="material-symbols-outlined filled" style="font-size:18px;color:var(--primary);">trending_up</span>Tendencias</h4>
+        <div id="trendingList"></div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="side-widget fade-in delay-2">
+        <h4><span class="material-symbols-outlined filled" style="font-size:18px;color:var(--warning);">emoji_events</span>Top de la Semana</h4>
+        <div id="leaderboard"></div>
+      </div>
+
+      <!-- Suggested -->
+      <div class="side-widget fade-in delay-3">
+        <h4><span class="material-symbols-outlined" style="font-size:18px;color:var(--primary);">person_add</span>Personas Sugeridas</h4>
+        <div id="suggestedList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="mobile-nav"><div class="mobile-nav-inner">
+  <a class="mobile-nav-item" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+  <a class="mobile-nav-item" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrena</a>
+  <a class="mobile-nav-item" href="/progreso"><span class="material-symbols-outlined">insights</span>Progreso</a>
+  <a class="mobile-nav-item active" href="/comunidad"><span class="material-symbols-outlined filled">group</span>Social</a>
+  <a class="mobile-nav-item" href="#"><span class="material-symbols-outlined">person</span>Perfil</a>
+</div></nav>
+
+<script>
+// Auth
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+let currentUser={name:'Curadora',avatar_url:null};
+try{currentUser=JSON.parse(userStr);document.getElementById('sidebarName').textContent=currentUser.name||'Curadora';document.getElementById('sidebarPlan').textContent=(currentUser.plan||'free').toUpperCase();
+const a=document.getElementById('sidebarAvatar'),ca=document.getElementById('composeAvatar');
+if(currentUser.avatar_url){a.innerHTML=`<img src="${currentUser.avatar_url}" alt="" />`;ca.innerHTML=`<img src="${currentUser.avatar_url}" alt="" />`;}
+else{const ini=(currentUser.name||'E')[0].toUpperCase();a.textContent=ini;ca.textContent=ini;}}catch(e){}
+
+// Data
+const AVATARS=['https://images.unsplash.com/photo-1594381898411-846e7d193883?w=100&h=100&fit=crop&crop=face','https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face','https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop&crop=face','https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&h=100&fit=crop&crop=face','https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=100&h=100&fit=crop&crop=face','https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop&crop=face'];
+const IMAGES=['https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=400&fit=crop','https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=400&fit=crop','https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=600&h=400&fit=crop','https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop'];
+
+const SEED_POSTS=[
+  {id:1,user:{name:'Valentina',avatar:AVATARS[0],badge:'coach'},time:'2h',text:'¡Chicas! Hoy grabamos la nueva rutina de glúteo medio que muchas pidieron 🍑🔥 Queda increíble. Se sube mañana al programa. ¿Quién la va a hacer? <span class="hashtag">#GlúteoMedio</span> <span class="hashtag">#EvaraCoach</span>',image:IMAGES[0],likes:234,comments:[{name:'María G.',avatar:AVATARS[1],text:'¡Valentina la mejor! 🙌 La quiero ya',time:'1h'},{name:'Ana López',avatar:AVATARS[2],text:'Justo lo que necesitaba, mis laterales no crecen 😩',time:'45min'}],liked:false},
+  {id:2,user:{name:'Sofía Ramírez',avatar:AVATARS[1],badge:'premium'},time:'4h',text:'Día 15 del reto 30 días y miren el cambio 😭🍑 No puedo creerlo. Valentina y Eva son las mejores coaches. <span class="hashtag">#Reto30Días</span> <span class="hashtag">#Transformación</span> <span class="hashtag">#EvararGirls</span>',image:IMAGES[1],likes:189,comments:[{name:'Valentina',avatar:AVATARS[0],text:'¡WOW Sofía! Esos resultados son INCREÍBLES 🔥 Sigue así reina 👑',time:'3h'}],liked:false},
+  {id:3,user:{name:'Daniela Ortiz',avatar:AVATARS[2]},time:'6h',text:'¿Alguien más siente que después de la sesión de hip thrust pesado no puede ni sentarse? 😂💀 Pero vale cada rep. <span class="hashtag">#HipThrust</span> <span class="hashtag">#BootypDay</span>',image:null,likes:87,comments:[],liked:false},
+  {id:4,user:{name:'Coach Eva IA',avatar:null,badge:'coach',isAI:true},time:'8h',text:'💡 Tip del día: ¿Sabían que activar los glúteos con ejercicios de aislamiento ANTES de hacer compuestos pesados puede aumentar la activación muscular hasta un 30%? Prueba hacer 2 sets de clamshells antes de tus hip thrusts. <span class="hashtag">#TipDeEva</span> <span class="hashtag">#Ciencia</span>',image:null,likes:312,comments:[{name:'Laura M.',avatar:AVATARS[3],text:'¡Esto cambió mis entrenamientos! Desde que lo hago siento mucho más el glúteo',time:'7h'},{name:'Karla R.',avatar:AVATARS[4],text:'Eva 🤖 siempre con los mejores tips 💎',time:'6h'}],liked:false},
+  {id:5,user:{name:'María García',avatar:AVATARS[3],badge:'new'},time:'12h',text:'¡Mi primer día en Evara completado! 🎉 La rutina de activación de glúteos me dejó temblando jaja. No sabía que mis glúteos estaban tan dormidos 😴 ¡Vamos por el día 2! <span class="hashtag">#DíaUno</span> <span class="hashtag">#NuevaYo</span>',image:IMAGES[2],likes:156,comments:[{name:'Valentina',avatar:AVATARS[0],text:'¡Bienvenida María! 🧡 Esa sensación significa que tus glúteos están despertando. ¡Sigue así!',time:'11h'}],liked:false},
+  {id:6,user:{name:'Laura Méndez',avatar:AVATARS[4]},time:'1d',text:'Semana 4 completada del Glúteo de Acero 💪 Mi hip thrust subió de 40kg a 65kg. Nunca pensé que podría levantar así. Gracias Evara 🧡 <span class="hashtag">#GlúteoDeAcero</span> <span class="hashtag">#Fuerza</span> <span class="hashtag">#PR</span>',image:IMAGES[3],likes:201,comments:[],liked:false},
+  {id:7,user:{name:'Karla Reyes',avatar:AVATARS[5]},time:'1d',text:'¿Qué banda de resistencia recomiendan para empezar? Vi que hay diferentes niveles y no sé cuál comprar. ¡Help! 🙏 <span class="hashtag">#Bandas</span> <span class="hashtag">#Principiante</span>',image:null,likes:34,comments:[{name:'Sofía R.',avatar:AVATARS[1],text:'Las de nivel medio son perfectas para empezar. Yo compré el pack de 3 en Amazon y me va genial',time:'22h'},{name:'Daniela O.',avatar:AVATARS[2],text:'Confirmo, las medianas. Las ligeras se sienten muy fácil después de 1 semana',time:'20h'}],liked:false},
+];
+
+const TRENDING=[
+  {tag:'#Reto30Días',count:'2.4k posts'},{tag:'#HipThrust',count:'1.8k posts'},{tag:'#Transformación',count:'1.2k posts'},
+  {tag:'#GlúteoMedio',count:'890 posts'},{tag:'#TipDeEva',count:'756 posts'},{tag:'#BootyDay',count:'643 posts'}
+];
+const LEADERBOARD=[
+  {name:'Sofía R.',avatar:AVATARS[1],streak:28,pts:2840},
+  {name:'Laura M.',avatar:AVATARS[3],streak:21,pts:2150},
+  {name:'Daniela O.',avatar:AVATARS[2],streak:18,pts:1830},
+  {name:'María G.',avatar:AVATARS[4],streak:15,pts:1520},
+  {name:'Karla R.',avatar:AVATARS[5],streak:12,pts:1200},
+];
+const SUGGESTED=[
+  {name:'Camila Torres',avatar:AVATARS[3],bio:'🍑 Reto 30 días · Día 20'},
+  {name:'Isabella Cruz',avatar:AVATARS[5],bio:'💪 Full Body Sculpt · Sem 3'},
+  {name:'Fernanda López',avatar:AVATARS[4],bio:'🔥 Glúteo de Acero · Sem 6'},
+];
+
+let posts=[...SEED_POSTS];let pendingImage=null;
+
+// Render
+function renderFeed(filter='all'){
+  const el=document.getElementById('feedContainer');el.innerHTML='';
+  let filtered=posts;
+  if(filter==='transformations')filtered=posts.filter(p=>p.image&&(p.text.includes('Transformación')||p.text.includes('cambio')||p.text.includes('progreso')));
+  if(filter==='trending')filtered=[...posts].sort((a,b)=>b.likes-a.likes);
+  filtered.forEach(p=>{
+    const avatarHtml=p.user.isAI?`<div style="width:40px;height:40px;border-radius:12px;background:var(--primary);display:flex;align-items:center;justify-content:center;"><span class="material-symbols-outlined filled" style="color:#fff;font-size:20px;">auto_awesome</span></div>`:
+      `<div class="post-avatar"><img src="${p.user.avatar||AVATARS[0]}" alt="" /></div>`;
+    const badgeHtml=p.user.badge?`<span class="post-badge ${p.user.badge}">${p.user.badge==='coach'?'Coach':p.user.badge==='premium'?'Premium':'Nueva'}</span>`:'';
+    const imgHtml=p.image?`<div class="post-image"><img src="${p.image}" alt="" /></div>`:'';
+    const commentsHtml=p.comments.map(c=>`<div class="comment-item"><div class="comment-avatar"><img src="${c.avatar}" alt="" /></div><div class="comment-bubble"><div class="cb-name">${c.name}</div><div class="cb-text">${c.text}</div><div class="cb-time">${c.time}</div></div></div>`).join('');
+    el.innerHTML+=`<div class="post-card"><div class="post-header">${avatarHtml}<div class="post-user-info"><div class="post-name">${p.user.name} ${badgeHtml}</div><div class="post-meta"><span>${p.time}</span></div></div><button class="post-more"><span class="material-symbols-outlined">more_horiz</span></button></div><div class="post-body"><div class="post-text">${p.text}</div>${imgHtml}<div class="post-stats"><span>${p.likes} me gusta</span><span>·</span><span>${p.comments.length} comentarios</span></div></div><div class="post-actions"><button class="post-action ${p.liked?'liked':''}" onclick="toggleLike(${p.id})"><span class="material-symbols-outlined ${p.liked?'filled':''}">${p.liked?'favorite':'favorite'}</span>${p.liked?'Te gusta':'Me gusta'}</button><button class="post-action" onclick="toggleComments(${p.id})"><span class="material-symbols-outlined">chat_bubble_outline</span>Comentar</button><button class="post-action" onclick="sharePost(${p.id})"><span class="material-symbols-outlined">share</span>Compartir</button></div><div class="comments-section" id="comments-${p.id}">${commentsHtml}<div class="comment-input-row"><input type="text" placeholder="Escribe un comentario..." id="commentInput-${p.id}" onkeydown="if(event.key==='Enter')addComment(${p.id})" /><button onclick="addComment(${p.id})">Enviar</button></div></div></div>`;
+  });
+}
+function setFeedTab(filter,btn){document.querySelectorAll('.feed-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');renderFeed(filter);}
+function toggleLike(id){const p=posts.find(x=>x.id===id);if(p){p.liked=!p.liked;p.likes+=p.liked?1:-1;renderFeed();}}
+function toggleComments(id){const el=document.getElementById('comments-'+id);el.classList.toggle('open');}
+function sharePost(id){if(navigator.share)navigator.share({title:'Evara',text:'Mira este post en Evara',url:window.location.href});else alert('Link copiado 🔗');}
+function addComment(id){
+  const input=document.getElementById('commentInput-'+id);if(!input.value.trim())return;
+  const p=posts.find(x=>x.id===id);if(p){p.comments.push({name:currentUser.name||'Tú',avatar:currentUser.avatar_url||AVATARS[0],text:input.value.trim(),time:'Ahora'});renderFeed();}
+}
+// Compose
+function toggleSubmit(){document.getElementById('composeSubmit').disabled=!document.getElementById('composeText').value.trim()&&!pendingImage;}
+function attachPhoto(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=function(ev){pendingImage=ev.target.result;document.getElementById('previewImg').src=pendingImage;document.getElementById('composePreview').style.display='block';toggleSubmit();};r.readAsDataURL(f);}
+function removePreview(){pendingImage=null;document.getElementById('composePreview').style.display='none';toggleSubmit();}
+function publishPost(){
+  const text=document.getElementById('composeText').value.trim();if(!text&&!pendingImage)return;
+  posts.unshift({id:Date.now(),user:{name:currentUser.name||'Tú',avatar:currentUser.avatar_url||null},time:'Ahora',text:text.replace(/#(\w+)/g,'<span class="hashtag">#$1</span>'),image:pendingImage,likes:0,comments:[],liked:false});
+  document.getElementById('composeText').value='';removePreview();renderFeed();
+}
+// Side widgets
+function renderTrending(){const el=document.getElementById('trendingList');el.innerHTML='';TRENDING.forEach(t=>{el.innerHTML+=`<div class="trend-item"><div><div class="trend-tag">${t.tag}</div><div class="trend-count">${t.count}</div></div></div>`;});}
+function renderLeaderboard(){const el=document.getElementById('leaderboard');el.innerHTML='';const ranks=['gold','silver','bronze','normal','normal'];LEADERBOARD.forEach((l,i)=>{el.innerHTML+=`<div class="lb-item"><div class="lb-rank ${ranks[i]}">${i+1}</div><div class="lb-avatar"><img src="${l.avatar}" alt="" /></div><div class="lb-info"><div class="lb-name">${l.name}</div><div class="lb-streak">🔥 ${l.streak} días</div></div><div class="lb-pts">${l.pts}</div></div>`;});}
+function renderSuggested(){const el=document.getElementById('suggestedList');el.innerHTML='';SUGGESTED.forEach((s,i)=>{el.innerHTML+=`<div class="suggest-item"><div class="suggest-avatar"><img src="${s.avatar}" alt="" /></div><div class="suggest-info"><div class="suggest-name">${s.name}</div><div class="suggest-bio">${s.bio}</div></div><button class="suggest-follow" id="follow-${i}" onclick="toggleFollow(${i})">Seguir</button></div>`;});}
+function toggleFollow(i){const b=document.getElementById('follow-'+i);b.classList.toggle('following');b.textContent=b.classList.contains('following')?'Siguiendo':'Seguir';}
+
+renderFeed();renderTrending();renderLeaderboard();renderSuggested();
+</script>
+</body>
+</html>

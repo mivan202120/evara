@@ -4,6 +4,7 @@
     { "source": "/api/:path*", "destination": "/api/:path*" },
     { "source": "/home", "destination": "/home/index.html" },
     { "source": "/entrenamientos", "destination": "/entrenamientos/index.html" },
+    { "source": "/programas", "destination": "/programas/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

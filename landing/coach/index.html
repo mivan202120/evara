@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara — Coach IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--primary-fixed-dim:#fcb6a5;--on-primary:#fff;--on-primary-container:#734034;--on-primary-fixed:#351007;--secondary:#695b57;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--surface-container-lowest);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary);letter-spacing:-1px;margin-bottom:40px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-nav{display:flex;flex-direction:column;gap:4px;flex:1}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;font-weight:600;font-size:14px;color:var(--on-surface-variant);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:var(--surface-container);color:var(--on-surface)}.sidebar-link.active{background:var(--primary-fixed);color:var(--on-primary-fixed);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:22px}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:16px 12px;margin-top:auto;border-top:1px solid var(--surface-container-high)}
+    .sidebar-avatar{width:40px;height:40px;border-radius:12px;background:var(--primary-fixed);display:flex;align-items:center;justify-content:center;overflow:hidden;font-family:'Plus Jakarta Sans';font-weight:800;font-size:16px;color:var(--primary)}
+    .sidebar-avatar img{width:100%;height:100%;object-fit:cover}
+    .sidebar-user-name{font-weight:700;font-size:14px}.sidebar-user-plan{font-size:11px;color:var(--outline);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+    .main-content{flex:1;margin-left:260px;display:flex;flex-direction:column;height:100vh}
+    @media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0}}
+
+    /* Chat Layout */
+    .chat-header{padding:20px 32px;background:var(--surface-container-lowest);display:flex;align-items:center;gap:16px;flex-shrink:0;border-bottom:1px solid var(--surface-container-high)}
+    .chat-header .eva-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary-container));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(134,80,67,.2)}
+    .chat-header .eva-icon .material-symbols-outlined{font-size:24px;color:#fff}
+    .chat-header .eva-info{flex:1}.chat-header .eva-info h2{font-size:18px;font-weight:800;letter-spacing:-.5px}.chat-header .eva-info p{font-size:12px;color:var(--outline);display:flex;align-items:center;gap:6px}
+    .chat-header .eva-info .online-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+    .chat-header .header-actions{display:flex;gap:8px}
+    .header-btn{width:40px;height:40px;border-radius:12px;border:none;background:var(--surface-container-low);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--on-surface-variant);transition:all .2s}
+    .header-btn:hover{background:var(--surface-container)}
+
+    /* Quick Actions */
+    .quick-actions{padding:16px 32px;display:flex;gap:10px;overflow-x:auto;flex-shrink:0;background:var(--surface-container-lowest)}
+    .quick-actions::-webkit-scrollbar{height:0}
+    .quick-chip{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;border:2px solid var(--surface-container-high);background:var(--surface-container-lowest);font-size:13px;font-weight:600;color:var(--on-surface-variant);cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Manrope',sans-serif;flex-shrink:0}
+    .quick-chip:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-fixed)}
+    .quick-chip .material-symbols-outlined{font-size:18px}
+
+    /* Messages */
+    .messages-area{flex:1;overflow-y:auto;padding:24px 32px;display:flex;flex-direction:column;gap:16px}
+    .messages-area::-webkit-scrollbar{width:4px}.messages-area::-webkit-scrollbar-thumb{background:var(--outline-variant);border-radius:999px}
+    .msg{display:flex;gap:12px;max-width:85%;animation:msgIn .3s ease}
+    @keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .msg.eva{align-self:flex-start}.msg.user{align-self:flex-end;flex-direction:row-reverse}
+    .msg-avatar{width:32px;height:32px;border-radius:10px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+    .msg.eva .msg-avatar{background:linear-gradient(135deg,var(--primary),var(--primary-container))}
+    .msg.eva .msg-avatar .material-symbols-outlined{font-size:18px;color:#fff}
+    .msg.user .msg-avatar{background:var(--primary-fixed);font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:var(--primary)}
+    .msg.user .msg-avatar img{width:100%;height:100%;object-fit:cover}
+    .msg-bubble{padding:14px 18px;border-radius:18px;font-size:14px;line-height:1.7}
+    .msg.eva .msg-bubble{background:var(--surface-container-lowest);border-bottom-left-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+    .msg.user .msg-bubble{background:var(--primary);color:var(--on-primary);border-bottom-right-radius:4px}
+    .msg-time{font-size:10px;color:var(--outline);margin-top:4px;padding:0 4px}
+    .msg.user .msg-time{text-align:right}
+    /* Eva special cards */
+    .eva-card{background:var(--surface-container-lowest);border-radius:16px;padding:16px;margin-top:8px;border:1px solid var(--surface-container-high)}
+    .eva-card h5{font-size:13px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .eva-card .ec-items{display:flex;flex-direction:column;gap:6px}
+    .eva-card .ec-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:8px 10px;background:var(--surface-container-low);border-radius:10px}
+    .eva-card .ec-item .material-symbols-outlined{font-size:16px;color:var(--primary)}
+    .eva-card .ec-btn{margin-top:10px;padding:10px 20px;border-radius:10px;border:none;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:12px;cursor:pointer;font-family:'Plus Jakarta Sans';transition:all .2s;width:100%}
+    .eva-card .ec-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(134,80,67,.2)}
+    /* Typing indicator */
+    .typing{display:flex;gap:4px;padding:8px 0;align-items:center}
+    .typing-dot{width:8px;height:8px;border-radius:50%;background:var(--outline-variant);animation:typingAnim 1.4s infinite}
+    .typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
+    @keyframes typingAnim{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+
+    /* Input Area */
+    .input-area{padding:16px 32px 24px;background:var(--surface-container-lowest);flex-shrink:0;border-top:1px solid var(--surface-container-high)}
+    .input-row{display:flex;align-items:flex-end;gap:10px;max-width:800px;margin:0 auto}
+    .input-field{flex:1;padding:14px 18px;border:2px solid var(--surface-container-high);border-radius:16px;font-size:14px;font-family:'Manrope',sans-serif;resize:none;outline:none;background:var(--surface-container-low);transition:border .2s;max-height:120px;line-height:1.5}
+    .input-field:focus{border-color:var(--primary)}
+    .input-btns{display:flex;gap:6px}
+    .input-btn{width:44px;height:44px;border-radius:14px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .input-btn.attach{background:var(--surface-container-low);color:var(--on-surface-variant)}.input-btn.attach:hover{background:var(--surface-container)}
+    .input-btn.send{background:var(--primary);color:var(--on-primary);box-shadow:0 4px 12px rgba(134,80,67,.2)}.input-btn.send:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(134,80,67,.3)}
+    .input-btn.send:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+    /* Mobile */
+    .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--surface-container-lowest);padding:8px 16px 24px;box-shadow:0 -4px 24px rgba(134,80,67,.06)}
+    .mobile-nav-inner{display:flex;justify-content:space-around}
+    .mobile-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--outline);text-decoration:none;padding:6px 12px;border-radius:12px;transition:all .2s}
+    .mobile-nav-item.active{color:var(--primary)}.mobile-nav-item .material-symbols-outlined{font-size:24px}
+    @media(max-width:768px){.mobile-nav{display:block}.input-area{padding-bottom:90px}.chat-header{padding:16px 20px}.messages-area{padding:16px 20px}.input-area{padding:12px 16px 90px}.quick-actions{padding:12px 16px}}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/home" class="sidebar-logo">Evara</a>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+      <a class="sidebar-link" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link" href="/programas"><span class="material-symbols-outlined">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="/progreso"><span class="material-symbols-outlined">insights</span>Mi Progreso</a>
+      <a class="sidebar-link" href="/comunidad"><span class="material-symbols-outlined">group</span>Comunidad</a>
+      <a class="sidebar-link active" href="/coach"><span class="material-symbols-outlined filled">auto_awesome</span>Coach IA</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">emoji_events</span>Retos</a>
+    </nav>
+    <div class="sidebar-user"><div class="sidebar-avatar" id="sidebarAvatar">E</div><div><div class="sidebar-user-name" id="sidebarName">Curadora</div><div class="sidebar-user-plan" id="sidebarPlan">Free</div></div></div>
+  </aside>
+
+  <div class="main-content">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="eva-icon"><span class="material-symbols-outlined filled">auto_awesome</span></div>
+      <div class="eva-info">
+        <h2>Eva — Coach IA</h2>
+        <p><span class="online-dot"></span>En línea · Tu entrenadora personal con IA</p>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" onclick="clearChat()" title="Nuevo chat"><span class="material-symbols-outlined">restart_alt</span></button>
+        <button class="header-btn" title="Historial"><span class="material-symbols-outlined">history</span></button>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions" id="quickActions">
+      <button class="quick-chip" onclick="sendQuick('¿Qué rutina me recomiendas para hoy?')"><span class="material-symbols-outlined">fitness_center</span>Rutina de hoy</button>
+      <button class="quick-chip" onclick="sendQuick('¿Cuánto peso debería usar en hip thrust?')"><span class="material-symbols-outlined">monitor_weight</span>Peso sugerido</button>
+      <button class="quick-chip" onclick="sendQuick('Dame un tip para activar mejor mis glúteos')"><span class="material-symbols-outlined">lightbulb</span>Tips de glúteo</button>
+      <button class="quick-chip" onclick="sendQuick('Me siento cansada hoy, ¿qué hago?')"><span class="material-symbols-outlined">battery_low</span>Día de fatiga</button>
+      <button class="quick-chip" onclick="sendQuick('¿Cómo va mi progreso esta semana?')"><span class="material-symbols-outlined">insights</span>Mi progreso</button>
+      <button class="quick-chip" onclick="sendQuick('¿Qué debo comer antes de entrenar?')"><span class="material-symbols-outlined">restaurant</span>Nutrición</button>
+      <button class="quick-chip" onclick="sendQuick('Motivame, no tengo ganas de entrenar')"><span class="material-symbols-outlined">mood</span>Motivación</button>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-area" id="messagesArea"></div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-row">
+        <button class="input-btn attach" title="Adjuntar"><span class="material-symbols-outlined">attach_file</span></button>
+        <textarea class="input-field" id="chatInput" placeholder="Pregúntale a Eva..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="input-btn send" id="sendBtn" onclick="sendMessage()" disabled><span class="material-symbols-outlined filled">send</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="mobile-nav"><div class="mobile-nav-inner">
+  <a class="mobile-nav-item" href="/home"><span class="material-symbols-outlined">home</span>Inicio</a>
+  <a class="mobile-nav-item" href="/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrena</a>
+  <a class="mobile-nav-item" href="/progreso"><span class="material-symbols-outlined">insights</span>Progreso</a>
+  <a class="mobile-nav-item" href="/comunidad"><span class="material-symbols-outlined">group</span>Social</a>
+  <a class="mobile-nav-item active" href="/coach"><span class="material-symbols-outlined filled">auto_awesome</span>Coach</a>
+</div></nav>
+
+<script>
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+let currentUser={name:'Curadora',avatar_url:null,fitness_goal:'grow_glutes'};
+try{currentUser=JSON.parse(userStr);document.getElementById('sidebarName').textContent=currentUser.name||'Curadora';document.getElementById('sidebarPlan').textContent=(currentUser.plan||'free').toUpperCase();
+const a=document.getElementById('sidebarAvatar');if(currentUser.avatar_url)a.innerHTML=`<img src="${currentUser.avatar_url}" alt="" />`;else a.textContent=(currentUser.name||'E')[0].toUpperCase();}catch(e){}
+
+const firstName=(currentUser.name||'Curadora').split(' ')[0];
+const msgArea=document.getElementById('messagesArea');
+const chatInput=document.getElementById('chatInput');
+const sendBtn=document.getElementById('sendBtn');
+
+// AI Response Engine
+const AI_RESPONSES={
+  'rutina':{text:`¡Perfecto, ${firstName}! Basándome en tu progreso y tu objetivo, te recomiendo esta rutina para hoy 🍑`,card:{title:'🍑 Rutina Recomendada — Glúteo Focus',items:['Hip Thrust — 4 × 12 reps (40kg sugerido)','Sentadilla Búlgara — 3 × 10/lado','Cable Kickback — 3 × 15/lado','Puente con Banda — 3 × 20 reps','Frog Pump — 3 × 25 reps (finisher)'],btn:'Empezar Rutina',link:'/entrenamientos'}},
+  'peso':{text:`Basándome en tu nivel y progresión, aquí van mis sugerencias de peso para tus ejercicios principales 💪`,card:{title:'⚖️ Peso Sugerido por Ejercicio',items:['Hip Thrust → 35-45 kg (subir 2.5kg cada semana)','Sentadilla → 20-30 kg (barra + discos)','Peso Muerto Rumano → 25-35 kg','Sentadilla Búlgara → 8-12 kg/mano','Step-Up → 6-10 kg/mano'],btn:'Ver mis ejercicios',link:'/entrenamientos'}},
+  'tip':{text:`¡Claro! Aquí va un tip de oro para activar mejor tus glúteos 🔥\n\n**La técnica del "squeeze":** En CADA repetición, haz una pausa de 2 segundos en la parte superior del movimiento y aprieta los glúteos lo más fuerte que puedas. Esto se llama "peak contraction" y puede aumentar la activación muscular hasta un 30%.\n\n**Prueba esto:**\n• En puentes de glúteo: pausa arriba 2-3 segundos\n• En hip thrust: squeeze fuerte en el top\n• En kickbacks: contrae al final del movimiento\n\n¿Quieres que te muestre una rutina enfocada en mind-muscle connection?`},
+  'cansada':{text:`Entiendo perfecto, ${firstName} 🧡 Los días de fatiga son NORMALES y parte del proceso. Tu cuerpo necesita recuperarse para crecer.\n\nTe propongo 3 opciones:`,card:{title:'🔋 Opciones para Hoy',items:['💚 Ligero: Stretching + Yoga (15 min) — recuperación activa','💛 Moderado: Activación suave (20 min) — sin peso, solo bandas','❤️ Descanso total — caminar 20 min + hidratarse bien'],btn:'Hacer sesión suave',link:'/entrenamientos'}},
+  'progreso':{text:`¡Veamos cómo vas, ${firstName}! 📊\n\nEsta semana has hecho un trabajo increíble:`,card:{title:'📈 Tu Resumen Semanal',items:['✅ 3 entrenamientos completados','🔥 Racha actual: 3 días','⏱️ 85 minutos activos','🍑 Glúteo: 97cm (+2cm desde inicio)','💪 Hip Thrust: 40kg (subiste 5kg)'],btn:'Ver progreso completo',link:'/progreso'}},
+  'nutricion':{text:`¡Gran pregunta! La nutrición pre-entreno es clave para rendir mejor 🍎\n\n**30-60 min antes de entrenar, come algo con:**\n• Carbohidratos de fácil digestión (energía rápida)\n• Proteína ligera (evita grasa pesada)\n\n**Ejemplos perfectos:**\n🍌 Plátano + cucharada de crema de cacahuate\n🥣 Avena con frutas (porción pequeña)\n🍞 Pan tostado integral + huevo\n🥤 Smoothie: plátano + proteína + leche de almendras\n\n**Hidratación:** Bebe 500ml de agua 30 min antes. ¡Esto solo mejora tu rendimiento un 25%!\n\n¿Quieres que te arme un plan nutricional personalizado?`},
+  'motivacion':{text:`¡Hey ${firstName}! Voy a ser honesta contigo 🧡\n\nLas que logran resultados NO son las que siempre tienen ganas. Son las que entrenan INCLUSO cuando no tienen ganas.\n\n**Piensa en esto:**\n🏆 En 30 días vas a agradecer que empezaste HOY\n💪 Nunca te has arrepentido de entrenar, pero sí de no hacerlo\n🍑 Cada sentadilla te acerca a la versión que sueñas\n🔥 Tu yo del futuro está orgullosa de que no te rendiste\n\nNo necesitas motivación, necesitas DISCIPLINA. Y la disciplina se construye haciendo lo difícil.\n\n**¿Qué tal si empezamos con solo 15 minutitos?** Te prometo que una vez que empieces, vas a querer más 😉`,card:{title:'⚡ Sesión Express de 15 min',items:['Squat Pulses — 3 × 20 (siente la quema 🔥)','Puente de Glúteo — 3 × 15','Lateral Walk — 3 × 20 pasos','Donkey Kicks — 3 × 12/lado'],btn:'Vamos, solo 15 min',link:'/entrenamientos'}},
+  'default':{text:`¡Buena pregunta, ${firstName}! 🧡\n\nComo tu coach IA, estoy aquí para ayudarte con:\n\n• 🏋️ **Rutinas personalizadas** según tu nivel\n• ⚖️ **Sugerencia de peso** para cada ejercicio\n• 📊 **Análisis de progreso** semanal\n• 🍎 **Tips de nutrición** pre y post entreno\n• 💪 **Motivación** cuando la necesites\n• 🧘 **Manejo de fatiga** y recuperación\n\n¿En qué te puedo ayudar hoy?`}
+};
+
+function getAIResponse(text){
+  const lower=text.toLowerCase();
+  if(lower.includes('rutina')||lower.includes('hoy')||lower.includes('entrenar'))return AI_RESPONSES.rutina;
+  if(lower.includes('peso')||lower.includes('kg')||lower.includes('cuánto'))return AI_RESPONSES.peso;
+  if(lower.includes('tip')||lower.includes('activ')||lower.includes('consejo'))return AI_RESPONSES.tip;
+  if(lower.includes('cansad')||lower.includes('fatig')||lower.includes('dolor')||lower.includes('no puedo'))return AI_RESPONSES.cansada;
+  if(lower.includes('progreso')||lower.includes('cómo voy')||lower.includes('semana'))return AI_RESPONSES.progreso;
+  if(lower.includes('com')||lower.includes('nutri')||lower.includes('dieta')||lower.includes('proteín'))return AI_RESPONSES.nutricion;
+  if(lower.includes('motiv')||lower.includes('ganas')||lower.includes('flojera')||lower.includes('no quiero'))return AI_RESPONSES.motivacion;
+  return AI_RESPONSES.default;
+}
+
+function now(){return new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});}
+
+function addMsg(type,text,card){
+  const div=document.createElement('div');div.className=`msg ${type}`;
+  let avatarHtml='';
+  if(type==='eva')avatarHtml=`<div class="msg-avatar"><span class="material-symbols-outlined filled">auto_awesome</span></div>`;
+  else if(currentUser.avatar_url)avatarHtml=`<div class="msg-avatar"><img src="${currentUser.avatar_url}" alt="" /></div>`;
+  else avatarHtml=`<div class="msg-avatar">${(currentUser.name||'E')[0].toUpperCase()}</div>`;
+
+  let cardHtml='';
+  if(card){
+    const items=card.items.map(i=>`<div class="ec-item"><span class="material-symbols-outlined filled">check_circle</span>${i}</div>`).join('');
+    cardHtml=`<div class="eva-card"><h5><span class="material-symbols-outlined filled" style="font-size:16px;color:var(--primary)">dashboard</span>${card.title}</h5><div class="ec-items">${items}</div>${card.btn?`<button class="ec-btn" onclick="window.location.href='${card.link||'/entrenamientos'}'">${card.btn}</button>`:''}</div>`;
+  }
+
+  div.innerHTML=`${avatarHtml}<div><div class="msg-bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/•/g,'<br>•')}${cardHtml}</div><div class="msg-time">${now()}</div></div>`;
+  msgArea.appendChild(div);msgArea.scrollTop=msgArea.scrollHeight;
+}
+
+function addTyping(){
+  const div=document.createElement('div');div.className='msg eva';div.id='typingMsg';
+  div.innerHTML=`<div class="msg-avatar"><span class="material-symbols-outlined filled">auto_awesome</span></div><div class="msg-bubble"><div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  msgArea.appendChild(div);msgArea.scrollTop=msgArea.scrollHeight;
+}
+function removeTyping(){const t=document.getElementById('typingMsg');if(t)t.remove();}
+
+function sendMessage(){
+  const text=chatInput.value.trim();if(!text)return;
+  addMsg('user',text);chatInput.value='';autoResize(chatInput);sendBtn.disabled=true;
+  addTyping();
+  const delay=800+Math.random()*1200;
+  setTimeout(()=>{removeTyping();const r=getAIResponse(text);addMsg('eva',r.text,r.card);},delay);
+}
+
+function sendQuick(text){chatInput.value=text;sendBtn.disabled=false;sendMessage();}
+
+function handleKey(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!sendBtn.disabled)sendMessage();}
+  sendBtn.disabled=!chatInput.value.trim();
+}
+chatInput.addEventListener('input',()=>{sendBtn.disabled=!chatInput.value.trim();});
+
+function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+
+function clearChat(){
+  msgArea.innerHTML='';
+  setTimeout(()=>{addMsg('eva',`¡Hola ${firstName}! 🧡 Soy **Eva**, tu coach de fitness con inteligencia artificial.\n\nEstoy aquí para guiarte en cada paso de tu transformación. Puedo ayudarte con rutinas personalizadas, sugerencias de peso, tips de nutrición, y motivarte cuando lo necesites.\n\n¿En qué te puedo ayudar hoy?`);},300);
+}
+
+// Welcome
+const goalIntros={
+  grow_glutes:`¡Hola ${firstName}! 🍑 Soy **Eva**, tu coach IA especializada en glúteo.\n\nVi que tu objetivo es **crecer tus glúteos** — ¡excelente elección! Tengo un arsenal de rutinas, tips de activación y planes de progresión diseñados exactamente para eso.\n\nPuedes preguntarme lo que quieras: desde qué rutina hacer hoy, cuánto peso usar, qué comer, o simplemente pedirme que te motive.\n\n¿Empezamos? 💪`,
+  tone_body:`¡Hola ${firstName}! 💪 Soy **Eva**, tu coach IA personalizada.\n\nTu meta es **tonificar tu cuerpo** — perfecto. Vamos a combinar ejercicios de fuerza con definición para que veas resultados en todo tu cuerpo.\n\n¿Qué te gustaría trabajar hoy?`,
+  full_sculpt:`¡Hola ${firstName}! 🔥 Soy **Eva**, tu coach IA.\n\nVeo que buscas una **transformación completa** — ¡me encanta la ambición! Tu plan incluye fuerza, cardio, flexibilidad y mucho glúteo.\n\n¿Lista para empezar?`
+};
+const introMsg=goalIntros[currentUser.fitness_goal]||goalIntros.grow_glutes;
+setTimeout(()=>addMsg('eva',introMsg),400);
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@
     { "source": "/programas", "destination": "/programas/index.html" },
     { "source": "/progreso", "destination": "/progreso/index.html" },
     { "source": "/comunidad", "destination": "/comunidad/index.html" },
+    { "source": "/coach", "destination": "/coach/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

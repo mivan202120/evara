@@ -21,3 +21,5 @@ Thumbs.db
 
 # Generated
 *.tsbuildinfo
+.vercel
+.env*.local

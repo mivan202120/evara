@@ -11,6 +11,7 @@
     { "source": "/retos", "destination": "/retos/index.html" },
     { "source": "/cuenta", "destination": "/cuenta/index.html" },
     { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/usuarios", "destination": "/admin/usuarios/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

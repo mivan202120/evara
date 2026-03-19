@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara Admin — Usuarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--primary-fixed-dim:#fcb6a5;--on-primary:#fff;--on-primary-container:#734034;--on-primary-fixed:#351007;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300;--error:#F44336;--info:#1976D2}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--inverse-surface);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary-fixed);letter-spacing:-1px;margin-bottom:6px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-sub{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(250,238,235,.3);padding:0 12px;margin-bottom:32px}
+    .sidebar-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(250,238,235,.2);padding:0 16px;margin:20px 0 8px}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:12px;font-weight:600;font-size:13px;color:rgba(250,238,235,.5);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:rgba(255,255,255,.06);color:var(--inverse-on-surface)}.sidebar-link.active{background:var(--primary);color:var(--on-primary);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:20px}
+    .sidebar-link .link-badge{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--error);color:#fff}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:14px 12px;margin-top:auto;border-top:1px solid rgba(255,255,255,.06)}
+    .sidebar-avatar{width:36px;height:36px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:14px;color:var(--on-primary)}
+    .sidebar-user-name{font-weight:700;font-size:13px;color:var(--inverse-on-surface)}.sidebar-user-role{font-size:10px;color:rgba(250,238,235,.4);text-transform:uppercase;letter-spacing:1px}
+    .sidebar-logout{width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,.06);color:rgba(250,238,235,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;transition:all .2s}
+    .sidebar-logout:hover{background:rgba(244,67,54,.2);color:var(--error)}
+    .main-content{flex:1;margin-left:260px;padding:32px 40px}
+    @media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0;padding:20px}}
+    /* Page Header */
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .page-header h1{font-size:24px;font-weight:800;letter-spacing:-1px;display:flex;align-items:center;gap:10px}
+    .header-actions{display:flex;gap:10px}
+    .btn{padding:10px 20px;border-radius:12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;border:none;display:flex;align-items:center;gap:6px}
+    .btn-primary{background:var(--primary);color:var(--on-primary)}.btn-primary:hover{box-shadow:0 6px 16px rgba(134,80,67,.2);transform:translateY(-1px)}
+    .btn-outline{background:none;border:2px solid var(--outline-variant);color:var(--on-surface-variant)}.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+    .btn .material-symbols-outlined{font-size:18px}
+    /* KPI Grid */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+    @media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+    .kpi{background:var(--surface-container-lowest);border-radius:16px;padding:18px;transition:transform .3s}.kpi:hover{transform:translateY(-3px)}
+    .kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+    .kpi-icon.blue{background:#e3f2fd}.kpi-icon.blue .material-symbols-outlined{color:var(--info)}
+    .kpi-icon.green{background:#e8f5e9}.kpi-icon.green .material-symbols-outlined{color:var(--success)}
+    .kpi-icon.gold{background:#FFF8E1}.kpi-icon.gold .material-symbols-outlined{color:var(--warning)}
+    .kpi-icon.pink{background:var(--primary-fixed)}.kpi-icon.pink .material-symbols-outlined{color:var(--primary)}
+    .kpi-change{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}
+    .kpi-change.up{background:#e8f5e9;color:var(--success)}.kpi-change.down{background:#fce4ec;color:var(--error)}
+    .kpi-val{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;letter-spacing:-1px}.kpi-label{font-size:11px;color:var(--outline);margin-top:2px}
+    /* Toolbar */
+    .toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+    .search-box{display:flex;align-items:center;gap:8px;padding:9px 14px;border:2px solid var(--surface-container-high);border-radius:12px;background:var(--surface-container-lowest);flex:1;max-width:300px;transition:border .2s}
+    .search-box:focus-within{border-color:var(--primary)}
+    .search-box .material-symbols-outlined{font-size:18px;color:var(--outline)}
+    .search-box input{border:none;outline:none;background:none;font-family:'Manrope';font-size:13px;flex:1}
+    .filter-chip{padding:8px 16px;border-radius:10px;border:2px solid var(--surface-container-high);background:var(--surface-container-lowest);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Manrope';color:var(--on-surface-variant);display:flex;align-items:center;gap:4px}
+    .filter-chip:hover,.filter-chip.active{border-color:var(--primary);color:var(--primary);background:var(--primary-fixed)}
+    .filter-chip .material-symbols-outlined{font-size:16px}
+    .toolbar-right{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:12px;color:var(--outline)}
+    /* Table */
+    .table-wrap{background:var(--surface-container-lowest);border-radius:18px;overflow:hidden}
+    table{width:100%;border-collapse:collapse}
+    table th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--outline);padding:12px 16px;border-bottom:2px solid var(--surface-container-high);cursor:pointer;user-select:none;white-space:nowrap}
+    table th:hover{color:var(--on-surface)}
+    table th .material-symbols-outlined{font-size:14px;vertical-align:middle;margin-left:2px}
+    table td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--surface-container)}
+    table tr{transition:background .15s;cursor:pointer}table tr:hover{background:var(--surface-container-low)}
+    .user-cell{display:flex;align-items:center;gap:10px}
+    .uc-avatar{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:#fff;flex-shrink:0}
+    .uc-name{font-weight:700}.uc-email{font-size:11px;color:var(--outline)}
+    .plan-badge{padding:3px 10px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+    .plan-badge.free{background:var(--surface-container);color:var(--on-surface-variant)}.plan-badge.premium{background:linear-gradient(135deg,#FFB300,#FF6F00);color:#fff}
+    .status-pill{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
+    .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}.status-dot.active{background:var(--success)}.status-dot.inactive{background:var(--outline-variant)}
+    .row-actions{display:flex;gap:4px}
+    .row-btn{width:30px;height:30px;border-radius:8px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--outline);transition:all .2s}
+    .row-btn:hover{background:var(--surface-container);color:var(--on-surface)}
+    .row-btn .material-symbols-outlined{font-size:18px}
+    /* Pagination */
+    .pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+    .pag-info{font-size:12px;color:var(--outline)}
+    .pag-btns{display:flex;gap:4px}
+    .pag-btn{width:32px;height:32px;border-radius:8px;border:none;font-family:'Plus Jakarta Sans';font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;background:none;color:var(--on-surface-variant)}
+    .pag-btn:hover{background:var(--surface-container)}.pag-btn.active{background:var(--primary);color:var(--on-primary)}
+    .pag-btn.nav{color:var(--outline)}.pag-btn.nav:hover{color:var(--on-surface)}
+    /* Drawer */
+    .drawer-overlay{position:fixed;inset:0;z-index:2000;background:rgba(32,26,25,.6);display:none;justify-content:flex-end}
+    .drawer-overlay.open{display:flex}
+    .drawer{width:440px;max-width:100%;background:var(--surface-container-lowest);height:100vh;overflow-y:auto;animation:slideIn .3s ease;padding:28px}
+    @keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
+    .drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .drawer-close{width:36px;height:36px;border-radius:10px;border:none;background:var(--surface-container);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--on-surface-variant);transition:background .2s}
+    .drawer-close:hover{background:var(--surface-container-high)}
+    .drawer-profile{text-align:center;margin-bottom:24px}
+    .drawer-avatar{width:72px;height:72px;border-radius:18px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:28px;color:#fff}
+    .drawer-name{font-size:20px;font-weight:800;margin-bottom:2px}.drawer-email{font-size:13px;color:var(--outline);margin-bottom:6px}
+    .drawer-badges{display:flex;justify-content:center;gap:6px}
+    .drawer-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+    .ds-item{text-align:center;padding:12px;background:var(--surface-container-low);border-radius:12px}
+    .ds-item .ds-val{font-family:'Plus Jakarta Sans';font-weight:800;font-size:18px}.ds-item .ds-label{font-size:10px;color:var(--outline);text-transform:uppercase;letter-spacing:.5px}
+    .drawer-section{margin-bottom:20px}.drawer-section h4{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--outline);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .drawer-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--surface-container);font-size:13px}
+    .drawer-row:last-child{border:none}.dr-label{color:var(--on-surface-variant);font-weight:500}.dr-value{font-weight:700}
+    .drawer-actions{display:flex;flex-direction:column;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--surface-container-high)}
+    .da-btn{padding:12px;border-radius:12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;border:none;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+    .da-btn.upgrade{background:linear-gradient(135deg,#FFB300,#FF6F00);color:#fff}.da-btn.upgrade:hover{box-shadow:0 6px 16px rgba(255,179,0,.3)}
+    .da-btn.downgrade{background:var(--surface-container);color:var(--on-surface-variant)}.da-btn.downgrade:hover{background:var(--surface-container-high)}
+    .da-btn.deactivate{background:none;border:2px solid var(--outline-variant);color:var(--on-surface-variant)}.da-btn.deactivate:hover{border-color:var(--error);color:var(--error)}
+    .da-btn.delete{background:none;color:var(--error);font-size:12px}.da-btn.delete:hover{background:#fce4ec}
+    .da-btn .material-symbols-outlined{font-size:18px}
+    /* Add User Modal */
+    .modal-overlay{position:fixed;inset:0;z-index:3000;background:rgba(32,26,25,.85);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.active{display:flex}
+    .modal-box{width:100%;max-width:460px;background:var(--surface-container-lowest);border-radius:24px;padding:32px;animation:modalIn .4s ease}
+    @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+    .modal-box h3{font-size:20px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .modal-field{margin-bottom:14px}.modal-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block;color:var(--on-surface-variant)}
+    .modal-field input,.modal-field select{width:100%;padding:11px 14px;border:2px solid var(--outline-variant);border-radius:10px;font-size:13px;font-family:'Plus Jakarta Sans';font-weight:600;background:var(--surface-container-low);outline:none;transition:border .2s}
+    .modal-field input:focus,.modal-field select:focus{border-color:var(--primary)}
+    .modal-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .modal-actions{display:flex;gap:10px;margin-top:20px}.modal-actions button{flex:1;padding:13px;border-radius:12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;border:none;transition:all .2s}
+    .btn-cancel{background:var(--surface-container);color:var(--on-surface-variant)}.btn-save{background:var(--primary);color:var(--on-primary)}.btn-save:hover{box-shadow:0 6px 16px rgba(134,80,67,.2)}
+    .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards}@keyframes fadeIn{to{opacity:1;transform:none}}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/admin" class="sidebar-logo">Evara</a>
+    <div class="sidebar-sub">Panel Admin</div>
+    <nav>
+      <div class="sidebar-section">General</div>
+      <a class="sidebar-link" href="/admin"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">analytics</span>Analíticas</a>
+      <div class="sidebar-section">Gestión</div>
+      <a class="sidebar-link active" href="/admin/usuarios"><span class="material-symbols-outlined filled">group</span>Usuarios<span class="link-badge" id="totalBadge">248</span></a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">emoji_events</span>Retos</a>
+      <div class="sidebar-section">Contenido</div>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">play_circle</span>Videos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">article</span>Blog / Tips</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">campaign</span>Notificaciones</a>
+      <div class="sidebar-section">Sistema</div>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">payments</span>Pagos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">settings</span>Configuración</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div><div class="sidebar-user-name">Administrador</div><div class="sidebar-user-role">Super Admin</div></div>
+      <button class="sidebar-logout" onclick="logout()" title="Cerrar sesión"><span class="material-symbols-outlined" style="font-size:18px;">logout</span></button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header fade-in">
+      <h1><span class="material-symbols-outlined filled" style="font-size:28px;color:var(--primary);">group</span>Gestión de Usuarios</h1>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="exportCSV()"><span class="material-symbols-outlined">download</span>Exportar CSV</button>
+        <button class="btn btn-primary" onclick="openAddModal()"><span class="material-symbols-outlined">person_add</span>Agregar Usuario</button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid fade-in delay-1">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon blue"><span class="material-symbols-outlined filled">group</span></div><span class="kpi-change up">+12%</span></div><div class="kpi-val" id="kpiTotal">248</div><div class="kpi-label">Total Usuarios</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon green"><span class="material-symbols-outlined filled">person_add</span></div><span class="kpi-change up">+18</span></div><div class="kpi-val" id="kpiNew">32</div><div class="kpi-label">Nuevos esta semana</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon gold"><span class="material-symbols-outlined filled">workspace_premium</span></div><span class="kpi-change up">+8%</span></div><div class="kpi-val" id="kpiPremium">73</div><div class="kpi-label">Suscriptoras Premium</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon pink"><span class="material-symbols-outlined filled">trending_up</span></div><span class="kpi-change up">89%</span></div><div class="kpi-val" id="kpiRetention">89%</div><div class="kpi-label">Tasa de Retención</div></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar fade-in delay-1">
+      <div class="search-box"><span class="material-symbols-outlined">search</span><input type="text" placeholder="Buscar por nombre o email..." id="searchInput" oninput="applyFilters()" /></div>
+      <button class="filter-chip active" onclick="setFilter('all',this)">Todos</button>
+      <button class="filter-chip" onclick="setFilter('premium',this)"><span class="material-symbols-outlined" style="font-size:14px;">workspace_premium</span>Premium</button>
+      <button class="filter-chip" onclick="setFilter('free',this)">Free</button>
+      <button class="filter-chip" onclick="setFilter('active',this)"><span class="material-symbols-outlined" style="font-size:14px;color:var(--success);">circle</span>Activas</button>
+      <button class="filter-chip" onclick="setFilter('inactive',this)"><span class="material-symbols-outlined" style="font-size:14px;color:var(--outline-variant);">circle</span>Inactivas</button>
+      <div class="toolbar-right"><span id="resultCount">248 resultados</span></div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap fade-in delay-2">
+      <table>
+        <thead><tr>
+          <th onclick="sortBy('name')">Usuario <span class="material-symbols-outlined">unfold_more</span></th>
+          <th onclick="sortBy('plan')">Plan <span class="material-symbols-outlined">unfold_more</span></th>
+          <th onclick="sortBy('date')">Registro <span class="material-symbols-outlined">unfold_more</span></th>
+          <th onclick="sortBy('status')">Estado</th>
+          <th onclick="sortBy('sessions')">Sesiones <span class="material-symbols-outlined">unfold_more</span></th>
+          <th onclick="sortBy('streak')">Racha</th>
+          <th>Acciones</th>
+        </tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div class="pagination"><div class="pag-info" id="pagInfo">Mostrando 1-15 de 248</div><div class="pag-btns" id="pagBtns"></div></div>
+    </div>
+  </main>
+</div>
+
+<!-- User Detail Drawer -->
+<div class="drawer-overlay" id="drawerOverlay">
+  <div class="drawer" id="drawer"></div>
+</div>
+
+<!-- Add User Modal -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal-box">
+    <h3><span class="material-symbols-outlined" style="color:var(--primary);">person_add</span>Agregar Usuario</h3>
+    <div class="modal-field"><label>Nombre completo</label><input type="text" id="addName" placeholder="María García" /></div>
+    <div class="modal-field"><label>Email</label><input type="email" id="addEmail" placeholder="maria@ejemplo.com" /></div>
+    <div class="modal-row">
+      <div class="modal-field"><label>Plan</label><select id="addPlan"><option value="free">Free</option><option value="premium">Premium</option></select></div>
+      <div class="modal-field"><label>Nivel</label><select id="addLevel"><option value="Principiante">Principiante</option><option value="Intermedio">Intermedio</option><option value="Avanzado">Avanzado</option></select></div>
+    </div>
+    <div class="modal-row">
+      <div class="modal-field"><label>Objetivo</label><select id="addGoal"><option value="Crecer glúteos">Crecer glúteos</option><option value="Tonificar cuerpo">Tonificar</option><option value="Transformación">Transformación completa</option></select></div>
+      <div class="modal-field"><label>Contraseña</label><input type="password" id="addPass" placeholder="••••••" /></div>
+    </div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeAddModal()">Cancelar</button><button class="btn-save" onclick="addUser()">Crear Usuario</button></div>
+  </div>
+</div>
+
+<script>
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+try{const u=JSON.parse(userStr);if(u.role!=='admin')window.location.href='/home';}catch(e){window.location.href='/';}
+function logout(){localStorage.removeItem('evara_token');localStorage.removeItem('evara_user');window.location.href='/';}
+
+const COLORS=['#865043','#4CAF50','#1976D2','#FFB300','#9C27B0','#F44336','#00BCD4','#795548','#607D8B','#E91E63','#3F51B5','#009688','#FF5722','#8BC34A','#CDDC39'];
+const GOALS=['Crecer glúteos','Tonificar cuerpo','Transformación completa'];
+const LEVELS=['Principiante','Intermedio','Avanzado'];
+const PROGRAMS=['Reto 30 Días','Glúteo de Acero','Full Body Sculpt','Glúteo en Casa','—'];
+const PROVIDERS=['email','google','instagram'];
+
+function rng(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function rItem(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function genDate(daysAgo){const d=new Date();d.setDate(d.getDate()-daysAgo);return d;}
+
+// Generate 248 users
+let USERS=[];
+const NAMES=['Sofía Ramírez','Laura Méndez','Daniela Ortiz','María García','Karla Reyes','Camila Torres','Isabella Cruz','Fernanda López','Valentina Díaz','Ana Morales','Gabriela Ríos','Paola Castillo','Andrea Herrera','Lucía Navarro','Regina Santos','Natalia Vargas','Alejandra Ruiz','Mariana Flores','Carolina Castro','Diana Jiménez','Elena Pacheco','Renata Campos','Paula Guerrero','Mónica Soto','Valeria Medina','Ximena Peña','Julieta Ramos','Ariana Delgado','Catalina Vera','Emilia Salazar'];
+function generateUsers(){
+  // Ivan and Valentina first
+  USERS.push({id:1,name:'Ivan',email:'ivan@evara.com',plan:'premium',date:genDate(0),active:true,sessions:12,streak:3,xp:720,level:'Principiante',goal:'Crecer glúteos',program:'Reto 30 Días',provider:'email',color:COLORS[0]});
+  USERS.push({id:2,name:'Valentina Coach',email:'valentina@evara.com',plan:'premium',date:genDate(17),active:true,sessions:45,streak:28,xp:4280,level:'Avanzado',goal:'Transformación completa',program:'Glúteo de Acero',provider:'email',color:COLORS[9]});
+  for(let i=3;i<=248;i++){
+    const n=rItem(NAMES);const isPremium=Math.random()<.3;const isActive=Math.random()>.15;
+    USERS.push({id:i,name:n,email:n.toLowerCase().replace(/ /g,'.').normalize('NFD').replace(/[\u0300-\u036f]/g,'')+'@'+rItem(['gmail.com','outlook.com','hotmail.com','yahoo.com']),plan:isPremium?'premium':'free',date:genDate(rng(0,90)),active:isActive,sessions:isActive?rng(1,50):rng(0,3),streak:isActive?rng(0,30):0,xp:rng(0,5000),level:rItem(LEVELS),goal:rItem(GOALS),program:rItem(PROGRAMS),provider:rItem(PROVIDERS),color:COLORS[i%COLORS.length]});
+  }
+}
+generateUsers();
+
+let currentFilter='all',currentSort='date',sortAsc=false,currentPage=1;const PER_PAGE=15;
+
+function getFiltered(){
+  let list=[...USERS];const q=document.getElementById('searchInput').value.trim().toLowerCase();
+  if(q)list=list.filter(u=>u.name.toLowerCase().includes(q)||u.email.toLowerCase().includes(q));
+  if(currentFilter==='premium')list=list.filter(u=>u.plan==='premium');
+  if(currentFilter==='free')list=list.filter(u=>u.plan==='free');
+  if(currentFilter==='active')list=list.filter(u=>u.active);
+  if(currentFilter==='inactive')list=list.filter(u=>!u.active);
+  list.sort((a,b)=>{let v;
+    if(currentSort==='name')v=a.name.localeCompare(b.name);
+    else if(currentSort==='plan')v=a.plan.localeCompare(b.plan);
+    else if(currentSort==='date')v=b.date-a.date;
+    else if(currentSort==='sessions')v=b.sessions-a.sessions;
+    else if(currentSort==='streak')v=b.streak-a.streak;
+    else if(currentSort==='status')v=(b.active?1:0)-(a.active?1:0);
+    else v=0;
+    return sortAsc?-v:v;
+  });
+  return list;
+}
+
+function renderTable(){
+  const list=getFiltered();const total=list.length;const pages=Math.ceil(total/PER_PAGE);
+  if(currentPage>pages)currentPage=pages||1;
+  const start=(currentPage-1)*PER_PAGE;const page=list.slice(start,start+PER_PAGE);
+  document.getElementById('resultCount').textContent=total+' resultados';
+  document.getElementById('pagInfo').textContent=`Mostrando ${start+1}-${Math.min(start+PER_PAGE,total)} de ${total}`;
+  const body=document.getElementById('tableBody');body.innerHTML='';
+  page.forEach(u=>{
+    const provIcon=u.provider==='google'?'<span style="font-size:11px;color:#4285F4;font-weight:700;">G</span>':u.provider==='instagram'?'<span style="font-size:11px;color:#E1306C;font-weight:700;">IG</span>':'';
+    body.innerHTML+=`<tr onclick="openDrawer(${u.id})">
+      <td><div class="user-cell"><div class="uc-avatar" style="background:${u.color}">${u.name[0]}</div><div><div class="uc-name">${u.name}</div><div class="uc-email">${u.email} ${provIcon}</div></div></div></td>
+      <td><span class="plan-badge ${u.plan}">${u.plan}</span></td>
+      <td>${u.date.toLocaleDateString('es-MX',{day:'numeric',month:'short',year:'numeric'})}</td>
+      <td><div class="status-pill"><span class="status-dot ${u.active?'active':'inactive'}"></span>${u.active?'Activa':'Inactiva'}</div></td>
+      <td>${u.sessions}</td>
+      <td>${u.streak>0?'🔥 '+u.streak:'—'}</td>
+      <td><div class="row-actions"><button class="row-btn" onclick="event.stopPropagation();openDrawer(${u.id})" title="Ver detalle"><span class="material-symbols-outlined">visibility</span></button><button class="row-btn" onclick="event.stopPropagation();toggleStatus(${u.id})" title="Activar/Desactivar"><span class="material-symbols-outlined">${u.active?'block':'check_circle'}</span></button></div></td>
+    </tr>`;
+  });
+  // Pagination
+  const pb=document.getElementById('pagBtns');pb.innerHTML='';
+  pb.innerHTML+=`<button class="pag-btn nav" onclick="goPage(${currentPage-1})" ${currentPage<=1?'disabled':''}><span class="material-symbols-outlined" style="font-size:18px;">chevron_left</span></button>`;
+  const maxShow=7;let startP=Math.max(1,currentPage-3),endP=Math.min(pages,startP+maxShow-1);
+  if(endP-startP<maxShow-1)startP=Math.max(1,endP-maxShow+1);
+  for(let p=startP;p<=endP;p++)pb.innerHTML+=`<button class="pag-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+  pb.innerHTML+=`<button class="pag-btn nav" onclick="goPage(${currentPage+1})" ${currentPage>=pages?'disabled':''}><span class="material-symbols-outlined" style="font-size:18px;">chevron_right</span></button>`;
+}
+
+function setFilter(f,btn){currentFilter=f;currentPage=1;document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));btn.classList.add('active');renderTable();}
+function sortBy(col){if(currentSort===col)sortAsc=!sortAsc;else{currentSort=col;sortAsc=false;}renderTable();}
+function goPage(p){const pages=Math.ceil(getFiltered().length/PER_PAGE);if(p>=1&&p<=pages){currentPage=p;renderTable();}}
+function applyFilters(){currentPage=1;renderTable();}
+function toggleStatus(id){const u=USERS.find(x=>x.id===id);if(u){u.active=!u.active;renderTable();}}
+
+// Drawer
+function openDrawer(id){
+  const u=USERS.find(x=>x.id===id);if(!u)return;
+  const d=document.getElementById('drawer');
+  const planBtn=u.plan==='free'?`<button class="da-btn upgrade" onclick="changePlan(${u.id},'premium')"><span class="material-symbols-outlined">workspace_premium</span>Subir a Premium</button>`:`<button class="da-btn downgrade" onclick="changePlan(${u.id},'free')"><span class="material-symbols-outlined">arrow_downward</span>Cambiar a Free</button>`;
+  const statusBtn=u.active?`<button class="da-btn deactivate" onclick="toggleStatus(${u.id});openDrawer(${u.id})"><span class="material-symbols-outlined">block</span>Desactivar Usuario</button>`:`<button class="da-btn upgrade" onclick="toggleStatus(${u.id});openDrawer(${u.id})" style="background:var(--success)"><span class="material-symbols-outlined">check_circle</span>Reactivar Usuario</button>`;
+  d.innerHTML=`
+    <div class="drawer-header"><h3 style="font-size:16px;font-weight:800;">Detalle de Usuario</h3><button class="drawer-close" onclick="closeDrawer()"><span class="material-symbols-outlined">close</span></button></div>
+    <div class="drawer-profile"><div class="drawer-avatar" style="background:${u.color}">${u.name[0]}</div><div class="drawer-name">${u.name}</div><div class="drawer-email">${u.email}</div><div class="drawer-badges"><span class="plan-badge ${u.plan}">${u.plan}</span><span class="status-pill" style="font-size:11px;"><span class="status-dot ${u.active?'active':'inactive'}"></span>${u.active?'Activa':'Inactiva'}</span></div></div>
+    <div class="drawer-stats"><div class="ds-item"><div class="ds-val">${u.sessions}</div><div class="ds-label">Sesiones</div></div><div class="ds-item"><div class="ds-val">${u.streak>0?'🔥 '+u.streak:'0'}</div><div class="ds-label">Racha</div></div><div class="ds-item"><div class="ds-val">${u.xp}</div><div class="ds-label">XP</div></div></div>
+    <div class="drawer-section"><h4><span class="material-symbols-outlined" style="font-size:16px;">person</span>Información</h4>
+      <div class="drawer-row"><span class="dr-label">Registro</span><span class="dr-value">${u.date.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'})}</span></div>
+      <div class="drawer-row"><span class="dr-label">Método</span><span class="dr-value">${u.provider==='google'?'Google':u.provider==='instagram'?'Instagram':'Email'}</span></div>
+      <div class="drawer-row"><span class="dr-label">Nivel</span><span class="dr-value">${u.level}</span></div>
+      <div class="drawer-row"><span class="dr-label">Objetivo</span><span class="dr-value">${u.goal}</span></div>
+    </div>
+    <div class="drawer-section"><h4><span class="material-symbols-outlined" style="font-size:16px;">fitness_center</span>Actividad</h4>
+      <div class="drawer-row"><span class="dr-label">Programa Activo</span><span class="dr-value">${u.program}</span></div>
+      <div class="drawer-row"><span class="dr-label">Sesiones Totales</span><span class="dr-value">${u.sessions}</span></div>
+      <div class="drawer-row"><span class="dr-label">Racha Máxima</span><span class="dr-value">${u.streak} días</span></div>
+      <div class="drawer-row"><span class="dr-label">XP Acumulado</span><span class="dr-value">${u.xp} XP</span></div>
+    </div>
+    <div class="drawer-actions">${planBtn}${statusBtn}<button class="da-btn delete" onclick="deleteUser(${u.id})"><span class="material-symbols-outlined">delete</span>Eliminar Usuario</button></div>`;
+  document.getElementById('drawerOverlay').classList.add('open');
+}
+function closeDrawer(){document.getElementById('drawerOverlay').classList.remove('open');}
+document.getElementById('drawerOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDrawer();});
+
+function changePlan(id,plan){const u=USERS.find(x=>x.id===id);if(u){u.plan=plan;renderTable();openDrawer(id);}}
+function deleteUser(id){if(!confirm('¿Eliminar este usuario permanentemente?'))return;USERS=USERS.filter(x=>x.id!==id);document.getElementById('totalBadge').textContent=USERS.length;document.getElementById('kpiTotal').textContent=USERS.length;closeDrawer();renderTable();}
+
+// Add User Modal
+function openAddModal(){document.getElementById('addModal').classList.add('active');}
+function closeAddModal(){document.getElementById('addModal').classList.remove('active');}
+document.getElementById('addModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeAddModal();});
+function addUser(){
+  const name=document.getElementById('addName').value.trim();const email=document.getElementById('addEmail').value.trim();
+  if(!name||!email){alert('Nombre y email son requeridos');return;}
+  USERS.unshift({id:Date.now(),name,email,plan:document.getElementById('addPlan').value,date:new Date(),active:true,sessions:0,streak:0,xp:0,level:document.getElementById('addLevel').value,goal:document.getElementById('addGoal').value,program:'—',provider:'email',color:COLORS[Math.floor(Math.random()*COLORS.length)]});
+  document.getElementById('totalBadge').textContent=USERS.length;document.getElementById('kpiTotal').textContent=USERS.length;
+  closeAddModal();document.getElementById('addName').value='';document.getElementById('addEmail').value='';document.getElementById('addPass').value='';renderTable();
+}
+
+// Export CSV
+function exportCSV(){
+  let csv='Nombre,Email,Plan,Registro,Estado,Sesiones,Racha,XP,Nivel,Objetivo,Programa,Provider\n';
+  getFiltered().forEach(u=>{csv+=`"${u.name}","${u.email}",${u.plan},"${u.date.toLocaleDateString('es-MX')}",${u.active?'Activa':'Inactiva'},${u.sessions},${u.streak},${u.xp},${u.level},${u.goal},${u.program},${u.provider}\n`;});
+  const blob=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='evara_usuarios_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+
+renderTable();
+</script>
+</body>
+</html>

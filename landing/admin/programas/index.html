@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara Admin — Programas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--on-primary:#fff;--on-primary-container:#734034;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300;--error:#F44336;--info:#1976D2}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--inverse-surface);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary-fixed);letter-spacing:-1px;margin-bottom:6px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-sub{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(250,238,235,.3);padding:0 12px;margin-bottom:32px}
+    .sidebar-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(250,238,235,.2);padding:0 16px;margin:20px 0 8px}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:12px;font-weight:600;font-size:13px;color:rgba(250,238,235,.5);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:rgba(255,255,255,.06);color:var(--inverse-on-surface)}.sidebar-link.active{background:var(--primary);color:var(--on-primary);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:20px}.sidebar-link .link-badge{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--error);color:#fff}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:14px 12px;margin-top:auto;border-top:1px solid rgba(255,255,255,.06)}
+    .sidebar-avatar{width:36px;height:36px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:14px;color:var(--on-primary)}
+    .sidebar-user-name{font-weight:700;font-size:13px;color:var(--inverse-on-surface)}.sidebar-user-role{font-size:10px;color:rgba(250,238,235,.4);text-transform:uppercase;letter-spacing:1px}
+    .sidebar-logout{width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,.06);color:rgba(250,238,235,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;transition:all .2s}
+    .sidebar-logout:hover{background:rgba(244,67,54,.2);color:var(--error)}
+    .main-content{flex:1;margin-left:260px;padding:32px 40px}
+    @media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0;padding:20px}}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .page-header h1{font-size:24px;font-weight:800;letter-spacing:-1px;display:flex;align-items:center;gap:10px}
+    .btn{padding:10px 20px;border-radius:12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;transition:all .2s;border:none;display:flex;align-items:center;gap:6px}
+    .btn-primary{background:var(--primary);color:var(--on-primary)}.btn-primary:hover{box-shadow:0 6px 16px rgba(134,80,67,.2);transform:translateY(-1px)}
+    .btn .material-symbols-outlined{font-size:18px}
+    /* KPIs */
+    .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+    @media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+    .kpi{background:var(--surface-container-lowest);border-radius:16px;padding:18px;transition:transform .3s}.kpi:hover{transform:translateY(-3px)}
+    .kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}.kpi-icon .material-symbols-outlined{font-size:18px}
+    .kpi-val{font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;letter-spacing:-.5px}.kpi-label{font-size:11px;color:var(--outline);margin-top:2px}
+    /* Program Cards */
+    .prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+    .prog-card{background:var(--surface-container-lowest);border-radius:20px;overflow:hidden;transition:all .3s}
+    .prog-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(134,80,67,.08)}
+    .prog-hero{height:160px;position:relative;overflow:hidden}
+    .prog-hero img{width:100%;height:100%;object-fit:cover;transition:transform .5s}.prog-card:hover .prog-hero img{transform:scale(1.05)}
+    .prog-hero .prog-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(32,26,25,.8) 10%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+    .prog-hero h4{color:#fff;font-size:18px;font-weight:800}.prog-hero .prog-coach{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+    .prog-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px}
+    .prog-badge{padding:3px 10px;border-radius:999px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;backdrop-filter:blur(4px)}
+    .prog-badge.status-pub{background:var(--success);color:#fff}.prog-badge.status-draft{background:var(--warning);color:#fff}
+    .prog-badge.tier-free{background:rgba(255,255,255,.15);color:#fff}.prog-badge.tier-premium{background:linear-gradient(135deg,#FFB300,#FF6F00);color:#fff}
+    .prog-badge.new{background:var(--info);color:#fff}.prog-badge.popular{background:var(--error);color:#fff}
+    .prog-body{padding:18px}
+    .prog-desc{font-size:12px;color:var(--on-surface-variant);line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .prog-meta{display:flex;gap:16px;margin-bottom:14px;font-size:11px;color:var(--outline)}.prog-meta span{display:flex;align-items:center;gap:3px}.prog-meta .material-symbols-outlined{font-size:14px}
+    .prog-bar{margin-bottom:14px}
+    .prog-bar-label{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:4px}
+    .prog-bar-label span:last-child{color:var(--primary)}
+    .prog-bar-track{height:6px;background:var(--surface-container);border-radius:999px;overflow:hidden}
+    .prog-bar-fill{height:100%;border-radius:999px;background:var(--primary);transition:width .6s}
+    .prog-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+    .ps-item{text-align:center;padding:8px;background:var(--surface-container-low);border-radius:8px}
+    .ps-item .ps-val{font-family:'Plus Jakarta Sans';font-weight:800;font-size:14px}.ps-item .ps-lbl{font-size:9px;color:var(--outline);text-transform:uppercase}
+    .prog-weeks{margin-bottom:14px}
+    .prog-weeks-label{font-size:11px;font-weight:700;color:var(--on-surface-variant);margin-bottom:6px}
+    .week-pills{display:flex;gap:4px;flex-wrap:wrap}
+    .week-pill{padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;background:var(--surface-container);color:var(--on-surface-variant)}
+    .week-pill.has-sessions{background:var(--primary-fixed);color:var(--primary)}
+    .prog-actions{display:flex;gap:6px}
+    .pa-btn{flex:1;padding:9px;border-radius:10px;border:none;font-family:'Manrope';font-weight:700;font-size:11px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:4px}
+    .pa-btn.edit{background:var(--surface-container);color:var(--on-surface-variant)}.pa-btn.edit:hover{background:var(--primary-fixed);color:var(--primary)}
+    .pa-btn.dup{background:var(--surface-container);color:var(--on-surface-variant)}.pa-btn.dup:hover{background:#e3f2fd;color:var(--info)}
+    .pa-btn.del{background:none;color:var(--outline)}.pa-btn.del:hover{color:var(--error)}
+    .pa-btn .material-symbols-outlined{font-size:14px}
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;z-index:3000;background:rgba(32,26,25,.85);display:none;align-items:flex-start;justify-content:center;padding:30px 20px;overflow-y:auto}
+    .modal-overlay.active{display:flex}
+    .modal-box{width:100%;max-width:700px;background:var(--surface-container-lowest);border-radius:24px;padding:32px;animation:modalIn .4s ease}
+    @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+    .modal-box h3{font-size:20px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px}
+    .mf{margin-bottom:14px}.mf label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:block;color:var(--on-surface-variant)}
+    .mf input,.mf select,.mf textarea{width:100%;padding:11px 14px;border:2px solid var(--outline-variant);border-radius:10px;font-size:13px;font-family:'Plus Jakarta Sans';font-weight:600;background:var(--surface-container-low);outline:none;transition:border .2s}
+    .mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--primary)}
+    .mf textarea{resize:vertical;min-height:50px}
+    .mf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .mf-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .mf-row4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
+    /* Features editor */
+    .feat-list{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+    .feat-item{display:flex;align-items:center;gap:6px}
+    .feat-item input{flex:1;padding:8px 10px;border:1px solid var(--outline-variant);border-radius:8px;font-size:12px;font-family:'Manrope';font-weight:600;background:var(--surface-container-low);outline:none}
+    .feat-item input:focus{border-color:var(--primary)}
+    .feat-del{width:24px;height:24px;border:none;background:none;cursor:pointer;color:var(--outline);display:flex;align-items:center;justify-content:center}.feat-del:hover{color:var(--error)}.feat-del .material-symbols-outlined{font-size:16px}
+    .feat-add{padding:6px 12px;border:2px dashed var(--outline-variant);border-radius:8px;background:none;font-family:'Manrope';font-weight:700;font-size:11px;cursor:pointer;color:var(--primary);display:flex;align-items:center;gap:4px;margin-top:4px}.feat-add:hover{border-color:var(--primary);background:var(--primary-fixed)}.feat-add .material-symbols-outlined{font-size:14px}
+    /* Week Builder */
+    .week-builder{margin-top:20px;padding-top:16px;border-top:2px solid var(--surface-container-high)}
+    .week-builder h4{font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+    .week-tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}
+    .week-tab{padding:7px 14px;border-radius:8px;border:2px solid var(--surface-container-high);font-family:'Manrope';font-weight:700;font-size:11px;cursor:pointer;background:none;color:var(--on-surface-variant);transition:all .2s;display:flex;align-items:center;gap:4px}
+    .week-tab:hover{border-color:var(--primary)}.week-tab.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+    .week-tab .material-symbols-outlined{font-size:14px}
+    .week-add-btn{padding:7px 14px;border-radius:8px;border:2px dashed var(--outline-variant);font-family:'Manrope';font-weight:700;font-size:11px;cursor:pointer;background:none;color:var(--primary)}.week-add-btn:hover{border-color:var(--primary);background:var(--primary-fixed)}
+    .day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    @media(max-width:600px){.day-grid{grid-template-columns:repeat(3,1fr)}}
+    .day-card{background:var(--surface-container-low);border-radius:10px;padding:10px;text-align:center;transition:all .2s}
+    .day-card.rest{opacity:.5}
+    .day-label{font-size:9px;font-weight:700;text-transform:uppercase;color:var(--outline);margin-bottom:6px}
+    .day-card input{width:100%;padding:5px;border:1px solid var(--outline-variant);border-radius:6px;font-size:10px;font-family:'Manrope';font-weight:600;text-align:center;outline:none;margin-bottom:4px;background:var(--surface-container-lowest)}
+    .day-card input:focus{border-color:var(--primary)}
+    .day-card select{width:100%;padding:4px;border:1px solid var(--outline-variant);border-radius:6px;font-size:9px;font-family:'Manrope';outline:none;background:var(--surface-container-lowest)}
+    .day-dur{font-size:10px;color:var(--outline);margin-top:4px}
+    .rest-toggle{margin-top:4px;font-size:9px;color:var(--primary);cursor:pointer;font-weight:700;border:none;background:none}
+    .modal-actions{display:flex;gap:10px;margin-top:24px}.modal-actions button{flex:1;padding:13px;border-radius:12px;font-family:'Plus Jakarta Sans';font-weight:700;font-size:13px;cursor:pointer;border:none;transition:all .2s}
+    .btn-cancel{background:var(--surface-container);color:var(--on-surface-variant)}.btn-save{background:var(--primary);color:var(--on-primary)}.btn-save:hover{box-shadow:0 6px 16px rgba(134,80,67,.2)}
+    .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards}@keyframes fadeIn{to{opacity:1;transform:none}}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/admin" class="sidebar-logo">Evara</a>
+    <div class="sidebar-sub">Panel Admin</div>
+    <nav>
+      <div class="sidebar-section">General</div>
+      <a class="sidebar-link" href="/admin"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+      <a class="sidebar-link" href="/admin/analiticas"><span class="material-symbols-outlined">analytics</span>Analíticas</a>
+      <div class="sidebar-section">Gestión</div>
+      <a class="sidebar-link" href="/admin/usuarios"><span class="material-symbols-outlined">group</span>Usuarios<span class="link-badge">248</span></a>
+      <a class="sidebar-link" href="/admin/entrenamientos"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link active" href="/admin/programas"><span class="material-symbols-outlined filled">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">emoji_events</span>Retos</a>
+      <div class="sidebar-section">Contenido</div>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">play_circle</span>Videos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">article</span>Blog / Tips</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">campaign</span>Notificaciones</a>
+      <div class="sidebar-section">Sistema</div>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">payments</span>Pagos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">settings</span>Configuración</a>
+    </nav>
+    <div class="sidebar-user"><div class="sidebar-avatar">A</div><div><div class="sidebar-user-name">Administrador</div><div class="sidebar-user-role">Super Admin</div></div><button class="sidebar-logout" onclick="logout()" title="Cerrar sesión"><span class="material-symbols-outlined" style="font-size:18px;">logout</span></button></div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header fade-in">
+      <h1><span class="material-symbols-outlined filled" style="font-size:28px;color:var(--primary);">calendar_month</span>Gestión de Programas</h1>
+      <button class="btn btn-primary" onclick="openModal()"><span class="material-symbols-outlined">add</span>Crear Programa</button>
+    </div>
+
+    <div class="kpi-grid fade-in delay-1">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon" style="background:var(--primary-fixed)"><span class="material-symbols-outlined filled" style="color:var(--primary)">calendar_month</span></div></div><div class="kpi-val" id="kpiTotal">0</div><div class="kpi-label">Programas Totales</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon" style="background:#e8f5e9"><span class="material-symbols-outlined filled" style="color:var(--success)">group</span></div></div><div class="kpi-val">551</div><div class="kpi-label">Usuarias Activas</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon" style="background:#FFF8E1"><span class="material-symbols-outlined filled" style="color:var(--warning)">emoji_events</span></div></div><div class="kpi-val">310</div><div class="kpi-label">Completados</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon" style="background:#e3f2fd"><span class="material-symbols-outlined filled" style="color:var(--info)">percent</span></div></div><div class="kpi-val">56%</div><div class="kpi-label">Tasa Completación</div></div>
+    </div>
+
+    <div class="prog-grid fade-in delay-2" id="progGrid"></div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="progModal">
+  <div class="modal-box">
+    <h3 id="modalTitle"><span class="material-symbols-outlined" style="color:var(--primary);">add</span>Crear Programa</h3>
+    <div class="mf-row">
+      <div class="mf"><label>Nombre</label><input type="text" id="pName" placeholder="ej. Glúteo de Acero" /></div>
+      <div class="mf"><label>Estado</label><select id="pStatus"><option value="published">Publicado</option><option value="draft">Borrador</option></select></div>
+    </div>
+    <div class="mf"><label>Descripción</label><textarea id="pDesc" rows="2" placeholder="Descripción del programa..."></textarea></div>
+    <div class="mf-row4">
+      <div class="mf"><label>Duración</label><input type="text" id="pDuration" placeholder="4 semanas" /></div>
+      <div class="mf"><label>Nivel</label><select id="pLevel"><option>Principiante</option><option>Intermedio</option><option>Avanzado</option></select></div>
+      <div class="mf"><label>Tier</label><select id="pTier"><option value="free">Free</option><option value="premium">Premium</option></select></div>
+      <div class="mf"><label>Badge</label><select id="pBadge"><option value="">Ninguno</option><option value="Nuevo">Nuevo</option><option value="Popular">Popular</option><option value="Sin Equipo">Sin Equipo</option></select></div>
+    </div>
+    <div class="mf"><label>Imagen URL</label><input type="text" id="pImg" placeholder="https://..." /></div>
+
+    <div class="mf"><label>Features (viñetas)</label>
+      <div class="feat-list" id="featList"></div>
+      <button class="feat-add" onclick="addFeature()"><span class="material-symbols-outlined">add</span>Agregar feature</button>
+    </div>
+
+    <div class="week-builder">
+      <h4>Constructor de Semanas <button class="week-add-btn" onclick="addWeek()">+ Semana</button></h4>
+      <div class="week-tabs" id="weekTabs"></div>
+      <div id="weekContent"></div>
+    </div>
+
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">Cancelar</button><button class="btn-save" onclick="saveProgram()">Guardar Programa</button></div>
+  </div>
+</div>
+
+<script>
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+try{const u=JSON.parse(userStr);if(u.role!=='admin')window.location.href='/home';}catch(e){window.location.href='/';}
+function logout(){localStorage.removeItem('evara_token');localStorage.removeItem('evara_user');window.location.href='/';}
+
+const IMGS=['https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=300&fit=crop','https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=300&fit=crop','https://images.unsplash.com/photo-1550345332-09e3ac987658?w=600&h=300&fit=crop','https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=300&fit=crop'];
+const DAYNAMES=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const SESSIONS=['Hip Thrust Day','Booty Burn','Activación Glútea','Piernas de Acero','Core Blast','Full Body Power','Descanso'];
+
+let PROGRAMS=[
+  {id:1,name:'Reto 30 Días Booty',desc:'El programa más popular de Evara. 4 semanas diseñadas para transformar tu glúteo con progresión inteligente.',duration:'4 semanas',level:'Principiante',tier:'free',badge:'Popular',status:'published',img:IMGS[0],features:['Progresión semanal de peso','Videos explicativos por ejercicio','Rutinas de 30-40 min','Tracking de progreso integrado'],started:186,completed:112,rating:4.8,weeks:[
+    {name:'Activación',focus:'Aprender patrones de movimiento',days:[{session:'Activación Glútea',dur:25,rest:false},{session:'Hip Thrust Day',dur:35,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Booty Burn',dur:30,rest:false},{session:'Core Blast',dur:25,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Descanso',dur:0,rest:true}]},
+    {name:'Construcción',focus:'Aumentar volumen y peso',days:[{session:'Hip Thrust Day',dur:40,rest:false},{session:'Piernas de Acero',dur:35,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Booty Burn',dur:35,rest:false},{session:'Full Body Power',dur:40,rest:false},{session:'Activación Glútea',dur:25,rest:false},{session:'Descanso',dur:0,rest:true}]},
+    {name:'Intensidad',focus:'Superar límites',days:[{session:'Hip Thrust Day',dur:45,rest:false},{session:'Piernas de Acero',dur:40,rest:false},{session:'Core Blast',dur:30,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Booty Burn',dur:40,rest:false},{session:'Full Body Power',dur:45,rest:false},{session:'Descanso',dur:0,rest:true}]},
+    {name:'Peak',focus:'Máximo rendimiento',days:[{session:'Hip Thrust Day',dur:50,rest:false},{session:'Full Body Power',dur:45,rest:false},{session:'Piernas de Acero',dur:40,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Booty Burn',dur:45,rest:false},{session:'Core Blast',dur:30,rest:false},{session:'Descanso',dur:0,rest:true}]}
+  ]},
+  {id:2,name:'Glúteo de Acero',desc:'Programa avanzado de 6 semanas para quienes buscan llevar sus glúteos al siguiente nivel con cargas pesadas.',duration:'6 semanas',level:'Avanzado',tier:'premium',badge:'',status:'published',img:IMGS[1],features:['Pesos pesados con técnica','3 variaciones de Hip Thrust','Supersets avanzados','Plan de nutrición incluido'],started:142,completed:68,rating:4.9,weeks:[
+    {name:'Fase 1',focus:'Base pesada',days:[{session:'Hip Thrust Day',dur:45,rest:false},{session:'Piernas de Acero',dur:40,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Booty Burn',dur:35,rest:false},{session:'Core Blast',dur:30,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Descanso',dur:0,rest:true}]},
+    {name:'Fase 2',focus:'Volumen',days:[{session:'Hip Thrust Day',dur:50,rest:false},{session:'Full Body Power',dur:45,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Piernas de Acero',dur:45,rest:false},{session:'Booty Burn',dur:40,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Descanso',dur:0,rest:true}]}
+  ]},
+  {id:3,name:'Full Body Sculpt',desc:'Tonifica todo tu cuerpo en 4 semanas con rutinas integrales que trabajan todos los grupos musculares.',duration:'4 semanas',level:'Intermedio',tier:'premium',badge:'Nuevo',status:'published',img:IMGS[2],features:['Rutinas full body','Combinación cardio + fuerza','Sin equipo especial','Ideal para tonificar'],started:98,completed:41,rating:4.6,weeks:[
+    {name:'Semana 1',focus:'Adaptación',days:[{session:'Full Body Power',dur:35,rest:false},{session:'Core Blast',dur:25,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Full Body Power',dur:35,rest:false},{session:'Booty Burn',dur:30,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Descanso',dur:0,rest:true}]}
+  ]},
+  {id:4,name:'Glúteo en Casa',desc:'No necesitas gimnasio. Programa completo de 4 semanas usando solo tu cuerpo y bandas de resistencia.',duration:'4 semanas',level:'Principiante',tier:'free',badge:'Sin Equipo',status:'published',img:IMGS[3],features:['Sin equipo necesario','Bandas de resistencia opcionales','20-30 min por sesión','Ideal para principiantes'],started:125,completed:89,rating:4.7,weeks:[
+    {name:'Inicio',focus:'Activación muscular',days:[{session:'Activación Glútea',dur:20,rest:false},{session:'Booty Burn',dur:25,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Core Blast',dur:20,rest:false},{session:'Activación Glútea',dur:20,rest:false},{session:'Descanso',dur:0,rest:true},{session:'Descanso',dur:0,rest:true}]}
+  ]}
+];
+
+let editId=null,modalFeatures=[],modalWeeks=[],activeWeekIdx=0;
+
+function renderGrid(){
+  document.getElementById('kpiTotal').textContent=PROGRAMS.length;
+  const g=document.getElementById('progGrid');g.innerHTML='';
+  PROGRAMS.forEach(p=>{
+    const compPct=p.started?Math.round((p.completed/p.started)*100):0;
+    const badgeHTML=p.badge?`<span class="prog-badge ${p.badge==='Nuevo'?'new':p.badge==='Popular'?'popular':''}">${p.badge}</span>`:'';
+    g.innerHTML+=`<div class="prog-card">
+      <div class="prog-hero"><img src="${p.img}" alt="" /><div class="prog-badges"><span class="prog-badge status-${p.status==='published'?'pub':'draft'}">${p.status==='published'?'Publicado':'Borrador'}</span><span class="prog-badge tier-${p.tier}">${p.tier}</span>${badgeHTML}</div><div class="prog-overlay"><h4>${p.name}</h4><div class="prog-coach">${p.duration} · ${p.level}</div></div></div>
+      <div class="prog-body">
+        <div class="prog-desc">${p.desc}</div>
+        <div class="prog-meta"><span><span class="material-symbols-outlined">calendar_month</span>${p.weeks.length} semanas</span><span><span class="material-symbols-outlined">signal_cellular_alt</span>${p.level}</span><span><span class="material-symbols-outlined">star</span>${p.rating}★</span></div>
+        <div class="prog-bar"><div class="prog-bar-label"><span>Completación</span><span>${compPct}%</span></div><div class="prog-bar-track"><div class="prog-bar-fill" style="width:${compPct}%"></div></div></div>
+        <div class="prog-stats"><div class="ps-item"><div class="ps-val">${p.started}</div><div class="ps-lbl">Iniciados</div></div><div class="ps-item"><div class="ps-val">${p.completed}</div><div class="ps-lbl">Completados</div></div><div class="ps-item"><div class="ps-val">${p.features.length}</div><div class="ps-lbl">Features</div></div></div>
+        <div class="prog-weeks"><div class="prog-weeks-label">Semanas:</div><div class="week-pills">${p.weeks.map(w=>`<span class="week-pill has-sessions">${w.name}</span>`).join('')}</div></div>
+        <div class="prog-actions"><button class="pa-btn edit" onclick="editProg(${p.id})"><span class="material-symbols-outlined">edit</span>Editar</button><button class="pa-btn dup" onclick="dupProg(${p.id})"><span class="material-symbols-outlined">content_copy</span>Duplicar</button><button class="pa-btn del" onclick="delProg(${p.id})"><span class="material-symbols-outlined">delete</span></button></div>
+      </div>
+    </div>`;
+  });
+}
+
+// Modal
+function openModal(prog){
+  editId=prog?prog.id:null;
+  document.getElementById('modalTitle').innerHTML=`<span class="material-symbols-outlined" style="color:var(--primary);">${prog?'edit':'add'}</span>${prog?'Editar':'Crear'} Programa`;
+  document.getElementById('pName').value=prog?prog.name:'';
+  document.getElementById('pDesc').value=prog?prog.desc:'';
+  document.getElementById('pDuration').value=prog?prog.duration:'4 semanas';
+  document.getElementById('pLevel').value=prog?prog.level:'Principiante';
+  document.getElementById('pTier').value=prog?prog.tier:'free';
+  document.getElementById('pBadge').value=prog?prog.badge:'';
+  document.getElementById('pStatus').value=prog?prog.status:'published';
+  document.getElementById('pImg').value=prog?prog.img:'';
+  modalFeatures=prog?[...prog.features]:[''];
+  modalWeeks=prog?JSON.parse(JSON.stringify(prog.weeks)):[{name:'Semana 1',focus:'',days:DAYNAMES.map(()=>({session:'',dur:30,rest:false}))}];
+  activeWeekIdx=0;
+  renderFeatures();renderWeekTabs();renderWeekDays();
+  document.getElementById('progModal').classList.add('active');
+}
+function closeModal(){document.getElementById('progModal').classList.remove('active');editId=null;}
+document.getElementById('progModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+
+function renderFeatures(){
+  const el=document.getElementById('featList');el.innerHTML='';
+  modalFeatures.forEach((f,i)=>{
+    el.innerHTML+=`<div class="feat-item"><span style="color:var(--primary);font-size:12px;">✦</span><input value="${f}" placeholder="Feature..." onchange="modalFeatures[${i}]=this.value" /><button class="feat-del" onclick="modalFeatures.splice(${i},1);renderFeatures()"><span class="material-symbols-outlined">close</span></button></div>`;
+  });
+}
+function addFeature(){modalFeatures.push('');renderFeatures();}
+
+function renderWeekTabs(){
+  const el=document.getElementById('weekTabs');el.innerHTML='';
+  modalWeeks.forEach((w,i)=>{
+    el.innerHTML+=`<button class="week-tab ${i===activeWeekIdx?'active':''}" onclick="activeWeekIdx=${i};renderWeekTabs();renderWeekDays()">${w.name||'Sem '+(i+1)}</button>`;
+  });
+}
+function addWeek(){modalWeeks.push({name:'Semana '+(modalWeeks.length+1),focus:'',days:DAYNAMES.map(()=>({session:'',dur:30,rest:false}))});activeWeekIdx=modalWeeks.length-1;renderWeekTabs();renderWeekDays();}
+
+function renderWeekDays(){
+  const w=modalWeeks[activeWeekIdx];if(!w)return;
+  const el=document.getElementById('weekContent');
+  let html=`<div class="mf-row" style="margin-bottom:10px"><div class="mf"><label>Nombre Semana</label><input value="${w.name}" onchange="modalWeeks[${activeWeekIdx}].name=this.value;renderWeekTabs()" /></div><div class="mf"><label>Foco</label><input value="${w.focus}" placeholder="ej. Activación muscular" onchange="modalWeeks[${activeWeekIdx}].focus=this.value" /></div></div>`;
+  html+='<div class="day-grid">';
+  w.days.forEach((d,i)=>{
+    const sessOpts=SESSIONS.map(s=>`<option ${d.session===s?'selected':''}>${s}</option>`).join('');
+    html+=`<div class="day-card ${d.rest?'rest':''}"><div class="day-label">${DAYNAMES[i]}</div>
+      ${d.rest?`<div style="font-size:20px;margin:8px 0">😴</div><div style="font-size:10px;color:var(--outline);font-weight:700">Descanso</div>`:`<select onchange="modalWeeks[${activeWeekIdx}].days[${i}].session=this.value">${sessOpts}</select><input type="number" value="${d.dur}" style="margin-top:4px" onchange="modalWeeks[${activeWeekIdx}].days[${i}].dur=parseInt(this.value)" /><div class="day-dur">${d.dur} min</div>`}
+      <button class="rest-toggle" onclick="modalWeeks[${activeWeekIdx}].days[${i}].rest=!modalWeeks[${activeWeekIdx}].days[${i}].rest;if(modalWeeks[${activeWeekIdx}].days[${i}].rest){modalWeeks[${activeWeekIdx}].days[${i}].session='Descanso';modalWeeks[${activeWeekIdx}].days[${i}].dur=0;}renderWeekDays()">${d.rest?'Activar':'Descanso'}</button>
+    </div>`;
+  });
+  html+='</div>';
+  if(modalWeeks.length>1)html+=`<button style="margin-top:10px;padding:6px 12px;border:none;background:none;color:var(--error);font-family:Manrope;font-weight:700;font-size:11px;cursor:pointer" onclick="modalWeeks.splice(${activeWeekIdx},1);activeWeekIdx=Math.max(0,activeWeekIdx-1);renderWeekTabs();renderWeekDays()">🗑 Eliminar esta semana</button>`;
+  el.innerHTML=html;
+}
+
+function saveProgram(){
+  const name=document.getElementById('pName').value.trim();if(!name)return alert('Nombre requerido');
+  const data={name,desc:document.getElementById('pDesc').value.trim(),duration:document.getElementById('pDuration').value,level:document.getElementById('pLevel').value,tier:document.getElementById('pTier').value,badge:document.getElementById('pBadge').value,status:document.getElementById('pStatus').value,img:document.getElementById('pImg').value||IMGS[Math.floor(Math.random()*IMGS.length)],features:modalFeatures.filter(f=>f),weeks:modalWeeks};
+  if(editId){const idx=PROGRAMS.findIndex(p=>p.id===editId);if(idx>=0)Object.assign(PROGRAMS[idx],data);}
+  else PROGRAMS.unshift({id:Date.now(),...data,started:0,completed:0,rating:'—'});
+  closeModal();renderGrid();
+}
+
+function editProg(id){const p=PROGRAMS.find(x=>x.id===id);if(p)openModal(p);}
+function dupProg(id){const p=PROGRAMS.find(x=>x.id===id);if(!p)return;PROGRAMS.unshift({...JSON.parse(JSON.stringify(p)),id:Date.now(),name:p.name+' (copia)',started:0,completed:0,status:'draft'});renderGrid();}
+function delProg(id){if(!confirm('¿Eliminar este programa?'))return;PROGRAMS=PROGRAMS.filter(x=>x.id!==id);renderGrid();}
+
+renderGrid();
+</script>
+</body>
+</html>

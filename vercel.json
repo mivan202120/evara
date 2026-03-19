@@ -14,6 +14,7 @@
     { "source": "/admin/usuarios", "destination": "/admin/usuarios/index.html" },
     { "source": "/admin/analiticas", "destination": "/admin/analiticas/index.html" },
     { "source": "/admin/entrenamientos", "destination": "/admin/entrenamientos/index.html" },
+    { "source": "/admin/programas", "destination": "/admin/programas/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

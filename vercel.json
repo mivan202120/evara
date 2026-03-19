@@ -10,6 +10,7 @@
     { "source": "/coach", "destination": "/coach/index.html" },
     { "source": "/retos", "destination": "/retos/index.html" },
     { "source": "/cuenta", "destination": "/cuenta/index.html" },
+    { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

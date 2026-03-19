@@ -861,8 +861,8 @@
 
       <form id="loginForm">
         <div class="form-group">
-          <label for="loginEmail">Correo Electrónico</label>
-          <input type="email" id="loginEmail" placeholder="maya@ejemplo.com" required />
+          <label for="loginEmail">Usuario o Correo Electrónico</label>
+          <input type="text" id="loginEmail" placeholder="usuario o email" required />
         </div>
         <div class="form-group">
           <label for="loginPassword">Contraseña</label>
@@ -1143,6 +1143,12 @@
     });
 
     // Login Form Submit
+    // Hardcoded users
+    const HARDCODED_USERS = {
+      'admin': { password: '1234', role: 'admin', name: 'Administrador', email: 'admin@evara.com', plan: 'premium', fitness_goal: 'full_sculpt', redirect: '/admin' },
+      'ivan':  { password: '1234', role: 'user',  name: 'Ivan',          email: 'ivan@evara.com',  plan: 'premium', fitness_goal: 'grow_glutes', redirect: '/home' }
+    };
+
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const btn = document.getElementById("loginBtn");
@@ -1150,13 +1156,27 @@
       errEl.classList.remove("visible"); errEl.textContent = "";
       btn.textContent = "Ingresando...";
       btn.disabled = true;
+
+      const inputUser = document.getElementById("loginEmail").value.trim().toLowerCase();
+      const inputPass = document.getElementById("loginPassword").value;
+
+      // Check hardcoded users first
+      const hc = HARDCODED_USERS[inputUser];
+      if (hc && hc.password === inputPass) {
+        const fakeToken = 'evara_' + hc.role + '_' + Date.now();
+        const userData = { name: hc.name, email: hc.email, plan: hc.plan, fitness_goal: hc.fitness_goal, role: hc.role, avatar_url: null };
+        localStorage.setItem('evara_token', fakeToken);
+        localStorage.setItem('evara_user', JSON.stringify(userData));
+        closeLogin();
+        window.location.href = hc.redirect;
+        return;
+      }
+
+      // Fallback to API
       try {
         const res = await fetch(API + "/api/login", {
           method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: document.getElementById("loginEmail").value,
-            password: document.getElementById("loginPassword").value,
-          }),
+          body: JSON.stringify({ email: inputUser, password: inputPass }),
         });
         const data = await res.json();
         if (!res.ok) { errEl.textContent = data.error; errEl.classList.add("visible"); return; }
@@ -1165,7 +1185,7 @@
         closeLogin();
         window.location.href = '/home';
       } catch (err) {
-        errEl.textContent = "Error de conexión. Intenta de nuevo."; errEl.classList.add("visible");
+        errEl.textContent = "Usuario o contraseña incorrectos."; errEl.classList.add("visible");
       } finally {
         btn.textContent = "Iniciar Sesión"; btn.disabled = false;
       }

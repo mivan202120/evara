@@ -13,6 +13,7 @@
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/usuarios", "destination": "/admin/usuarios/index.html" },
     { "source": "/admin/analiticas", "destination": "/admin/analiticas/index.html" },
+    { "source": "/admin/entrenamientos", "destination": "/admin/entrenamientos/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

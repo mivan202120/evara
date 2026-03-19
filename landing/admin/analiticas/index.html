@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evara Admin — Analíticas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--primary:#865043;--primary-container:#f4af9e;--primary-fixed:#ffdad2;--primary-fixed-dim:#fcb6a5;--on-primary:#fff;--on-primary-container:#734034;--on-primary-fixed:#351007;--surface-container:#f7ebe8;--surface-container-low:#fdf1ee;--surface-container-lowest:#fff;--surface-container-high:#f1e6e3;--on-surface:#201a19;--on-surface-variant:#514440;--outline:#83746f;--outline-variant:#d5c3bd;--inverse-surface:#352f2d;--inverse-on-surface:#faeeeb;--success:#4CAF50;--warning:#FFB300;--error:#F44336;--info:#1976D2}
+    html{scroll-behavior:smooth}body{font-family:'Manrope',sans-serif;color:var(--on-surface);background:var(--surface-container-low);min-height:100vh}
+    h1,h2,h3,h4,h5,h6{font-family:'Plus Jakarta Sans',sans-serif}
+    .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle}.filled{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
+    .app-shell{display:flex;min-height:100vh}
+    .sidebar{width:260px;background:var(--inverse-surface);padding:32px 20px;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:50}
+    .sidebar-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--primary-fixed);letter-spacing:-1px;margin-bottom:6px;padding:0 12px;text-decoration:none;display:block}
+    .sidebar-sub{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(250,238,235,.3);padding:0 12px;margin-bottom:32px}
+    .sidebar-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(250,238,235,.2);padding:0 16px;margin:20px 0 8px}
+    .sidebar-link{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:12px;font-weight:600;font-size:13px;color:rgba(250,238,235,.5);text-decoration:none;transition:all .2s}
+    .sidebar-link:hover{background:rgba(255,255,255,.06);color:var(--inverse-on-surface)}.sidebar-link.active{background:var(--primary);color:var(--on-primary);font-weight:700}
+    .sidebar-link .material-symbols-outlined{font-size:20px}
+    .sidebar-link .link-badge{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;background:var(--error);color:#fff}
+    .sidebar-user{display:flex;align-items:center;gap:12px;padding:14px 12px;margin-top:auto;border-top:1px solid rgba(255,255,255,.06)}
+    .sidebar-avatar{width:36px;height:36px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:14px;color:var(--on-primary)}
+    .sidebar-user-name{font-weight:700;font-size:13px;color:var(--inverse-on-surface)}.sidebar-user-role{font-size:10px;color:rgba(250,238,235,.4);text-transform:uppercase;letter-spacing:1px}
+    .sidebar-logout{width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,.06);color:rgba(250,238,235,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;transition:all .2s}
+    .sidebar-logout:hover{background:rgba(244,67,54,.2);color:var(--error)}
+    .main-content{flex:1;margin-left:260px;padding:32px 40px}
+    @media(max-width:768px){.sidebar{display:none}.main-content{margin-left:0;padding:20px}}
+    /* Header */
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+    .page-header h1{font-size:24px;font-weight:800;letter-spacing:-1px;display:flex;align-items:center;gap:10px}
+    .range-tabs{display:flex;gap:4px;background:var(--surface-container);border-radius:10px;padding:3px}
+    .range-tab{padding:7px 16px;border-radius:8px;border:none;font-family:'Manrope';font-size:12px;font-weight:600;cursor:pointer;background:none;color:var(--on-surface-variant);transition:all .2s}
+    .range-tab.active{background:var(--surface-container-lowest);color:var(--on-surface);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+    /* KPI Strip */
+    .kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px}
+    @media(max-width:1000px){.kpi-strip{grid-template-columns:repeat(3,1fr)}}@media(max-width:600px){.kpi-strip{grid-template-columns:repeat(2,1fr)}}
+    .kpi{background:var(--surface-container-lowest);border-radius:16px;padding:18px;transition:transform .3s}.kpi:hover{transform:translateY(-3px)}
+    .kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .kpi-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center}.kpi-icon .material-symbols-outlined{font-size:18px}
+    .kpi-icon.a{background:#e3f2fd;color:var(--info)}.kpi-icon.b{background:#e8f5e9;color:var(--success)}.kpi-icon.c{background:#FFF8E1;color:var(--warning)}.kpi-icon.d{background:var(--primary-fixed);color:var(--primary)}.kpi-icon.e{background:#fce4ec;color:var(--error)}
+    .kpi-change{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px}.kpi-change.up{background:#e8f5e9;color:var(--success)}.kpi-change.down{background:#fce4ec;color:var(--error)}
+    .kpi-val{font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px;letter-spacing:-.5px}.kpi-label{font-size:11px;color:var(--outline);margin-top:2px}
+    /* Cards */
+    .card{background:var(--surface-container-lowest);border-radius:18px;padding:24px;margin-bottom:20px}
+    .card h4{font-size:15px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .card h4 .material-symbols-outlined{font-size:18px;color:var(--primary)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .grid-3{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+    @media(max-width:800px){.grid-2,.grid-3{grid-template-columns:1fr}}
+    /* Chart: Area/Line */
+    .area-chart{position:relative;height:200px;overflow:hidden}
+    .area-svg{width:100%;height:100%}
+    .area-line{fill:none;stroke:var(--primary);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .area-fill{fill:url(#areaGrad);opacity:.3}
+    .area-line2{fill:none;stroke:var(--warning);stroke-width:2;stroke-dasharray:6 4}
+    .area-labels{display:flex;justify-content:space-between;padding:6px 4px 0;font-size:10px;color:var(--outline)}
+    .area-legend{display:flex;gap:16px;margin-top:10px}
+    .al-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600}
+    .al-dot{width:10px;height:3px;border-radius:2px}
+    /* Horizontal Bar */
+    .hbar-list{display:flex;flex-direction:column;gap:10px}
+    .hbar{display:flex;align-items:center;gap:10px}
+    .hbar-name{width:140px;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .hbar-track{flex:1;height:10px;background:var(--surface-container);border-radius:999px;overflow:hidden}.hbar-fill{height:100%;border-radius:999px;transition:width .8s}
+    .hbar-val{width:36px;font-size:12px;font-weight:800;text-align:right;color:var(--primary)}
+    /* Funnel */
+    .funnel{display:flex;flex-direction:column;gap:8px}
+    .funnel-step{display:flex;align-items:center;gap:12px}
+    .funnel-bar{height:36px;border-radius:10px;display:flex;align-items:center;padding:0 14px;font-size:12px;font-weight:700;color:#fff;transition:width .6s;min-width:60px}
+    .funnel-label{font-size:12px;color:var(--on-surface-variant);font-weight:600;width:100px;flex-shrink:0}
+    .funnel-pct{font-size:12px;font-weight:800;color:var(--primary);width:40px;text-align:right}
+    /* Heatmap */
+    .heatmap{display:grid;grid-template-columns:repeat(24,1fr);gap:3px}
+    .heat-cell{aspect-ratio:1;border-radius:4px;position:relative;cursor:pointer;transition:transform .15s}
+    .heat-cell:hover{transform:scale(1.3);z-index:2}
+    .heat-cell .ht-tip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--inverse-surface);color:var(--inverse-on-surface);padding:3px 8px;border-radius:6px;font-size:9px;font-weight:700;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none;z-index:5}
+    .heat-cell:hover .ht-tip{opacity:1}
+    .heat-hours{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;margin-top:4px}
+    .heat-hours span{font-size:8px;color:var(--outline);text-align:center}
+    .heat-legend{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:10px;color:var(--outline)}
+    .heat-legend-box{width:14px;height:14px;border-radius:3px}
+    /* Donut */
+    .donut-wrap{display:flex;align-items:center;justify-content:center;gap:20px;padding:10px 0}
+    .donut{width:120px;height:120px;position:relative}.donut svg{width:100%;height:100%;transform:rotate(-90deg)}
+    .donut circle{fill:none;stroke-width:16;stroke-linecap:round}
+    .donut .bg{stroke:var(--surface-container)}.donut .seg{transition:stroke-dashoffset .6s}
+    .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .donut-center .dc-val{font-family:'Plus Jakarta Sans';font-weight:800;font-size:22px}.donut-center .dc-label{font-size:10px;color:var(--outline)}
+    .donut-legend{display:flex;flex-direction:column;gap:8px}
+    .dl-item{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600}
+    .dl-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+    /* Top Users */
+    .top-list{display:flex;flex-direction:column;gap:8px}
+    .top-user{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--surface-container-low);transition:background .2s}
+    .top-user:hover{background:var(--surface-container)}
+    .tu-rank{width:20px;font-family:'Plus Jakarta Sans';font-weight:800;font-size:13px;color:var(--outline);text-align:center}
+    .tu-avatar{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans';font-weight:800;font-size:11px;color:#fff;flex-shrink:0}
+    .tu-name{flex:1;font-size:12px;font-weight:700}.tu-val{font-size:12px;font-weight:800;color:var(--primary)}
+    .fade-in{opacity:0;transform:translateY(16px);animation:fadeIn .5s ease forwards}@keyframes fadeIn{to{opacity:1;transform:none}}.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}.delay-4{animation-delay:.4s}
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a href="/admin" class="sidebar-logo">Evara</a>
+    <div class="sidebar-sub">Panel Admin</div>
+    <nav>
+      <div class="sidebar-section">General</div>
+      <a class="sidebar-link" href="/admin"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+      <a class="sidebar-link active" href="/admin/analiticas"><span class="material-symbols-outlined filled">analytics</span>Analíticas</a>
+      <div class="sidebar-section">Gestión</div>
+      <a class="sidebar-link" href="/admin/usuarios"><span class="material-symbols-outlined">group</span>Usuarios<span class="link-badge">248</span></a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">fitness_center</span>Entrenamientos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">calendar_month</span>Programas</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">emoji_events</span>Retos</a>
+      <div class="sidebar-section">Contenido</div>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">play_circle</span>Videos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">article</span>Blog / Tips</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">campaign</span>Notificaciones</a>
+      <div class="sidebar-section">Sistema</div>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">payments</span>Pagos</a>
+      <a class="sidebar-link" href="#"><span class="material-symbols-outlined">settings</span>Configuración</a>
+    </nav>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div><div class="sidebar-user-name">Administrador</div><div class="sidebar-user-role">Super Admin</div></div>
+      <button class="sidebar-logout" onclick="logout()" title="Cerrar sesión"><span class="material-symbols-outlined" style="font-size:18px;">logout</span></button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header fade-in">
+      <h1><span class="material-symbols-outlined filled" style="font-size:28px;color:var(--primary);">analytics</span>Analíticas</h1>
+      <div class="range-tabs">
+        <button class="range-tab" onclick="setRange('7d',this)">7 días</button>
+        <button class="range-tab active" onclick="setRange('30d',this)">30 días</button>
+        <button class="range-tab" onclick="setRange('90d',this)">90 días</button>
+      </div>
+    </div>
+
+    <!-- KPI Strip -->
+    <div class="kpi-strip fade-in delay-1">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon a"><span class="material-symbols-outlined filled">group</span></div><span class="kpi-change up">+12%</span></div><div class="kpi-val">1,247</div><div class="kpi-label">DAU (activas hoy)</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon b"><span class="material-symbols-outlined filled">person_add</span></div><span class="kpi-change up">+23%</span></div><div class="kpi-val">172</div><div class="kpi-label">Registros (30d)</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon c"><span class="material-symbols-outlined filled">swap_horiz</span></div><span class="kpi-change up">+5%</span></div><div class="kpi-val">29.4%</div><div class="kpi-label">Conversión Free→Premium</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon d"><span class="material-symbols-outlined filled">av_timer</span></div><span class="kpi-change up">+8%</span></div><div class="kpi-val">34 min</div><div class="kpi-label">Duración promedio</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-icon e"><span class="material-symbols-outlined filled">trending_down</span></div><span class="kpi-change down">2.3%</span></div><div class="kpi-val">2.3%</div><div class="kpi-label">Churn Rate</div></div>
+    </div>
+
+    <!-- Row 1: Registrations + Funnel -->
+    <div class="grid-3 fade-in delay-2">
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">show_chart</span>Registros y Usuarios Activos (30 días)</h4>
+        <div class="area-chart"><svg class="area-svg" id="areaChart" viewBox="0 0 600 180" preserveAspectRatio="none"></svg></div>
+        <div class="area-labels" id="areaLabels"></div>
+        <div class="area-legend"><div class="al-item"><div class="al-dot" style="background:var(--primary)"></div>Registros</div><div class="al-item"><div class="al-dot" style="background:var(--warning)"></div>Activas diarias</div></div>
+      </div>
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">filter_alt</span>Funnel de Conversión</h4>
+        <div class="funnel" id="funnel"></div>
+      </div>
+    </div>
+
+    <!-- Row 2: Popular Exercises + Goals Distribution -->
+    <div class="grid-2 fade-in delay-2">
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">fitness_center</span>Ejercicios Más Populares</h4>
+        <div class="hbar-list" id="exerciseBars"></div>
+      </div>
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">target</span>Distribución de Objetivos</h4>
+        <div class="donut-wrap">
+          <div class="donut">
+            <svg viewBox="0 0 200 200"><circle class="bg" cx="100" cy="100" r="74"/><circle class="seg" cx="100" cy="100" r="74" stroke="var(--primary)" stroke-dasharray="465" stroke-dashoffset="186"/><circle class="seg" cx="100" cy="100" r="74" stroke="var(--warning)" stroke-dasharray="465" stroke-dashoffset="326"/><circle class="seg" cx="100" cy="100" r="74" stroke="var(--info)" stroke-dasharray="465" stroke-dashoffset="419"/></svg>
+            <div class="donut-center"><div class="dc-val">248</div><div class="dc-label">Usuarias</div></div>
+          </div>
+          <div class="donut-legend">
+            <div class="dl-item"><div class="dl-dot" style="background:var(--primary)"></div>Crecer glúteos — 60%</div>
+            <div class="dl-item"><div class="dl-dot" style="background:var(--warning)"></div>Tonificar — 30%</div>
+            <div class="dl-item"><div class="dl-dot" style="background:var(--info)"></div>Transformación — 10%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Activity Heatmap -->
+    <div class="card fade-in delay-3">
+      <h4><span class="material-symbols-outlined filled">schedule</span>Actividad por Hora del Día (última semana)</h4>
+      <div style="display:grid;grid-template-columns:40px 1fr;gap:4px;align-items:center">
+        <div></div><div class="heat-hours" id="heatHours"></div>
+        <div id="heatDayLabels" style="display:flex;flex-direction:column;gap:3px;font-size:9px;color:var(--outline);font-weight:600"></div>
+        <div id="heatGrid" style="display:flex;flex-direction:column;gap:3px"></div>
+      </div>
+      <div class="heat-legend"><span>Menos</span><div class="heat-legend-box" style="background:var(--surface-container)"></div><div class="heat-legend-box" style="background:var(--primary-fixed)"></div><div class="heat-legend-box" style="background:var(--primary-container)"></div><div class="heat-legend-box" style="background:var(--primary)"></div><span>Más actividad</span></div>
+    </div>
+
+    <!-- Row 4: Programs + Community + Top Users -->
+    <div class="grid-2 fade-in delay-3">
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">calendar_month</span>Programas — Inicio vs. Completación</h4>
+        <div class="hbar-list" id="programBars"></div>
+      </div>
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">emoji_events</span>Top Usuarias (XP)</h4>
+        <div class="top-list" id="topUsers"></div>
+      </div>
+    </div>
+
+    <!-- Row 5: Community + Challenges -->
+    <div class="grid-2 fade-in delay-4">
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">group</span>Engagement Comunidad</h4>
+        <div class="hbar-list">
+          <div class="hbar"><span class="hbar-name">Posts publicados</span><div class="hbar-track"><div class="hbar-fill" style="width:72%;background:var(--primary)"></div></div><span class="hbar-val">342</span></div>
+          <div class="hbar"><span class="hbar-name">Likes totales</span><div class="hbar-track"><div class="hbar-fill" style="width:88%;background:var(--error)"></div></div><span class="hbar-val">2.1k</span></div>
+          <div class="hbar"><span class="hbar-name">Comentarios</span><div class="hbar-track"><div class="hbar-fill" style="width:54%;background:var(--info)"></div></div><span class="hbar-val">876</span></div>
+          <div class="hbar"><span class="hbar-name">Shares</span><div class="hbar-track"><div class="hbar-fill" style="width:28%;background:var(--warning)"></div></div><span class="hbar-val">156</span></div>
+          <div class="hbar"><span class="hbar-name">Avg. likes/post</span><div class="hbar-track"><div class="hbar-fill" style="width:40%;background:var(--success)"></div></div><span class="hbar-val">6.1</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h4><span class="material-symbols-outlined filled">flag</span>Participación en Retos</h4>
+        <div class="hbar-list">
+          <div class="hbar"><span class="hbar-name">30 Días Booty</span><div class="hbar-track"><div class="hbar-fill" style="width:92%;background:var(--primary)"></div></div><span class="hbar-val">1,247</span></div>
+          <div class="hbar"><span class="hbar-name">Semana Warrior</span><div class="hbar-track"><div class="hbar-fill" style="width:62%;background:var(--warning)"></div></div><span class="hbar-val">834</span></div>
+          <div class="hbar"><span class="hbar-name">1000 Hip Thrusts</span><div class="hbar-track"><div class="hbar-fill" style="width:42%;background:var(--info)"></div></div><span class="hbar-val">567</span></div>
+          <div class="hbar"><span class="hbar-name">Completación avg</span><div class="hbar-track"><div class="hbar-fill" style="width:68%;background:var(--success)"></div></div><span class="hbar-val">68%</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const token=localStorage.getItem('evara_token'),userStr=localStorage.getItem('evara_user');
+if(!token||!userStr)window.location.href='/';
+try{const u=JSON.parse(userStr);if(u.role!=='admin')window.location.href='/home';}catch(e){window.location.href='/';}
+function logout(){localStorage.removeItem('evara_token');localStorage.removeItem('evara_user');window.location.href='/';}
+function setRange(r,btn){document.querySelectorAll('.range-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
+
+// Area Chart
+const regData=[5,8,3,12,7,15,9,6,11,18,8,14,10,6,9,20,12,8,16,22,10,15,7,13,19,8,11,24,14,9];
+const dauData=[120,135,142,150,148,165,170,155,180,195,185,200,210,190,205,230,215,198,240,260,245,255,235,250,270,248,260,290,275,265];
+const svg=document.getElementById('areaChart');const W=600,H=180;
+function buildPath(data,maxV){
+  const step=W/(data.length-1);
+  return data.map((v,i)=>`${i===0?'M':'L'}${i*step},${H-((v/maxV)*H*.85)-10}`).join(' ');
+}
+const maxReg=Math.max(...regData);const maxDau=Math.max(...dauData);
+svg.innerHTML=`<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--primary)" stop-opacity=".4"/><stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/></linearGradient></defs>
+  <path class="area-fill" d="${buildPath(regData,maxReg)} L${W},${H} L0,${H} Z"/>
+  <path class="area-line" d="${buildPath(regData,maxReg)}"/>
+  <path class="area-line2" d="${buildPath(dauData,maxDau)}"/>`;
+const lbls=document.getElementById('areaLabels');
+['1 Mar','5','10','15','20','25','30'].forEach(l=>lbls.innerHTML+=`<span>${l}</span>`);
+
+// Funnel
+const funnelData=[{label:'Visitantes',val:4200,pct:'100%',color:'var(--info)'},{label:'Registros',val:248,pct:'5.9%',color:'var(--primary)'},{label:'Activas (7d)',val:210,pct:'84.7%',color:'var(--success)'},{label:'Premium',val:73,pct:'29.4%',color:'var(--warning)'},{label:'Retención (30d)',val:220,pct:'88.7%',color:' var(--primary-container)'}];
+const fd=document.getElementById('funnel');
+funnelData.forEach((f,i)=>{
+  const w=100-i*15;
+  fd.innerHTML+=`<div class="funnel-step"><span class="funnel-label">${f.label}</span><div class="funnel-bar" style="width:${w}%;background:${f.color}">${f.val.toLocaleString()}</div><span class="funnel-pct">${f.pct}</span></div>`;
+});
+
+// Exercise bars
+const exercises=[{name:'Hip Thrust',val:94},{name:'Sentadilla Búlgara',val:82},{name:'Puente de Glúteo',val:78},{name:'Cable Kickback',val:65},{name:'Peso Muerto Rumano',val:61},{name:'Squat Sumo',val:58},{name:'Step-Up',val:45},{name:'Frog Pump',val:40}];
+const eb=document.getElementById('exerciseBars');
+exercises.forEach(e=>{
+  eb.innerHTML+=`<div class="hbar"><span class="hbar-name">${e.name}</span><div class="hbar-track"><div class="hbar-fill" style="width:${e.val}%;background:var(--primary)"></div></div><span class="hbar-val">${e.val}%</span></div>`;
+});
+
+// Programs
+const programs=[{name:'Reto 30 Días Booty',started:186,completed:112},{name:'Glúteo de Acero',started:142,completed:68},{name:'Full Body Sculpt',started:98,completed:41},{name:'Glúteo en Casa',started:125,completed:89}];
+const pb=document.getElementById('programBars');
+programs.forEach(p=>{
+  const pct=Math.round((p.completed/p.started)*100);
+  pb.innerHTML+=`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-bottom:4px"><span>${p.name}</span><span style="color:var(--primary)">${pct}% completado</span></div><div style="display:flex;gap:4px"><div style="flex:1;height:8px;background:var(--primary-fixed);border-radius:999px;overflow:hidden"><div style="height:100%;width:100%;background:var(--primary-container);border-radius:999px"></div></div></div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--outline);margin-top:2px"><span>${p.started} iniciado</span><span>${p.completed} completado</span></div></div>`;
+});
+
+// Heatmap
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const hh=document.getElementById('heatHours');
+for(let h=0;h<24;h++)hh.innerHTML+=`<span>${h.toString().padStart(2,'0')}</span>`;
+const dl=document.getElementById('heatDayLabels');
+DAYS.forEach(d=>dl.innerHTML+=`<div style="height:18px;display:flex;align-items:center">${d}</div>`);
+const hg=document.getElementById('heatGrid');
+DAYS.forEach(()=>{
+  let row='<div class="heatmap">';
+  for(let h=0;h<24;h++){
+    const v=h>=5&&h<=22?Math.random():Math.random()*.2;
+    const peak=(h>=6&&h<=8)||(h>=17&&h<=20);
+    const intensity=peak?v+.4:v;
+    const cl=intensity<.15?'var(--surface-container)':intensity<.35?'var(--primary-fixed)':intensity<.6?'var(--primary-container)':'var(--primary)';
+    const sessions=Math.round(intensity*50);
+    row+=`<div class="heat-cell" style="background:${cl}"><div class="ht-tip">${h}:00 — ${sessions} sesiones</div></div>`;
+  }
+  row+='</div>';hg.innerHTML+=row;
+});
+
+// Top Users
+const COLORS=['#865043','#4CAF50','#1976D2','#FFB300','#9C27B0','#E91E63','#00BCD4','#795548'];
+const topData=[{name:'Valentina Coach',xp:4280},{name:'Sofía Ramírez',xp:3650},{name:'Laura Méndez',xp:3120},{name:'María García',xp:2890},{name:'Karla Reyes',xp:2340},{name:'Camila Torres',xp:1980},{name:'Isabella Cruz',xp:1520},{name:'Ivan',xp:720}];
+const tu=document.getElementById('topUsers');
+topData.forEach((u,i)=>{
+  tu.innerHTML+=`<div class="top-user"><span class="tu-rank">${i+1}</span><div class="tu-avatar" style="background:${COLORS[i]}">${u.name[0]}</div><span class="tu-name">${u.name}</span><span class="tu-val">${u.xp.toLocaleString()} XP</span></div>`;
+});
+</script>
+</body>
+</html>

@@ -12,6 +12,7 @@
     { "source": "/cuenta", "destination": "/cuenta/index.html" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/admin/usuarios", "destination": "/admin/usuarios/index.html" },
+    { "source": "/admin/analiticas", "destination": "/admin/analiticas/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
